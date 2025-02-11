@@ -37,23 +37,7 @@ class MateriSeeder extends Seeder
         'Materi 1', 'Materi 2', 'Materi 3', 'Materi 4',
         'Materi 5', 'Materi 6', 'Materi 7'
     ];
-
    
-
-    // for ($i = 1; $i < 5; $i++) {
-    //     $response = Http::get('https://api.alquran.cloud/v1/surah/80/ar.alafasy');
-    //     $ayat = $response->json()['data']['ayahs'];
-    //     for ($j = 0; $j < rand(3, 7); $j++) {
-    //         MateriDetail::create([
-    //             "pertemuan" => $materi_detail[$j],
-    //             "judul" => $materi_detail[rand(0,6)],
-    //             'materi_id' => Materi::where('id', $i)
-    //                 ->where('type', 'Diklat')->first()->id,
-    //             'isi' => fake()->realText($maxNbChars = 200, $indexSize = 2),
-    //             "multimedia_url" => $ayat[array_rand($ayat)]['audio'],
-    //         ]);
-    //     }
-    // }
 
     // insert data sample kategori materi pembinaan
     $kategori = ["Fiqih", "Aqidah", "Muamalah"];
@@ -82,19 +66,6 @@ class MateriSeeder extends Seeder
         ]);
     }
 
-    // // insert data sample materi_detail pembinaan
-    // $materi_detail = ['BAB 1', 'BAB 2', 'BAB 3', 'BAB 4', 'BAB 5', 'BAB 6', 'BAB 7'];
-
-    // for ($i = 1; $i < 10; $i++) {
-    //     for ($j = 0; $j < rand(3, 7); $j++) {
-    //         MateriDetail::create([
-    //             "pertemuan" => $materi_detail[$j],
-    //             "judul" => $materi_detail[rand(0,6)],
-    //             'materi_id' => Materi::where('id', ($i + 5))->where('type', 'Pembinaan')->first()->id,
-    //             'isi' => fake()->realText($maxNbChars = 200, $indexSize = 2)
-    //         ]);
-    //     }
-    // }
 
     // insert data sample materi_detail_user
     for ($i = 0; $i < 1; $i++) {

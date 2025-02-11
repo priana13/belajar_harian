@@ -26,17 +26,7 @@ class UserSeeder extends Seeder
         ];
 
         JenisUser::insert($jenisUser);
-
-        // User::create(
-        //     [
-        //         'name' => 'Arull Hrp',
-        //         'email' => 'kkjagoan21@gmail.com',
-        //         'password' => '$2y$10$T8.aiaPR2WhokSP1mbaSyu/UKqKBDbTyCUZuiUAjWzjWnvQB/bRJm', // bismillah
-        //         'kota' => 'Bogor',
-        //         'jenis_user_id' => 1
-        //     ]
-        // );
-
+     
         // insert data user umum
         for ($i = 0; $i < 1; $i++) {
             User::create([
@@ -52,7 +42,7 @@ class UserSeeder extends Seeder
         User::create(
             [
                 'name' => 'admin',
-                'email' => 'admin@bisionline.com',
+                'email' => 'admin@example.com',
                 'password' => '$2y$10$ytuak4BDuMqFSKe8PqrKSez9RSROiyUffRZEJ8cPIh5TbK6.Rlq5e', // bismillah
                 'jenis_user_id' => 1,
                 // 'kelompok_id' => 2
