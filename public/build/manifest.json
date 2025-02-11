@@ -1,0 +1,49 @@
+{
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
+    "file": "assets/fa-brands-400-276af030.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400-4d46c3bc.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf": {
+    "file": "assets/fa-regular-400-7caa2d8d.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400-003b5514.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900-23c4f99e.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900-38e76ab3.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf": {
+    "file": "assets/fa-v4compatibility-e868f301.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2": {
+    "file": "assets/fa-v4compatibility-d0cd8241.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-e157e503.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/css/filament.css": {
+    "file": "assets/filament-2a3dc975.css",
+    "isEntry": true,
+    "src": "resources/css/filament.css"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-c3828592.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  }
+}
