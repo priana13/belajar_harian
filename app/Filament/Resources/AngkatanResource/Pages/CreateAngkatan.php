@@ -50,7 +50,8 @@ class CreateAngkatan extends CreateRecord
                     "tanggal" => $tanggal,
                     "materi_detail_id" => $pertemuan->id,
                     "user_id" => auth()->user()->id,
-                    "angkatan_id" => $this->record->id       
+                    "angkatan_id" => $this->record->id,
+                    "code" => uniqid()    
                 ]);
 
            // tambahkan soal ke jadwal ujian

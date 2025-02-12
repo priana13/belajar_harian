@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Observers\JadwalBelajarObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy([JadwalBelajarObserver::class])]
 class Belajar extends Model
 {
     use HasFactory;

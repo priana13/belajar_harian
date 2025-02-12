@@ -43,6 +43,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/materiku',App\Http\Livewire\Materi\MateriSaya::class)->name('materi_saya');
     Route::get('/history-belajar',App\Http\Livewire\HistoryBelajar\HistoryBelajar::class)->name('history_belajar');
 
+    Route::get('/link_materi/{code}' , App\Http\Livewire\Materi\HalamanMateriVideo::class)->name('link_materi');
+
     Route::get('/sertifikat/{ujian:kode_ujian}',App\Http\Livewire\Kuis\Sertifikat::class)->name('sertifikat');
     Route::get('/daftar-nilai/{ujian:kode_ujian}',App\Http\Livewire\Kuis\DaftarNilai::class)->name('daftar_nilai');
 
@@ -51,7 +53,7 @@ Route::middleware(['auth'])->group(function(){
     // koreksi nilai ujian
     Route::get('/koreksi-nilai', [UjianController::class, 'koreksiNilai']);
 
-
+    
 
 });
 

@@ -49,7 +49,7 @@ class JadwalBelajarRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('tanggal')->date(),
                 Tables\Columns\TextColumn::make('materi_detail.pertemuan')->label("Materi Pertemuan"),
                 // Tables\Columns\TextColumn::make('user.name')->label("Peserta")->searchable(),
-                // Tables\Columns\TextColumn::make('menit_terakhir'),   
+                Tables\Columns\TextColumn::make('code'),   
                 Tables\Columns\TextColumn::make('status'), 
             ])
             ->filters([
@@ -63,6 +63,11 @@ class JadwalBelajarRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
+                Tables\Actions\Action::make("link")->url(function($record){
+
+                    return url( route('link_materi' , $record->code) );
+
+                })->openUrlInNewTab(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
