@@ -34,6 +34,12 @@ class Belajar extends Model
         return $query->whereIn('status',["Berikutnya" , "Sekarang" , "Selesai"]);
     }
 
+    public function scopeHariIni($query){
+        
+
+        return $query->whereDate('tanggal' , date('Y-m-d'));
+    }
+
     public static function getOptions(){
 
         return [
