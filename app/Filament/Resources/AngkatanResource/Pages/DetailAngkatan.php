@@ -25,6 +25,7 @@ class DetailAngkatan extends Page
     {
         $materi_hari_ini = $this->record->jadwal_belajar()->hariIni()->first();
 
+
         $jadwal_belajar = $this->record->jadwal_belajar;
 
 

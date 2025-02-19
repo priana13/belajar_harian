@@ -23,13 +23,24 @@
 
         <dl class="max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700 ms-3">
            
+            
+
             <div class="flex flex-col py-3">
                 <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Link Materi</dt>
                 <dd class="text-lg font-semibold">
+                    @if($materi_hari_ini)
+
                     <a href="{{ route('link_materi' , $materi_hari_ini->code) }}" target="_blank" class="text-blue-700">{{ route('link_materi' , $materi_hari_ini->code) }}</a> <br>
                    <span class="text-gray-500 md:text-lg dark:text-gray-400">Pertemuan {{ $materi_hari_ini->materi_detail->pertemuan }} - {{ $materi_hari_ini->materi_detail->judul }}</span>
+
+                    @else
+                    <span class="text-blue-500">Belum tersedia</span>
+                   
+                   @endif
                 </dd>
             </div>
+           
+
             <div class="flex flex-col pt-3">
                 <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Gelombang/Group Wa</dt>
                 <dd class="text-lg font-semibold"> Group {{ $record->gelombang->gel }} </dd>
