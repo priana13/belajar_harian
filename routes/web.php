@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/materiku',App\Http\Livewire\Materi\MateriSaya::class)->name('materi_saya');
     Route::get('/history-belajar',App\Http\Livewire\HistoryBelajar\HistoryBelajar::class)->name('history_belajar');
 
+    //link yang akan di share ke group atau peserta
     Route::get('/link_materi/{code}' , App\Http\Livewire\Materi\HalamanMateriVideo::class)->name('link_materi');
 
     Route::get('/sertifikat/{ujian:kode_ujian}',App\Http\Livewire\Kuis\Sertifikat::class)->name('sertifikat');
@@ -53,7 +54,7 @@ Route::middleware(['auth'])->group(function(){
     // koreksi nilai ujian
     Route::get('/koreksi-nilai', [UjianController::class, 'koreksiNilai']);
 
-    
+
 
 });
 
@@ -67,7 +68,7 @@ Route::get('kebijakan-privasi', function () {
 Route::middleware(['guest'])->group(function(){
 
     Route::view('login','login')->name('login');
-    
+
     Route::get('info-pendaftaran',function(){
 
         return view('info-pendaftaran');
@@ -81,12 +82,12 @@ Route::middleware(['guest'])->group(function(){
 
     Route::get('/daftar', Pendaftaran::class)->name('register');
 
-    Route::get('/daftar/{kode_daftar}', Pendaftaran::class)->name('daftar_angkatan');     
+    Route::get('/daftar/{kode_daftar}', Pendaftaran::class)->name('daftar_angkatan');
 
 });
 
- 
-Route::get('/auth/redirect', [SocialiteController::class, 'redirect']); 
+
+Route::get('/auth/redirect', [SocialiteController::class, 'redirect']);
 Route::get('/auth/callback', [SocialiteController::class, 'callback']);
 
 Route::get('/jadwal', [JadwalController::Class , 'index'] );
@@ -110,5 +111,5 @@ Route::get('/redis' , function(){
     // $user = Redis::get('list_peserta');
 
     // dd( json_decode($user , true)  );
- 
+
 });

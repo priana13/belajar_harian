@@ -109,15 +109,20 @@ class AngkatanResource extends Resource
                 ActionGroup::make([
 
                     Tables\Actions\EditAction::make(),
-                    Tables\Actions\Action::make('Url Pendaftaran')->color('warning')->url(function($record){
+                    // Tables\Actions\Action::make('Url Pendaftaran')->color('warning')->url(function($record){
                        
-                        return route('daftar_angkatan' , $record->kode_daftar);
-                    }),
+                    //     return route('daftar_angkatan' , $record->kode_daftar);
+                    // }),
+                    Tables\Actions\Action::make("Detail")->url(function($record){
+
+                        return route('filament.resources.kelas.detail' , $record->id);
+                    })->icon('heroicon-o-eye'),
                    
                     Tables\Actions\Action::make('Generate')->color('success')->url(function($record){
                        
                         return route('filament.resources.kelas.generate' , $record->id);
                     }),
+
 
                     Tables\Actions\Action::make('Ujian')->color('success')->url(function($record){
                        
@@ -197,6 +202,7 @@ class AngkatanResource extends Resource
         return [
             'index' => Pages\ListAngkatans::route('/'),
             'create' => Pages\CreateAngkatan::route('/create'),
+            'detail' => Pages\DetailAngkatan::route('{record}/detail'),
             'edit' => Pages\EditAngkatan::route('/{record}/edit'),
             'generate' => Pages\GeneratePage::route('/{record}/generate'),
             'ujian' => Pages\UjianPerAngkatan::route('{record}/ujian')
