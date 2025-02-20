@@ -51,16 +51,16 @@
 
     </div>
 
-    <div class="bg-white rounded p-3">
+    <div class="bg-white rounded py-3 px-12">
         {{-- list materi hari ini --}}
 
         <ul>
             @foreach($jadwal_belajar as $jadwal)
-            <li> 
-                Pertemuan {{ $jadwal->materi_detail->pertemuan }} : 
-                Tanggal:  {{ $jadwal->tanggal }} ,                
-                <a href="{{ route('link_materi' , $jadwal->code) }}" class="text-blue-700">test</a>
-
+            <li class="my-2 border-b-2 hover:bg-blue-100 py-2"> 
+                Pertemuan {{ $jadwal->materi_detail->pertemuan }}
+                =>  {{ date('d M Y' , strtotime($jadwal->tanggal))  }} ,                
+                <a href="{{ route('link_materi' , $jadwal->code) }}" class="text-blue-700 py-1 px-2 hover:bg-blue-300 rounded" target="_blank">Lihat</a>
+                <a href="{{ route('link_materi' , $jadwal->code) }}" class="text-blue-700 py-1 px-2 hover:bg-blue-300 rounded" target="_blank">Copy</a>
             </li>
             @endforeach
         </ul>
