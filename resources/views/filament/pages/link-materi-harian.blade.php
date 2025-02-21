@@ -9,7 +9,7 @@
 
     </div>
 
-    <div class="bg-white rounded py-3 px-12">
+    <div class="bg-sky-100 rounded py-3 px-12">
         {{-- list materi hari ini --}}
         <h2 class="text-xl font-bold my-2">Materi Hari ini</h2>
 
@@ -79,7 +79,7 @@
 
     @if(count($ujian_pekanan) > 0)
 
-    <div class="bg-white rounded py-3 px-12">
+    <div class="bg-orange-100 rounded py-3 px-12">
         {{-- list materi hari ini --}}
         <h2 class="text-xl font-bold my-2">Ujian Pekanan</h2>
 
@@ -143,7 +143,7 @@
 
     @if(count($ujian_akhir) > 0)
 
-    <div class="bg-white rounded py-3 px-12">
+    <div class="bg-indigo-100 rounded py-3 px-12">
         {{-- list materi hari ini --}}
         <h2 class="text-xl font-bold my-2">Ujian Akhir</h2>
 
