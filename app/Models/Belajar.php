@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Belajar extends Model
 {
     use HasFactory;
+    
     protected $table = "jadwal_belajar";
 
     protected $guarded = ['id'];
@@ -39,6 +40,13 @@ class Belajar extends Model
 
         return $query->whereDate('tanggal' , date('Y-m-d'));
     }
+
+    public function scopeTanggal($query , $tanggal){
+        
+
+        return $query->whereDate('tanggal' , $tanggal);
+    }
+
 
     public static function getOptions(){
 

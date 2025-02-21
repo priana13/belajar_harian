@@ -3,24 +3,9 @@
     
     <div class="bg-white rounded p-3">
 
-        <?php 
-            
-            $formatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
+        <?php $formatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE); ?>
 
-        ?>
-        <h2 class="text-xl mb-2">Jadwal Hari Ini: <span class="font-bold">{{ $formatter->format(new DateTime()) }}</span> </h2> 
-
-
-        <dl class="max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700 ms-3">                     
-
-           
-            <div class="flex flex-col pt-3">
-                <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Gelombang/Group Wa</dt>
-                <dd class="text-lg font-semibold"> Group -</dd>
-            </div>
-        </dl>
-
-
+        <h2 class="text-xl mb-2">Jadwal Pembelajaran Hari Ini: <span class="font-bold">{{ $formatter->format(new DateTime()) }}</span> </h2> 
 
     </div>
 
@@ -47,41 +32,52 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <tr class="hover:bg-gray-50 transition-colors duration-200">
-                        <td class="px-6 py-4">
-                            <span class="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
-                                Group
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-500">
-                            Pertemuan
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-500">
-                            Judul pertemuan
-                        </td>
-                        <td class="px-6 py-4 text-sm font-medium space-x-2">
-                            <a 
-                                href="{{ route('link_materi' , 'sadfadsf') }}"
-                                class="text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors duration-200 inline-block"
-                                target="_blank"
-                            >
-                                Lihat
-                            </a>
-                            <a 
-                                href="{{ route('link_materi' , 'sadfadsf') }}"
-                                class="text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors duration-200 inline-block"
-                                target="_blank"
-                            >
-                                Copy
-                            </a>
-                        </td>
-                    </tr>
+
+                    @if(count($materi_hari_ini) > 0)
+
+                    @foreach($materi_hari_ini as $row)
+
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4">
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
+                                    Group {{ $row->angkatan->gelombang->gel }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-500">
+                                {{ $row->materi_detail->pertemuan }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-500">
+                                {{ $row->materi_detail->judul }}
+                            </td>
+                            <td class="px-6 py-4 text-sm font-medium space-x-2">
+                                <a 
+                                    href="{{ route('link_materi' , $row->code) }}"
+                                    class="text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors duration-200 inline-block"
+                                    target="_blank"
+                                >
+                                    Lihat
+                                </a>
+                                {{-- <a 
+                                    href="{{ route('link_materi' , $row->code) }}"
+                                    class="text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors duration-200 inline-block"
+                                    target="_blank"
+                                >
+                                    Copy
+                                </a> --}}
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    @endif
+
                 </tbody>
             </table>
         </div>
 
     </div>
 
+
+    @if(count($ujian_pekanan) > 0)
 
     <div class="bg-white rounded py-3 px-12">
         {{-- list materi hari ini --}}
@@ -106,42 +102,46 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <tr class="hover:bg-gray-50 transition-colors duration-200">
-                        <td class="px-6 py-4">
-                            <span class="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
-                                Group
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-500">
-                            1
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-500">
-                            Fiqih
-                        </td>
-                        <td class="px-6 py-4 text-sm font-medium space-x-2">
-                            <a 
-                                href="{{ route('link_materi' , 'sadfadsf') }}"
-                                class="text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors duration-200 inline-block"
-                                target="_blank"
-                            >
-                                Lihat
-                            </a>
-                            <a 
-                                href="{{ route('link_materi' , 'sadfadsf') }}"
-                                class="text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors duration-200 inline-block"
-                                target="_blank"
-                            >
-                                Copy
-                            </a>
-                        </td>
-                    </tr>
+                    
+
+                        @foreach ($ujian_pekanan as $row)                        
+                    
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4">
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
+                                    Group {{ $row->angkatan->gelombang->gel }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-500">
+                                {{ $row->urutan }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-500">
+                                {{ $row->angkatan->materi->nama_materi }}
+                            </td>
+                            <td class="px-6 py-4 text-sm font-medium space-x-2">
+                                <a 
+                                    href="{{ route('link_materi' , 'sadfadsf') }}"
+                                    class="text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors duration-200 inline-block"
+                                    target="_blank"
+                                >
+                                    Lihat
+                                </a>
+                            
+                            </td>
+                        </tr>
+
+                        @endforeach                   
+
                 </tbody>
             </table>
         </div>
 
     </div>
 
+    @endif
 
+
+    @if(count($ujian_akhir) > 0)
 
     <div class="bg-white rounded py-3 px-12">
         {{-- list materi hari ini --}}
@@ -163,38 +163,40 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <tr class="hover:bg-gray-50 transition-colors duration-200">
-                        <td class="px-6 py-4">
-                            <span class="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
-                                Group
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-500">
-                            Akhlak
-                        </td>
-                      
-                        <td class="px-6 py-4 text-sm font-medium space-x-2">
-                            <a 
-                                href="{{ route('link_materi' , 'sadfadsf') }}"
-                                class="text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors duration-200 inline-block"
-                                target="_blank"
-                            >
-                                Lihat
-                            </a>
-                            <a 
-                                href="{{ route('link_materi' , 'sadfadsf') }}"
-                                class="text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors duration-200 inline-block"
-                                target="_blank"
-                            >
-                                Copy
-                            </a>
-                        </td>
-                    </tr>
+                    
+                        @foreach ($ujian_akhir as $row) 
+
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4">
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
+                                    Group {{ $row->angkatan->gelombang->gel }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-500">
+                                {{ $row->angkatan->materi->nama_materi }}
+                            </td>
+                        
+                            <td class="px-6 py-4 text-sm font-medium space-x-2">
+                                <a 
+                                    href="{{ route('link_materi' , 'sadfadsf') }}"
+                                    class="text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors duration-200 inline-block"
+                                    target="_blank"
+                                >
+                                    Lihat
+                                </a>
+                            
+                            </td>
+                        </tr>
+
+                        @endforeach                   
+
                 </tbody>
             </table>
         </div>
 
     </div>
+
+    @endif
 
 
 

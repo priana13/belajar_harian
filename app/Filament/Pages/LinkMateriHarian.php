@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Belajar;
+use App\Models\JadwalUjian;
 use Filament\Pages\Page;
 
 class LinkMateriHarian extends Page
@@ -11,23 +12,32 @@ class LinkMateriHarian extends Page
 
     protected static string $view = 'filament.pages.link-materi-harian';
 
-    public function mount(){
+    protected ?string $heading = '';
 
-        $this->record = [];
+
+    public $tanggal;
+
+    public function mount(){
+        
 
         setlocale(LC_TIME, 'id_ID.UTF-8');
+
+        $this->tanggal = date("Y-m-d");
     }
 
     protected function getViewData(): array
     {
-        $materi_hari_ini = Belajar::first();
+                
+        $materi_hari_ini = Belajar::tanggal( $this->tanggal )->get();
 
-        $jadwal_belajar = Belajar::first();
+        $ujian_pekanan = JadwalUjian::pekanan()->tanggal($this->tanggal)->get();  
 
-
+        $ujian_akhir = JadwalUjian::akhir()->tanggal($this->tanggal)->get();       
+   
         return [
-            "materi_hari_ini" => $materi_hari_ini,
-            "jadwal_belajar" => $jadwal_belajar
+            "materi_hari_ini" => $materi_hari_ini, 
+            "ujian_pekanan" => $ujian_pekanan,         
+            "ujian_akhir" => $ujian_akhir          
         ];
     }
 }
