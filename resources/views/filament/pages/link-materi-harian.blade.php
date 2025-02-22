@@ -9,13 +9,13 @@
 
     </div>
 
-    <div class="bg-sky-100 rounded py-3 px-12">
+    <div class="rounded py-3 px-12">
         {{-- list materi hari ini --}}
         <h2 class="text-xl font-bold my-2">Materi Hari ini</h2>
 
         <div class="w-full max-w-4xl">
             <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                <thead class="bg-gray-50">
+                <thead class="bg-sky-100">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Group
@@ -68,6 +68,13 @@
                         </tr>
                     @endforeach
 
+                    @else
+                    <td class="px-6 py-4">
+                        <span class="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
+                            Belum ada materi
+                        </span>
+                    </td>
+
                     @endif
 
                 </tbody>
@@ -79,13 +86,13 @@
 
     @if(count($ujian_pekanan) > 0)
 
-    <div class="bg-orange-100 rounded py-3 px-12">
+    <div class="rounded py-3 px-12">
         {{-- list materi hari ini --}}
         <h2 class="text-xl font-bold my-2">Ujian Pekanan</h2>
 
         <div class="w-full max-w-4xl">
             <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                <thead class="bg-gray-50">
+                <thead class="bg-orange-100">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Group
@@ -143,13 +150,13 @@
 
     @if(count($ujian_akhir) > 0)
 
-    <div class="bg-indigo-100 rounded py-3 px-12">
+    <div class="rounded py-3 px-12">
         {{-- list materi hari ini --}}
         <h2 class="text-xl font-bold my-2">Ujian Akhir</h2>
 
         <div class="w-full max-w-4xl">
             <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                <thead class="bg-gray-50">
+                <thead class="bg-indigo-100">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Group
