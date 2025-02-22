@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/history-belajar',App\Http\Livewire\HistoryBelajar\HistoryBelajar::class)->name('history_belajar');
 
     //link yang akan di share ke group atau peserta
-    Route::get('/link_materi/{code}' , App\Http\Livewire\Materi\HalamanMateriVideo::class)->name('link_materi');
+    Route::get('/link_materi/{code}' , App\Http\Livewire\Materi\MateriHariIni::class)->name('link_materi');
 
     Route::get('/sertifikat/{ujian:kode_ujian}',App\Http\Livewire\Kuis\Sertifikat::class)->name('sertifikat');
     Route::get('/daftar-nilai/{ujian:kode_ujian}',App\Http\Livewire\Kuis\DaftarNilai::class)->name('daftar_nilai');
