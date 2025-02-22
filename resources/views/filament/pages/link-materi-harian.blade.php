@@ -1,11 +1,15 @@
 <x-filament::page>
 
     
-    <div class="bg-white rounded p-3">
+    <div class="bg-white rounded p-3 flex justify-between">
 
         <?php $formatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE); ?>
 
-        <h2 class="text-xl mb-2">Jadwal Pembelajaran Hari Ini: <span class="font-bold">{{ $formatter->format(new DateTime()) }}</span> </h2> 
+        <h2 class="text-xl mb-2">Jadwal Pembelajaran Hari Ini: <span class="font-bold">{{ $formatter->format( strtotime($tanggal) ) }}</span> </h2> 
+
+        <div>
+            <input type="date" wire:model="tanggal" id="tanggal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+        </div>
 
     </div>
 
@@ -36,7 +40,11 @@
                             Pertemuan
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Judul Pertemuan
+                            Materi
+                        </th>
+
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Judul
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Link
@@ -55,8 +63,12 @@
                                     Group {{ $row->angkatan->gelombang->gel }}
                                 </span>
                             </td>
+                           
                             <td class="px-6 py-4 text-sm text-gray-500">
                                 {{ $row->materi_detail->pertemuan }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-500">                                
+                                {{ $row->angkatan->materi->nama_materi }}                                
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
                                 {{ $row->materi_detail->judul }}
@@ -83,7 +95,7 @@
                     @else
                     <td class="px-6 py-4">
                         <span class="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
-                            Belum ada materi
+                            Belum/Tidak ada materi
                         </span>
                     </td>
 
