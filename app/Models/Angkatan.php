@@ -36,6 +36,7 @@ class Angkatan extends Model
     }
 
     public function gelombang(){
+        
         return $this->belongsTo(Gelombang::class, 'gelombang_id');
     }
 

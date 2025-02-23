@@ -21,7 +21,7 @@ class BelajarResource extends Resource
 
     protected static ?string $navigationLabel  = 'Jadwal Belajar';
 
-    protected static bool $shouldRegisterNavigation = true;
+    protected static bool $shouldRegisterNavigation = false;
 
 
     public static function form(Form $form): Form

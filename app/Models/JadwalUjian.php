@@ -27,7 +27,22 @@ class JadwalUjian extends Model
 
     public function scopeHarian($query){
 
-        return $query->whereDate('jenis_ujian_id', 1);
+        return $query->where('type', 'Harian');
+    }
+
+    public function scopePekanan($query){
+
+        return $query->where('type', 'Pekanan');
+    }
+
+    public function scopeAkhir($query){
+
+        return $query->where('type', 'Akhir');
+    }
+
+    public function scopeTanggal($query , $tanggal){
+      
+        return $query->whereDate('tanggal', $tanggal);
     }
 
     public function scopeHariIni($query){

@@ -141,9 +141,9 @@ class MateriResource extends Resource
     {
         $query = parent::getEloquentQuery();
 
-        // return $query;
+        return $query;
 
-        return $query->where('is_active' , true)->orderBy('urutan');
+        // return $query->where('is_active' , true)->orderBy('urutan');
     }
 
 
