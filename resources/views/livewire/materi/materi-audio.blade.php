@@ -124,8 +124,11 @@ x-data="{
 
                 @if($ujian_harian)
 
-                    <div class="text-center">
+                <p>Setelah selesai mendengarkan materi, jangan lupa mengerjakan soal!</p>
 
+
+                    <div class="text-center">
+                        
                         <a href="{{route('kuis',['materi_id' => $pertemuan->materi_id ,'jadwal_id'=> $ujian_harian->id ])}}" class="bg-primary-600 hover:bg-primary-700 w-full rounded-lg py-2 px-6  text-white font-bold mt-12 shadow-md" >KERJAKAN SOAL</a>
 
                     </div>
