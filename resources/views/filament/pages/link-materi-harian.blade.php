@@ -60,7 +60,7 @@
                         <tr class="hover:bg-gray-50 transition-colors duration-200">
                             <td class="px-6 py-4">
                                 <span class="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
-                                    Group {{ $row->angkatan->gelombang->gel }}
+                                    Group{{ $row->angkatan->gelombang->gel }}
                                 </span>
                             </td>
                            
@@ -139,8 +139,8 @@
                     
                         <tr class="hover:bg-gray-50 transition-colors duration-200">
                             <td class="px-6 py-4">
-                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm font-medium text-gray-700">
-                                    Group {{ $row->angkatan->gelombang->gel }}
+                                <span class="bg-gray-200 py-1 rounded-full text-sm font-medium text-gray-700">
+                                    Group{{ $row->angkatan->gelombang->gel }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
