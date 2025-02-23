@@ -38,6 +38,7 @@ class GelombangResource extends Resource
                 Tables\Columns\TextColumn::make('gel'),
                 Tables\Columns\TextColumn::make('tanggal_mulai')
                     ->date(),
+                    Tables\Columns\TextColumn::make('peserta_count')->counts('peserta')->label("Peserta"),
                 Tables\Columns\TextColumn::make('angkatan_count')->counts('angkatan')->label("Kelas/Angkatan"),
             ])
             ->filters([
