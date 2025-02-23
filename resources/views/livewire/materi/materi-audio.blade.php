@@ -1,4 +1,52 @@
-<div class="mx-4">
+<div class="mx-4"
+
+x-data="{
+
+    audioMateri : document.createElement('audio'),
+    UrlAudioMateri : '{{ asset('storage/' . $pertemuan->multimedia_url ) }}',   
+    currentTime: '',
+    totalDuration: '',
+    progress: 0,
+
+
+  }"
+  
+  x-init="
+    audioMateri.src = UrlAudioMateri;       
+    {{-- audioMateri.play(); --}}
+
+    setInterval(function(){
+
+        {{-- console.log(currentTime); --}}
+
+        seekPosition = audioMateri.currentTime * (100 / audioMateri.duration);
+
+        progress = seekPosition;
+        
+        {{-- seek_slider.value = seekPosition; --}}
+
+        let currentMinutes = Math.floor(audioMateri.currentTime / 60);
+        let currentSeconds = Math.floor(audioMateri.currentTime - currentMinutes * 60);
+        let durationMinutes = Math.floor(audioMateri.duration / 60);
+        let durationSeconds = Math.floor(audioMateri.duration - durationMinutes * 60);
+
+        if (currentSeconds < 10) { currentSeconds = '0' + currentSeconds; }
+        if (durationSeconds < 10) { durationSeconds = '0' + durationSeconds; }
+        if (currentMinutes < 10) { currentMinutes = '0' + currentMinutes; }
+        if (durationMinutes < 10) { durationMinutes = '0' + durationMinutes; }
+
+        currentTime = currentMinutes + ':' + currentSeconds;
+        totalDuration = durationMinutes + ':' + durationSeconds;
+
+
+
+    }, 1000)
+
+  
+  "
+
+>
+
 
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <!-- Modal content -->
@@ -37,8 +85,9 @@
                           </g>
                       </svg>
                       </button>
-                      <button class="p-4 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none mx-4 playpause-track" x-on:click="$store.audio.toggle(audioMateri)" >
-                          <i class="fa fa-play-circle fa-5x text-primary"></i>
+                      <button class="p-4 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none mx-4 playpause-track" x-on:click="$store.audio.toggle(audioMateri)"  id="playpause_btn">
+                          
+                        <i class="fa fa-play-circle fa-5x text-primary"></i>
                       </button>
                       <button class="p-3 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none next-track" onclick="nextTrack()">
                       <svg width="64px" height="64px" viewBox="0 0 24 24" class="w-4 h-4 text-gray-600" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -73,13 +122,53 @@
                 </p> --}}
                
 
-                <button class="bg-primary-600 w-full rounded-lg p-2  text-white font-bold mt-4">KERJAKAN SOAL</button>
+                @if($ujian_harian)
+
+                    <div class="text-center">
+
+                        <a href="{{route('kuis',['materi_id' => $pertemuan->materi_id ,'jadwal_id'=> $ujian_harian->id ])}}" class="bg-primary-600 hover:bg-primary-700 w-full rounded-lg py-2 px-6  text-white font-bold mt-12 shadow-md" >KERJAKAN SOAL</a>
+
+                    </div>
+                    
+                @endif
+
+
+                {{-- <button class="bg-primary-600 w-full rounded-lg p-2  text-white font-bold mt-4">KERJAKAN SOAL</button> --}}
 
             </div>
         
 
         </div>
     </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('audio', {
+                on: false,                
+     
+                toggle(audioMateri) {
+
+                    let playpause_btn = document.getElementById('playpause_btn');
+
+                    this.on = ! this.on                   
+
+                    if(this.on){
+
+                        audioMateri.play();
+                        playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x text-primary"></i>';
+                    }else{
+
+                        audioMateri.pause();
+                        playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x text-primary"></i>';
+
+                    }
+                }
+
+               
+            })
+        })
+    </script>
+
     
 
 </div>
