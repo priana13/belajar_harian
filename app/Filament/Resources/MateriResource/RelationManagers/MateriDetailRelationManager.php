@@ -50,7 +50,18 @@ class MateriDetailRelationManager extends RelationManager
                         ])->reactive(),
                         RichEditor::make('isi')->maxWidth(100)->visible(false),
                         FileUpload::make('thumbnail')->acceptedFileTypes(['image/*'])->visible(false),
-                        FileUpload::make('multimedia_url')->visible(function($get) {
+                        FileUpload::make('multimedia_url')
+                        ->directory(function($record){
+
+                            $materi = $record->materi;
+                            $pertemuan = $record->pertemuan;
+
+                            $dir = $materi->kode_materi;
+                            
+                            return $dir;
+                        })
+                        ->preserveFilenames()
+                        ->visible(function($get) {
                             return $get('jenis_kontent') == 'Audio';
                         } )->label("Materi/Audio")->maxSize(551200)->afterStateUpdated(fn (callable $set, $state) => $set('mime', $state?->getMimeType()))->columnSpanFull(),
 
