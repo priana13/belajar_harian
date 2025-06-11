@@ -20,18 +20,24 @@ class PerbaikiFilderAudioSeeder extends Seeder
 
         foreach ($materi_detail as $key => $value) {
 
-            $materi = $value->materi;
-            $pertemuan = $value->pertemuan;
-
-            $dir = $materi->kode_materi;
-
-            $path = $dir . '/' . $pertemuan . '-' . $value->multimedia_url;
+    
 
             // pindahkan $value->multimedia_url ke dalam $dir dan sesuaikan juga data di database
+
+            if($value->multimedia_url == null){
+                continue;
+            }
 
             $exis = Storage::exists( 'public/' . $value->multimedia_url);
 
             if($exis){
+
+                $materi = $value->materi;
+                $pertemuan = $value->pertemuan;
+
+                $dir = $materi->kode_materi;
+
+                $path ='/' . $dir . '/' . $pertemuan . '-' . $value->multimedia_url;
 
                  Storage::disk('public')->move($value->multimedia_url, $path);
 
