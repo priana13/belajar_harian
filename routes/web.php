@@ -54,6 +54,9 @@ Route::middleware(['auth'])->group(function(){
     // koreksi nilai ujian
     Route::get('/koreksi-nilai', [UjianController::class, 'koreksiNilai']);
 
+    // cources 
+    Route::view('/cources', 'cources.video-cource')->name('cources');
+
 
 
 });
