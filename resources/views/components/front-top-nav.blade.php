@@ -30,7 +30,7 @@
                     </li>
 
                     {{-- tombol logout di hide --}}
-                    <li class="px-4 py-2 hover:bg-green-100 hidden"> 
+                    <li class="px-4 py-2 hover:bg-green-100 {{ config('app.can_logout') ? '' : 'hidden' }}"> 
                         <form action="{{ route('logout') }}" method="POST" >
                             @csrf
 

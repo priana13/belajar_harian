@@ -215,4 +215,10 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    /**
+     * Custom configuration
+     */
+
+     'can_logout' => env('CAN_LOGOUT', false),
+
 ];
