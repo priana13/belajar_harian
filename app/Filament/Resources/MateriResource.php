@@ -113,6 +113,12 @@ class MateriResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('Materi Video')
+                    ->icon('heroicon-o-book-open')
+                    ->url(fn (Materi $record): string => route('halaman-materi-video', [
+                        'kode' => $record->kode_materi,
+                    ]))
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

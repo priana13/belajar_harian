@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/koreksi-nilai', [UjianController::class, 'koreksiNilai']);
 
     // cources 
-    Route::view('/cources', 'cources.video-cource')->name('cources');
+    Route::get('/materi-video/{kode}', App\Http\Livewire\MateriVideo\HalamanMateriVideo::class)->name('halaman-materi-video');
 
 
 

@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Http\Livewire\MateriVideo;
+
+use Livewire\Component;
+
+class HalamanMateriVideo extends Component
+{
+    public $kode;
+
+    public $materi;
+
+    public $materiDetail;
+
+    public function mount($kode){
+
+        $this->kode = $kode;
+
+        $this->materi = \App\Models\Materi::where('kode_materi', $kode)->first();   
+        
+        if($this->materi) {
+
+            $this->materiDetail = $this->materi->materi_detail;
+
+        } else {
+            
+            abort(404, 'Materi not found');
+        }
+        
+    }
+
+    public function render()
+    {
+        return view('livewire.materi-video.halaman-materi-video')->extends('layouts.video-app')->section('content');
+    }
+}
