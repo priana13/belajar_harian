@@ -19,22 +19,20 @@
       <h3 class="text-sm font-semibold text-gray-700 mb-4 hidden lg:block">MODULE BELAJAR</h3>
       <ul class="space-y-3 text-sm">
         <li class="flex justify-between items-center hover:text-green-700 cursor-pointer bg-gray-100 p-3 rounded-lg">
-          <span>📹 Apa itu C++</span>
-          <span class="text-green-600 font-bold">✔</span>
-        </li>
+          <span>1. Apa itu C++</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#63E6BE" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>         </li>
         <li class="flex justify-between items-center hover:text-green-700 cursor-pointer bg-gray-100 p-3 rounded-lg">
-          <span>📹 Cara Kerja C++</span>
-          <span class="text-green-600 font-bold">✔</span>
+          <span>2. Cara Kerja C++</span>         
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#63E6BE" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>         
         </li>
         <li class="flex justify-between items-center hover:text-green-700 cursor-pointer bg-blue-400 text-white p-3 rounded-lg">
-          <span>📹 Instalasi Codeblocks</span>
-          <span class="text-white font-bold">✔</span>
+          <span>3. Instalasi Codeblocks</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#63E6BE" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>         </li>
+        <li class="flex justify-between items-center hover:text-green-700 cursor-pointer bg-gray-100 p-3 rounded-lg">
+          <span>4. Instalasi Codeblocks</span>         
         </li>
         <li class="flex justify-between items-center hover:text-green-700 cursor-pointer bg-gray-100 p-3 rounded-lg">
-          <span>📹 Instalasi Codeblocks</span>         
-        </li>
-        <li class="flex justify-between items-center hover:text-green-700 cursor-pointer bg-gray-100 p-3 rounded-lg">
-          <span>📹 Instalasi Codeblocks</span>         
+          <span>5. Instalasi Codeblocks</span>         
         </li>
         <!-- Tambah lainnya -->
       </ul>
@@ -57,7 +55,7 @@
 
       <!-- Video -->
       <div class="aspect-w-16 aspect-h-9 mb-6 text-center">
-        <iframe class="mx-auto" width="800" height="400" src="https://www.youtube.com/embed/SceSTG1-y4U?si=BAak-N5pFYfs1xGX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="800" height="400" src="https://www.youtube.com/embed/36iA7VRW1ts?si=g1_uCktgXzzNQ8mJ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
 
       <!-- Info -->
