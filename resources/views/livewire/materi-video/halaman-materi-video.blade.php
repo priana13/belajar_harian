@@ -13,7 +13,7 @@
 
         @foreach($materiDetail as $row)       
 
-        <li class="flex justify-between items-center hover:text-green-700 cursor-pointer bg-gray-100 p-3 rounded-lg">
+        <li class="flex justify-between items-center hover:text-green-700 cursor-pointer bg-gray-100 p-3 rounded-lg" wire:click="selectVideo({{ $row->id }})">
           <span>{{ $loop->iteration }}. {{ $row->judul }}</span>         
           {{-- <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 512 512"><path fill="#63E6BE" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>          --}}
         </li>
@@ -41,10 +41,10 @@
         
         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
         
-        <span class="text-gray-800 font-semibold">Materi ke 1</span>
+        <span class="text-gray-800 font-semibold">{{ $selectedVideo->judul }}</span>
       </nav>
 
-      <h1 class="text-2xl font-bold mb-6">Komparasi (Relasi) Boolean</h1>
+      <h1 class="text-2xl font-bold mb-6">{{ $selectedVideo->judul }}</h1>    
 
       <!-- Video -->
       <div class="aspect-w-16 aspect-h-9 mb-6 text-center">

@@ -12,6 +12,8 @@ class HalamanMateriVideo extends Component
 
     public $materiDetail;
 
+    public $selectedVideo;
+
     public function mount($kode){
 
         $this->kode = $kode;
@@ -23,14 +25,21 @@ class HalamanMateriVideo extends Component
             $this->materiDetail = $this->materi->materi_detail;
 
         } else {
-            
+
             abort(404, 'Materi not found');
         }
+
+        $this->selectedVideo = $this->materiDetail->first() ?? null;
         
     }
 
     public function render()
     {
         return view('livewire.materi-video.halaman-materi-video')->extends('layouts.video-app')->section('content');
+    }
+
+    public function selectVideo($id)
+    {
+        $this->selectedVideo = $this->materiDetail->find($id);
     }
 }
