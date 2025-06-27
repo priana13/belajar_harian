@@ -1,12 +1,15 @@
- 
-  <div class="lg:flex min-h-screen">
-
+<div class="lg:flex min-h-screen" x-data="{ openSidebar: true }">
    
     <!-- Sidebar -->
-    <aside class="bg-white shadow-lg p-6 w-1/3" :class="{ 'hidden': !openSidebar && window.innerWidth < 1024 }">
+    <aside x-show="openSidebar" class="bg-white shadow-lg p-6 w-1/3 relative" :class="{ 'hidden': !openSidebar && window.innerWidth < 1024, 'lg:block': openSidebar }">
+      <button class="hidden lg:flex items-center justify-center absolute -right-3 top-1 w-10 h-10 bg-white border border-gray-200 shadow rounded-lg z-20 hover:bg-gray-100 transition p-3" @click="openSidebar = false" title="Sembunyikan Sidebar" style="line-height:1;">
+       
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/></svg>
+        
+      </button>
       <div class="flex justify-between items-center mb-4 lg:hidden">
         <h2 class="text-xl font-bold text-green-700">CODEPOLITAN</h2>
-        <button class="text-sm text-red-500 font-semibold" @click="openSidebar = false">Tutup ✖</button>
+        <button class="text-sm text-red-500 font-semibold" @click="openSidebar = false">✖</button>
       </div>
       <h3 class="text-sm font-semibold text-gray-700 mb-4 hidden lg:block">MODULE BELAJAR</h3>
       <ul class="space-y-3 text-sm">
@@ -24,11 +27,14 @@
     </aside>
 
     <!-- Main Content -->
-    <div class="p-6 w-full">
-      <!-- Toggle Sidebar (mobile) -->
-      <div class="lg:hidden mb-4">
-        <button @click="openSidebar = !openSidebar" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-          📚 Lihat Materi
+    <div class="p-6 w-full mt-2">
+      <!-- Toggle Sidebar (mobile & desktop) -->
+      <div class="mb-4 flex gap-2">
+        <button @click="openSidebar = !openSidebar" class="lg:hidden bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+          📚
+        </button>
+        <button @click="openSidebar = true" class="hidden lg:flex items-center justify-center absolute -left-1 top-1 w-10 h-10 bg-white border border-gray-200 shadow rounded-lg z-20 hover:bg-gray-100 transition p-3" x-show="!openSidebar" style="line-height:1;" title="Tampilkan Sidebar">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
         </button>
       </div>
 
