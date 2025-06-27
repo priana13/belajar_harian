@@ -13,7 +13,7 @@
 <body class="bg-gray-50 text-gray-800">
   
 
-  <div class="lg:flex bg-blue-50"> 
+  <div class=""> 
 
         @yield('content')    
     

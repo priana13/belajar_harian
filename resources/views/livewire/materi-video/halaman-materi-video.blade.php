@@ -3,7 +3,7 @@
 
    
     <!-- Sidebar -->
-    <aside class="bg-white shadow-lg p-6 w-full lg:w-72" :class="{ 'hidden': !openSidebar && window.innerWidth < 1024 }">
+    <aside class="bg-white shadow-lg p-6 w-1/3" :class="{ 'hidden': !openSidebar && window.innerWidth < 1024 }">
       <div class="flex justify-between items-center mb-4 lg:hidden">
         <h2 class="text-xl font-bold text-green-700">CODEPOLITAN</h2>
         <button class="text-sm text-red-500 font-semibold" @click="openSidebar = false">Tutup ✖</button>
@@ -47,9 +47,10 @@
       <h1 class="text-2xl font-bold mb-6">{{ $selectedVideo->judul }}</h1>    
 
       <!-- Video -->
-      <div class="aspect-w-16 aspect-h-9 mb-6 text-center">
-        <iframe width="800" height="400" src="https://www.youtube.com/embed/36iA7VRW1ts?si=g1_uCktgXzzNQ8mJ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="aspect-w-16 aspect-h-9 mb-6 text-center p-4">
+        <iframe class="w-full min-h-screen rounded-lg shadow-lg" src="https://www.youtube.com/embed/36iA7VRW1ts" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
+    
 
       <!-- Info -->
       <div class="text-gray-500 italic mb-8 text-center">
@@ -72,4 +73,7 @@
         </form>
       </section>
     </div>
+   
+
+
   </div>
