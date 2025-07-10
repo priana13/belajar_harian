@@ -16,7 +16,7 @@
 
         @foreach($materiDetail as $row)       
 
-        <li class="flex justify-between items-center hover:text-green-700 cursor-pointer bg-gray-100 p-3 rounded-lg" wire:click="selectVideo({{ $row->id }})">
+        <li class="flex justify-between items-center hover:text-green-700 cursor-pointer bg-{{($selectedVideo->id == $row->id) ? 'green' : 'gray'}}-100 p-3 rounded-lg" wire:click="selectVideo({{ $row->id }})">
           <span>{{ $loop->iteration }}. {{ $row->judul }}</span>         
           {{-- <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 512 512"><path fill="#63E6BE" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>          --}}
         </li>
@@ -51,11 +51,20 @@
         <span class="text-gray-800 font-semibold">{{ $selectedVideo->judul }}</span>
       </nav>
 
-      <h1 class="text-2xl font-bold mb-6">{{ $selectedVideo->judul }}</h1>    
+      <h1 class="text-2xl font-bold mb-6">{{ $selectedVideo->judul }}</h1> 
 
       <!-- Video -->
       <div class="aspect-w-16 aspect-h-9 mb-6 text-center p-4">
-        <iframe class="w-full min-h-screen rounded-lg shadow-lg" src="{{ $selectedVideo->video_url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+       @if ($selectedVideo)
+            <iframe class="w-full min-h-screen rounded-lg shadow-lg" 
+                    src="{{ $selectedVideo->video_url }}" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen></iframe>
+      @endif
+
       </div>
     
 
@@ -67,7 +76,9 @@
       <!-- Actions -->
       <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
         <button class="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800 transition">💬 Tanyakan di Forum</button>
-        <button class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition">✅ Ya, Saya Sudah Paham</button>
+        <button 
+        wire:click="sudahPaham"
+        class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition">✅ Ya, Saya Sudah Paham</button>
       </div>
 
       <!-- Komentar -->
