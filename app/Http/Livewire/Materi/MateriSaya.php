@@ -15,19 +15,23 @@ class MateriSaya extends Component
     public function render()
     {            
 
-        $angkatan_aktif = AngkatanUser::aktif()->where('user_id', auth()->user()->id)->first();      
+        // $angkatan_aktif = AngkatanUser::aktif()->where('user_id', auth()->user()->id)->first(); 
+        
+        $angkatan_saya = AngkatanUser::where('user_id', auth()->user()->id)->pluck('angkatan_id');      
+        
+        // $data['materi'] = $angkatan_aktif->angkatan->materi;
 
       
         // materi saya
-        $data['materi'] = [];
+        $data['materi_detail'] = [];
         
-        if($angkatan_aktif){
+        if($angkatan_saya){
 
             $jadwal_belajar = Belajar::aktif()->whereDate('tanggal' , '<=' , now())->orderBy('id', 'desc');
 
-            $jadwal_belajar = $jadwal_belajar->where('angkatan_id', $angkatan_aktif->angkatan_id);
+            $jadwal_belajar = $jadwal_belajar->whereIn('angkatan_id', $angkatan_saya);
 
-            $data['materi'] = $jadwal_belajar->simplePaginate(40);
+            $data['materi_detail'] = $jadwal_belajar->simplePaginate(40);
         }         
        
 

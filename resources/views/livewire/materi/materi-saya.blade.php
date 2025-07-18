@@ -113,30 +113,43 @@
 
                
                 <div class="bg-white mt-4 py-1 px-4">
+
+                    <div>
+                      <p class="text-xl font-semibold">Materi Tersedia:</p>
+                    </div>
+
+
                     <div x-show="activeTab == 'materi_ajaran'">
 
-                      @if(count($materi))
+                      @if(count($materi_detail))
 
 
-                        @foreach($materi as $key=>$row)
+                        @foreach($materi_detail as $key => $row)
 
-                        <div class="text-sm mt-3"> 
-                            <p class="text-base font-semibold">{{$row->materi_detail->judul}}
+
+
+                        <div class="text-sm mt-3 grid grid-cols-10 border-b items-center py-2"> 
+                            <p class="text-base font-semibold col-span-7">
+                              {{$row->materi_detail->pertemuan}}. 
+                              <span class="ms-1">{{$row->materi_detail->judul}} </span><br>
+                              <span class="text-sm text-gray-500 ms-1">
+                              {{date('d-m-Y', strtotime($row->tanggal))}} - {{ $row->angkatan->kode_angkatan }}
+                              </span>
                             </p>
-                            <p class="text-sm">{{ $row->angkatan->kode_angkatan }} {{$row->materi_detail->materi->nama_materi}}</p>
-                            <p class="mt-1">Dibuka : {{date('d-m-Y', strtotime($row->tanggal))}}</p>
-                            <p class="mt-1">Berakhir : {{date('d-m-Y', strtotime($row->angkatan->tanggal_akhir))}}</p>
+                            {{-- <p class="text-sm"> {{$row->materi_detail->materi->nama_materi}}</p> --}}
+                            
+                            {{-- <p class="mt-1">Berakhir : {{date('d-m-Y', strtotime($row->angkatan->tanggal_akhir))}}</p> --}}
 
                             
-                            <button  onclick="open_modal({{$key}})" class="bg-primary-500 w-full rounded-lg py-2 px-4 text-white font-bold mt-2 open-modal text-left flex items-center open-modal"  data-modal-id="myModal">
-                              <i id="playPauseIcon0" class="fa-solid fa-play" ></i>  <p class="mx-auto pr-3 open-modal"  data-modal-id="myModal">DENGARKAN MATERI INI</p>
+                            <button  onclick="open_modal({{$key}})" class="col-span-3 bg-primary-500 w-full rounded-lg py-2 px-4 text-white font-bold mt-2 open-modal text-left flex items-center open-modal"  data-modal-id="myModal">
+                              <i id="playPauseIcon0" class="fa-solid fa-play" ></i>  <p class="mx-auto pr-3 open-modal"  data-modal-id="myModal">Dengarkan</p>
                             </button>
 
                         </div>
 
                         @endforeach
 
-                        <div class="my-3">{{ $materi->links() }}</div>
+                        <div class="my-3">{{ $materi_detail->links() }}</div>
 
                       @else  
 
@@ -239,7 +252,7 @@
    
             // Define the tracks that have to be played
             let track_list = [
-              @foreach($materi as $key=>$row)
+              @foreach($materi_detail as $key=>$row)
 
               {
                 id:1,
