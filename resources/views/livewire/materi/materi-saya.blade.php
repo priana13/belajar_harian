@@ -193,194 +193,203 @@
 </style>
 @endpush
 
-<x-FrontTopNav />
+<div>
 
-<div class="gradient-bg min-h-screen pt-4">
-    <div class="p-3">
-        <div x-data="{ activeTab: 'materi_ajaran' }" class="max-w-lg mx-auto mt-6">
-            <!-- Modern Tab Navigation -->
-            <div class="glass-effect rounded-2xl p-1 mb-6">
-                <div class="flex">
-                    <button
-                        x-on:click="activeTab = 'materi_ajaran'"
-                        :class="{'bg-white text-gray-800 shadow-lg': activeTab == 'materi_ajaran', 'text-gray-600 hover:text-gray-800': activeTab !== 'materi_ajaran' }"
-                        class="tab-modern flex-1 py-3 px-4 text-center font-semibold text-sm rounded-xl transition-all duration-300"
-                    >
-                        <i class="fas fa-book-open mr-2"></i>
-                        MATERI AJAR
-                    </button>
-                    <button
-                        x-on:click="activeTab = 'evaluasi'"
-                        :class="{ 'bg-white text-gray-800 shadow-lg': activeTab == 'evaluasi', 'text-gray-600 hover:text-gray-800': activeTab !== 'evaluasi' }"
-                        class="tab-modern flex-1 py-3 px-4 text-center font-semibold text-sm rounded-xl transition-all duration-300"
-                    >
-                        <i class="fas fa-clipboard-check mr-2"></i>
-                        EVALUASI
-                    </button>
-                    <button
-                        x-on:click="activeTab = 'lainnya'"
-                        :class="{ 'bg-white text-gray-800 shadow-lg': activeTab == 'lainnya', 'text-gray-600 hover:text-gray-800': activeTab !== 'lainnya' }"
-                        class="tab-modern flex-1 py-3 px-4 text-center font-semibold text-sm rounded-xl transition-all duration-300"
-                    >
-                        <i class="fas fa-ellipsis-h mr-2"></i>
-                        LAINNYA
-                    </button>
-                </div>
-            </div>
+    <x-FrontTopNav />
 
-            <!-- Content Container -->
-            <div class="glass-effect rounded-3xl card-shadow overflow-hidden">
-                <!-- Header -->
-                <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
-                    <h2 class="text-xl font-bold text-white">
-                        <i class="fas fa-headphones mr-2"></i>
-                        Materi Tersedia
-                    </h2>
+    <div class="gradient-bg min-h-screen pt-4">
+        <div class="p-3">
+            <div x-data="{ activeTab: 'materi_ajaran' }" class="max-w-lg mx-auto mt-6">
+                <!-- Modern Tab Navigation -->
+                <div class="glass-effect rounded-2xl p-1 mb-6">
+                    <div class="flex">
+                        <button
+                            x-on:click="activeTab = 'materi_ajaran'"
+                            :class="{'bg-white text-gray-800 shadow-lg': activeTab == 'materi_ajaran', 'text-gray-600 hover:text-gray-800': activeTab !== 'materi_ajaran' }"
+                            class="tab-modern flex-1 py-3 px-4 text-center font-semibold text-sm rounded-xl transition-all duration-300"
+                        >
+                            <i class="fas fa-book-open mr-2"></i>
+                            MATERI AJAR
+                        </button>
+                        <button
+                            x-on:click="activeTab = 'evaluasi'"
+                            :class="{ 'bg-white text-gray-800 shadow-lg': activeTab == 'evaluasi', 'text-gray-600 hover:text-gray-800': activeTab !== 'evaluasi' }"
+                            class="tab-modern flex-1 py-3 px-4 text-center font-semibold text-sm rounded-xl transition-all duration-300"
+                        >
+                            <i class="fas fa-clipboard-check mr-2"></i>
+                            EVALUASI
+                        </button>
+                        <button
+                            x-on:click="activeTab = 'lainnya'"
+                            :class="{ 'bg-white text-gray-800 shadow-lg': activeTab == 'lainnya', 'text-gray-600 hover:text-gray-800': activeTab !== 'lainnya' }"
+                            class="tab-modern flex-1 py-3 px-4 text-center font-semibold text-sm rounded-xl transition-all duration-300"
+                        >
+                            <i class="fas fa-ellipsis-h mr-2"></i>
+                            LAINNYA
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Materi Ajar Tab -->
-                <div class="px-6 py-6">
-                    <div x-show="activeTab == 'materi_ajaran'">
-                        @if(count($materi_detail))
-                            <div class="space-y-4">
-                                @foreach($materi_detail as $key => $row)
-                                <div class="track-item modern-card p-4">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex-1">
-                                            <div class="flex items-center gap-2 mb-2">
-                                                <span class="inline-flex items-center justify-center w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full text-sm font-bold">
-                                                    {{$row->materi_detail->pertemuan}}
-                                                </span>
-                                                <h3 class="font-semibold text-gray-800">
-                                                    {{$row->materi_detail->judul}}
-                                                </h3>
-                                            </div>
-                                            <div class="flex items-center gap-4 text-sm text-gray-500 mb-2">
-                                                <div class="flex items-center gap-1">
-                                                    <i class="fas fa-calendar-alt text-blue-500"></i>
-                                                    <span class="text-xs">{{date('d-m-y', strtotime($row->tanggal))}}</span>
-                                                </div>
-                                                <div class="flex items-center gap-1 text-xs">
-                                                    {{-- <i class="fas fa-users text-green-500"></i> --}}
-                                                    <span>{{ $row->angkatan->kode_angkatan }}</span>
-                                                </div>
-                                            </div>
-                                            {{-- <div class="flex items-center gap-2">
-                                                <span class="status-badge">
-                                                    <i class="fas fa-play mr-1"></i>
-                                                    Audio Ready
-                                                </span>
-                                            </div> --}}
-                                        </div>
-                                        <button onclick="open_modal({{$key}})" class="btn-gradient text-white px-6 py-3 rounded-xl font-semibold ml-4 hover:shadow-lg transform hover:scale-105 transition-all duration-300">
-                                            <i id="playPauseIcon{{$key}}" class="fas fa-play mr-2"></i>
-                                            Dengarkan
-                                        </button>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-
-                            <!-- Modern Pagination -->
-                            <div class="modern-pagination mt-6">
-                                {{ $materi_detail->links() }}
-                            </div>
-
-                        @else  
-                            <div class="text-center py-12">
-                                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-music text-gray-400 text-2xl"></i>
-                                </div>
-                                <h3 class="text-lg font-semibold text-gray-600 mb-2">Belum Ada Materi</h3>
-                                <p class="text-gray-500">Materi pembelajaran akan segera tersedia</p>
-                            </div>
-                        @endif
+                <!-- Content Container -->
+                <div class="glass-effect rounded-3xl card-shadow overflow-hidden">
+                    <!-- Header -->
+                    <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
+                        <h2 class="text-xl font-bold text-white">
+                            <i class="fas fa-headphones mr-2"></i>
+                            Materi Tersedia
+                        </h2>
                     </div>
 
-                    <!-- Evaluasi Tab -->
-                    <div x-show="activeTab == 'evaluasi'">
-                        @if(count($evaluasi))
-                            <div class="space-y-4">
-                                @foreach($evaluasi as $key=>$row)
-                                <div class="modern-card p-4">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex-1">
-                                            <div class="flex items-center gap-2 mb-2">
-                                                <div class="feature-icon w-10 h-10">
-                                                    <i class="fas fa-clipboard-check"></i>
+                    <!-- Materi Ajar Tab -->
+                    <div class="px-6 py-6">
+                        <div x-show="activeTab == 'materi_ajaran'">
+                            @if(count($materi_detail))
+                                <div class="space-y-4">
+                                    @foreach($materi_detail as $key => $row)
+                                    <div class="track-item modern-card p-4">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex-1">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="inline-flex items-center justify-center w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full text-sm font-bold">
+                                                        {{$row->materi_detail->pertemuan}}
+                                                    </span>
+                                                    <h3 class="font-semibold text-gray-800">
+                                                        {{$row->materi_detail->judul}}
+                                                    </h3>
                                                 </div>
-                                                <h3 class="font-semibold text-gray-800">
-                                                    Ujian {{$row->jenis_ujian->nama}}
-                                                </h3>
-                                            </div>
-                                            <div class="flex items-center gap-4 text-sm text-gray-500 mb-2">
-                                                <div class="flex items-center gap-1">
-                                                    <i class="fas fa-calendar-alt text-blue-500"></i>
-                                                    <span>{{$row->created_at}}</span>
+                                                <div class="flex items-center gap-4 text-sm text-gray-500 mb-2">
+                                                    <div class="flex items-center gap-1">
+                                                        <i class="fas fa-calendar-alt text-blue-500"></i>
+                                                        <span class="text-xs">{{date('d-m-y', strtotime($row->tanggal))}}</span>
+                                                    </div>
+                                                    <div class="flex items-center gap-1 text-xs">
+                                                        {{-- <i class="fas fa-users text-green-500"></i> --}}
+                                                        <span>{{ $row->angkatan->kode_angkatan }}</span>
+                                                    </div>
                                                 </div>
-                                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">
-                                                    {{$row->keterangan}}
-                                                </span>
+                                                {{-- <div class="flex items-center gap-2">
+                                                    <span class="status-badge">
+                                                        <i class="fas fa-play mr-1"></i>
+                                                        Audio Ready
+                                                    </span>
+                                                </div> --}}
                                             </div>
+                                            <button onclick="open_modal({{$key}})" class="btn-gradient text-white px-6 py-3 rounded-xl font-semibold ml-4 hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                                                <i id="playPauseIcon{{$key}}" class="fas fa-play mr-2"></i>
+                                                Dengarkan
+                                            </button>
                                         </div>
-                                        <a href="{{route('evaluasi_kuis',['materi_id' => $row->materi_id , 'ujian_id' => $row->id])}}" class="btn-gradient text-white px-6 py-3 rounded-xl font-semibold ml-4 hover:shadow-lg transform hover:scale-105 transition-all duration-300">
-                                            <i class="fas fa-eye mr-2"></i>
-                                            Lihat
-                                        </a>
                                     </div>
+                                    @endforeach
                                 </div>
-                                @endforeach
-                            </div>
-                        @else
-                            <div class="text-center py-12">
-                                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-clipboard-check text-gray-400 text-2xl"></i>
-                                </div>
-                                <h3 class="text-lg font-semibold text-gray-600 mb-2">Belum Ada Evaluasi</h3>
-                                <p class="text-gray-500">Evaluasi akan tersedia setelah materi selesai</p>
-                            </div>
-                        @endif
-                    </div>
 
-                    <!-- Lainnya Tab -->
-                    <div x-show="activeTab == 'lainnya'">
-                        <div class="space-y-4">
-                            <div class="modern-card p-4 cursor-pointer hover:shadow-lg transition-all duration-300">
-                                <div class="flex items-center gap-4">
-                                    <div class="feature-icon">
-                                        <i class="fas fa-archive"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-semibold text-gray-800">Arsip</h3>
-                                        <p class="text-sm text-gray-500">Lihat materi yang sudah selesai</p>
-                                    </div>
-                                    <i class="fas fa-chevron-right text-gray-400"></i>
-                                </div>
-                            </div>
+                                <!-- Modern Pagination -->
+                                <div class="modern-pagination mt-6">
+                                    {{-- {{ $materi_detail->links() }} --}}
 
-                            <div class="modern-card p-4 cursor-pointer hover:shadow-lg transition-all duration-300">
-                                <div class="flex items-center gap-4">
-                                    <div class="feature-icon">
-                                        <i class="fas fa-book"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-semibold text-gray-800">Silabus</h3>
-                                        <p class="text-sm text-gray-500">Download silabus pembelajaran</p>
-                                    </div>
-                                    <i class="fas fa-chevron-right text-gray-400"></i>
-                                </div>
-                            </div>
+                                    <button wire:click="tambahPaginate" class="btn-gradient text-white px-6 py-3 rounded-xl font-semibold ml-4 hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                                        Berikutnya
+                                    </button>
 
-                            <div class="modern-card p-4 cursor-pointer hover:shadow-lg transition-all duration-300">
-                                <div class="flex items-center gap-4">
-                                    <div class="feature-icon">
-                                        <i class="fas fa-calendar"></i>
+
+                                </div>
+
+                            @else  
+                                <div class="text-center py-12">
+                                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i class="fas fa-music text-gray-400 text-2xl"></i>
                                     </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-semibold text-gray-800">Kalender Akademik</h3>
-                                        <p class="text-sm text-gray-500">Jadwal kegiatan pembelajaran</p>
+                                    <h3 class="text-lg font-semibold text-gray-600 mb-2">Belum Ada Materi</h3>
+                                    <p class="text-gray-500">Materi pembelajaran akan segera tersedia</p>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Evaluasi Tab -->
+                        <div x-show="activeTab == 'evaluasi'">
+                            @if(count($evaluasi))
+                                <div class="space-y-4">
+                                    @foreach($evaluasi as $key=>$row)
+                                    <div class="modern-card p-4">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex-1">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <div class="feature-icon w-10 h-10">
+                                                        <i class="fas fa-clipboard-check"></i>
+                                                    </div>
+                                                    <h3 class="font-semibold text-gray-800">
+                                                        Ujian {{$row->jenis_ujian->nama}}
+                                                    </h3>
+                                                </div>
+                                                <div class="flex items-center gap-4 text-sm text-gray-500 mb-2">
+                                                    <div class="flex items-center gap-1">
+                                                        <i class="fas fa-calendar-alt text-blue-500"></i>
+                                                        <span>{{$row->created_at}}</span>
+                                                    </div>
+                                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">
+                                                        {{$row->keterangan}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <a href="{{route('evaluasi_kuis',['materi_id' => $row->materi_id , 'ujian_id' => $row->id])}}" class="btn-gradient text-white px-6 py-3 rounded-xl font-semibold ml-4 hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                                                <i class="fas fa-eye mr-2"></i>
+                                                Lihat
+                                            </a>
+                                        </div>
                                     </div>
-                                    <i class="fas fa-chevron-right text-gray-400"></i>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="text-center py-12">
+                                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i class="fas fa-clipboard-check text-gray-400 text-2xl"></i>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-600 mb-2">Belum Ada Evaluasi</h3>
+                                    <p class="text-gray-500">Evaluasi akan tersedia setelah materi selesai</p>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Lainnya Tab -->
+                        <div x-show="activeTab == 'lainnya'">
+                            <div class="space-y-4">
+                                <div class="modern-card p-4 cursor-pointer hover:shadow-lg transition-all duration-300">
+                                    <div class="flex items-center gap-4">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-archive"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h3 class="font-semibold text-gray-800">Arsip</h3>
+                                            <p class="text-sm text-gray-500">Lihat materi yang sudah selesai</p>
+                                        </div>
+                                        <i class="fas fa-chevron-right text-gray-400"></i>
+                                    </div>
+                                </div>
+
+                                <div class="modern-card p-4 cursor-pointer hover:shadow-lg transition-all duration-300">
+                                    <div class="flex items-center gap-4">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-book"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h3 class="font-semibold text-gray-800">Silabus</h3>
+                                            <p class="text-sm text-gray-500">Download silabus pembelajaran</p>
+                                        </div>
+                                        <i class="fas fa-chevron-right text-gray-400"></i>
+                                    </div>
+                                </div>
+
+                                <div class="modern-card p-4 cursor-pointer hover:shadow-lg transition-all duration-300">
+                                    <div class="flex items-center gap-4">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-calendar"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h3 class="font-semibold text-gray-800">Kalender Akademik</h3>
+                                            <p class="text-sm text-gray-500">Jadwal kegiatan pembelajaran</p>
+                                        </div>
+                                        <i class="fas fa-chevron-right text-gray-400"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -389,207 +398,209 @@
             </div>
         </div>
     </div>
-</div>
 
-<!-- Modern Audio Player Modal -->
-<x-modal.ModalPopup id="myModal" default="close">
-    <div class="floating-player rounded-3xl p-8">
-        <!-- Track Info -->
-        <div class="text-center mb-8">
-            <div class="w-32 h-32 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center pulse-animation">
-                <i class="fas fa-music text-white text-3xl"></i>
+    <!-- Modern Audio Player Modal -->
+    <x-modal.ModalPopup id="myModal" default="close">
+        <div class="floating-player rounded-3xl p-8">
+            <!-- Track Info -->
+            <div class="text-center mb-8">
+                <div class="w-32 h-32 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center pulse-animation">
+                    <i class="fas fa-music text-white text-3xl"></i>
+                </div>
+                <div class="track-name text-xl font-bold text-gray-800 mb-2">Judul Materi</div>
+                <div class="track-artist text-gray-600">Mata Pelajaran</div>
             </div>
-            <div class="track-name text-xl font-bold text-gray-800 mb-2">Judul Materi</div>
-            <div class="track-artist text-gray-600">Mata Pelajaran</div>
-        </div>
 
-        <!-- Controls -->
-        <div class="flex items-center justify-center gap-6 mb-8">
-            <button onclick="prevTrack()" class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors">
-                <i class="fas fa-step-backward text-gray-700"></i>
-            </button>
-            <div class="playpause-track">
-                <button onclick="playpauseTrack()" class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center hover:shadow-lg transform hover:scale-105 transition-all duration-300">
-                    <i class="fas fa-play text-white text-xl"></i>
+            <!-- Controls -->
+            <div class="flex items-center justify-center gap-6 mb-8">
+                <button onclick="prevTrack()" class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors">
+                    <i class="fas fa-step-backward text-gray-700"></i>
+                </button>
+                <div class="playpause-track">
+                    <button onclick="playpauseTrack()" class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                        <i class="fas fa-play text-white text-xl"></i>
+                    </button>
+                </div>
+                <button onclick="nextTrack()" class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors">
+                    <i class="fas fa-step-forward text-gray-700"></i>
                 </button>
             </div>
-            <button onclick="nextTrack()" class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors">
-                <i class="fas fa-step-forward text-gray-700"></i>
-            </button>
-        </div>
 
-        <!-- Progress Bar -->
-        <div class="mb-6">
-            <div class="flex items-center gap-3">
-                <div class="current-time text-sm text-gray-600">00:00</div>
-                <input type="range" min="1" max="100" value="0" class="audio-slider flex-1 seek_slider" onchange="seekTo()">
-                <div class="total-duration text-sm text-gray-600">00:00</div>
+            <!-- Progress Bar -->
+            <div class="mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="current-time text-sm text-gray-600">00:00</div>
+                    <input type="range" min="1" max="100" value="0" class="audio-slider flex-1 seek_slider" onchange="seekTo()">
+                    <div class="total-duration text-sm text-gray-600">00:00</div>
+                </div>
+            </div>
+
+            <!-- Volume Control -->
+            <div class="mb-6">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-volume-down text-gray-600"></i>
+                    <input type="range" min="1" max="100" value="99" class="audio-slider flex-1 volume_slider" onchange="setVolume()">
+                    <i class="fas fa-volume-up text-gray-600"></i>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="text-center" id="tombolSoal">
+                <button class="btn-gradient text-white w-full py-3 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                    <i class="fas fa-pencil-alt mr-2"></i>
+                    KERJAKAN SOAL
+                </button>
             </div>
         </div>
+    </x-modal.ModalPopup>
 
-        <!-- Volume Control -->
-        <div class="mb-6">
-            <div class="flex items-center gap-3">
-                <i class="fas fa-volume-down text-gray-600"></i>
-                <input type="range" min="1" max="100" value="99" class="audio-slider flex-1 volume_slider" onchange="setVolume()">
-                <i class="fas fa-volume-up text-gray-600"></i>
-            </div>
-        </div>
+    <x-FrontBottomNav />
 
-        <!-- Action Button -->
-        <div class="text-center" id="tombolSoal">
-            <button class="btn-gradient text-white w-full py-3 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
-                <i class="fas fa-pencil-alt mr-2"></i>
-                KERJAKAN SOAL
-            </button>
-        </div>
-    </div>
-</x-modal.ModalPopup>
+    <script>
+        // Audio Player JavaScript (preserved original functionality)
+        let track_name = document.querySelector(".track-name");
+        let track_artist = document.querySelector(".track-artist");
+        let playpause_btn = document.querySelector(".playpause-track");
+        let next_btn = document.querySelector(".next-track");
+        let prev_btn = document.querySelector(".prev-track");
+        let seek_slider = document.querySelector(".seek_slider");
+        let volume_slider = document.querySelector(".volume_slider");
+        let curr_time = document.querySelector(".current-time");
+        let total_duration = document.querySelector(".total-duration");
 
-<x-FrontBottomNav />
+        let track_index = 0;
+        let isPlaying = false;
+        let updateTimer;
+        let curr_track = document.createElement('audio');
 
-<script>
-// Audio Player JavaScript (preserved original functionality)
-let track_name = document.querySelector(".track-name");
-let track_artist = document.querySelector(".track-artist");
-let playpause_btn = document.querySelector(".playpause-track");
-let next_btn = document.querySelector(".next-track");
-let prev_btn = document.querySelector(".prev-track");
-let seek_slider = document.querySelector(".seek_slider");
-let volume_slider = document.querySelector(".volume_slider");
-let curr_time = document.querySelector(".current-time");
-let total_duration = document.querySelector(".total-duration");
+        // Define the tracks that have to be played (preserved original structure)
+        let track_list = [
+            @foreach($materi_detail as $key=>$row)
+            {
+                id: {{$row->id}},
+                name: "{{$row->materi_detail->judul}}",
+                artist: "{{ $row->materi_detail->materi->nama_materi }}",
+                path: "storage/{{$row->materi_detail->multimedia_url}}",
+                tanggal: "{{ date('d-m-Y' , strtotime( $row->tanggal )) }}"
+            },
+            @endforeach
+        ];
 
-let track_index = 0;
-let isPlaying = false;
-let updateTimer;
-let curr_track = document.createElement('audio');
-
-// Define the tracks that have to be played (preserved original structure)
-let track_list = [
-    @foreach($materi_detail as $key=>$row)
-    {
-        id: {{$row->id}},
-        name: "{{$row->materi_detail->judul}}",
-        artist: "{{ $row->materi_detail->materi->nama_materi }}",
-        path: "storage/{{$row->materi_detail->multimedia_url}}",
-        tanggal: "{{ date('d-m-Y' , strtotime( $row->tanggal )) }}"
-    },
-    @endforeach
-];
-
-function showModal() {
-    document.getElementById('myModal').classList.remove('hidden');
-}
+        function showModal() {
+            document.getElementById('myModal').classList.remove('hidden');
+        }
 
 
-function open_modal(id){
+        function open_modal(id){
 
-  showModal() 
+        showModal() 
 
-    track_index = id;
-    console.log(track_list[track_index].path);
-    loadTrack(track_index);
-    playpauseTrack();
-}
+            track_index = id;
+            console.log(track_list[track_index].path);
+            loadTrack(track_index);
+            playpauseTrack();
+        }
 
-function loadTrack(track_index) {
-    let materi = track_list[track_index];          
+        function loadTrack(track_index) {
+            let materi = track_list[track_index];          
 
-    clearInterval(updateTimer);
-    resetValues();
-    curr_track.src = materi.path;
-    curr_track.load();
-    track_name.textContent = materi.name;
-    track_artist.textContent = materi.artist;
-    updateTimer = setInterval(seekUpdate, 1000);
-    curr_track.addEventListener("ended", nextTrack);
+            clearInterval(updateTimer);
+            resetValues();
+            curr_track.src = materi.path;
+            curr_track.load();
+            track_name.textContent = materi.name;
+            track_artist.textContent = materi.artist;
+            updateTimer = setInterval(seekUpdate, 1000);
+            curr_track.addEventListener("ended", nextTrack);
 
-    let tombolSoal = document.getElementById('tombolSoal');
-    if(materi.tanggal == '{{ date("d-m-Y") }}'){
-        tombolSoal.style.display = 'block';
-    } else {
-        tombolSoal.style.display = 'none';
-    }
-}
+            let tombolSoal = document.getElementById('tombolSoal');
+            if(materi.tanggal == '{{ date("d-m-Y") }}'){
+                tombolSoal.style.display = 'block';
+            } else {
+                tombolSoal.style.display = 'none';
+            }
+        }
 
-function resetValues() {
-    curr_time.textContent = "00:00";
-    total_duration.textContent = "00:00";
-    seek_slider.value = 0;
-}
+        function resetValues() {
+            curr_time.textContent = "00:00";
+            total_duration.textContent = "00:00";
+            seek_slider.value = 0;
+        }
 
-loadTrack(track_index);
+        loadTrack(track_index);
 
-function playpauseTrack() {
-    if (!isPlaying) playTrack();
-    else pauseTrack();
-}
+        function playpauseTrack() {
+            if (!isPlaying) playTrack();
+            else pauseTrack();
+        }
 
-function playTrack() {
-    curr_track.play();
-    isPlaying = true;
-    playpause_btn.innerHTML = '<button onclick="playpauseTrack()" class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center hover:shadow-lg transform hover:scale-105 transition-all duration-300"><i class="fas fa-pause text-white text-xl"></i></button>';
-    if(document.getElementById('playPauseIcon'+track_index)) {
-        document.getElementById('playPauseIcon'+track_index).classList.add('fa-pause');
-        document.getElementById('playPauseIcon'+track_index).classList.remove('fa-play');
-    }
-}
+        function playTrack() {
+            curr_track.play();
+            isPlaying = true;
+            playpause_btn.innerHTML = '<button onclick="playpauseTrack()" class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center hover:shadow-lg transform hover:scale-105 transition-all duration-300"><i class="fas fa-pause text-white text-xl"></i></button>';
+            if(document.getElementById('playPauseIcon'+track_index)) {
+                document.getElementById('playPauseIcon'+track_index).classList.add('fa-pause');
+                document.getElementById('playPauseIcon'+track_index).classList.remove('fa-play');
+            }
+        }
 
-function pauseTrack() {
-    curr_track.pause();
-    isPlaying = false;
-    playpause_btn.innerHTML = '<button onclick="playpauseTrack()" class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center hover:shadow-lg transform hover:scale-105 transition-all duration-300"><i class="fas fa-play text-white text-xl"></i></button>';
-    if(document.getElementById('playPauseIcon'+track_index)) {
-        document.getElementById('playPauseIcon'+track_index).classList.remove('fa-pause');
-        document.getElementById('playPauseIcon'+track_index).classList.add('fa-play');
-    }
-}
+        function pauseTrack() {
+            curr_track.pause();
+            isPlaying = false;
+            playpause_btn.innerHTML = '<button onclick="playpauseTrack()" class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center hover:shadow-lg transform hover:scale-105 transition-all duration-300"><i class="fas fa-play text-white text-xl"></i></button>';
+            if(document.getElementById('playPauseIcon'+track_index)) {
+                document.getElementById('playPauseIcon'+track_index).classList.remove('fa-pause');
+                document.getElementById('playPauseIcon'+track_index).classList.add('fa-play');
+            }
+        }
 
-function nextTrack() {
-    if (track_index < track_list.length - 1)
-        track_index += 1;
-    else track_index = 0;
-    loadTrack(track_index);
-    playTrack();
-}
+        function nextTrack() {
+            if (track_index < track_list.length - 1)
+                track_index += 1;
+            else track_index = 0;
+            loadTrack(track_index);
+            playTrack();
+        }
 
-function prevTrack() {
-    if (track_index > 0)
-        track_index -= 1;
-    else track_index = track_list.length - 1;
-    loadTrack(track_index);
-    playTrack();
-}
+        function prevTrack() {
+            if (track_index > 0)
+                track_index -= 1;
+            else track_index = track_list.length - 1;
+            loadTrack(track_index);
+            playTrack();
+        }
 
-function seekTo() {
-    let seekto = curr_track.duration * (seek_slider.value / 100);
-    curr_track.currentTime = seekto;
-}
+        function seekTo() {
+            let seekto = curr_track.duration * (seek_slider.value / 100);
+            curr_track.currentTime = seekto;
+        }
 
-function setVolume() {
-    curr_track.volume = volume_slider.value / 100;
-}
+        function setVolume() {
+            curr_track.volume = volume_slider.value / 100;
+        }
 
-function seekUpdate() {
-    let seekPosition = 0;
+        function seekUpdate() {
+            let seekPosition = 0;
 
-    if (!isNaN(curr_track.duration)) {
-        seekPosition = curr_track.currentTime * (100 / curr_track.duration);
-        seek_slider.value = seekPosition;
+            if (!isNaN(curr_track.duration)) {
+                seekPosition = curr_track.currentTime * (100 / curr_track.duration);
+                seek_slider.value = seekPosition;
 
-        let currentMinutes = Math.floor(curr_track.currentTime / 60);
-        let currentSeconds = Math.floor(curr_track.currentTime - currentMinutes * 60);
-        let durationMinutes = Math.floor(curr_track.duration / 60);
-        let durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
+                let currentMinutes = Math.floor(curr_track.currentTime / 60);
+                let currentSeconds = Math.floor(curr_track.currentTime - currentMinutes * 60);
+                let durationMinutes = Math.floor(curr_track.duration / 60);
+                let durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
 
-        if (currentSeconds < 10) { currentSeconds = "0" + currentSeconds; }
-        if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
-        if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
-        if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
+                if (currentSeconds < 10) { currentSeconds = "0" + currentSeconds; }
+                if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
+                if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
+                if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
 
-        curr_time.textContent = currentMinutes + ":" + currentSeconds;
-        total_duration.textContent = durationMinutes + ":" + durationSeconds;
-    }
-}
-</script>
+                curr_time.textContent = currentMinutes + ":" + currentSeconds;
+                total_duration.textContent = durationMinutes + ":" + durationSeconds;
+            }
+        }
+    </script>
+
+
+</div>
