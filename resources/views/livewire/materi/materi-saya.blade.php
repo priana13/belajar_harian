@@ -327,7 +327,7 @@
                                                         <span>{{$row->created_at}}</span>
                                                     </div>
                                                     <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">
-                                                        {{$row->keterangan}}
+                                                        {{-- {{$row->keterangan}} --}}
                                                     </span>
                                                 </div>
                                             </div>
