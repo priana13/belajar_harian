@@ -326,9 +326,9 @@
                                                         <i class="fas fa-calendar-alt text-blue-500"></i>
                                                         <span>{{$row->created_at}}</span>
                                                     </div>
-                                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">
+                                                    {{-- <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium"> --}}
                                                         {{-- {{$row->keterangan}} --}}
-                                                    </span>
+                                                    {{-- </span> --}}
                                                 </div>
                                             </div>
                                             <a href="{{route('evaluasi_kuis',['materi_id' => $row->materi_id , 'ujian_id' => $row->id])}}" class="btn-gradient text-white px-6 py-3 rounded-xl font-semibold ml-4 hover:shadow-lg transform hover:scale-105 transition-all duration-300">
