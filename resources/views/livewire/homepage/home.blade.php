@@ -1,485 +1,630 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform Pembelajaran Modern</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<div>
-  @push('head')
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-  <style>
-      .swiper {
-      width: 100%;
-      height: 100%;
-      }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1e293b;
+        }
 
-      .swiper-slide {
-      text-align: center;
-      font-size: 18px;
-      background: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #ffffff;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
 
-      .swiper-slide img {
-      display: block;
-      width: 100%;
-      /* height: 300px; */
-      object-fit: cover;
-      border-radius: 0.75rem;
-      }
+        .header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            padding: 2rem 1.5rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-      .swiper-pagination-bullet {
-          height: 10px;
-          width: 10px;
-          border-radius: 24px;
-      }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="90" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="20" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s infinite linear;
+        }
 
-      .swiper-pagination-bullet-active {
-          height: 10px;
-          width: 30px;
-          border-radius: 24px;
-          background-color: #41B02F;
-      }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
 
-      /* radio */
+        .welcome-text {
+            color: white;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 10;
+        }
 
-      input[type="radio"]:checked + label span {
-          background-color: #41B02F; 
-          box-shadow: 0px 0px 0px 2px white inset;
-      }
+        .welcome-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            position: relative;
+            z-index: 10;
+        }
 
-      input[type="radio"]:checked + label{
-          color: #41B02F; 
-      }
-  </style>
+        .content {
+            padding: 2rem 1.5rem;
+            margin-top: -1rem;
+            background: white;
+            border-radius: 2rem 2rem 0 0;
+            position: relative;
+            z-index: 5;
+        }
 
-<style>
- 
+        .auth-section {
+            text-align: center;
+            padding: 2rem 0;
+        }
 
- .details {
-   display: flex;
-   align-items: center;
-   flex-direction: column;
-   justify-content: center;
- }
+        .hero-image {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #ddd6fe 0%, #c7d2fe 100%);
+            border-radius: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #3b82f6;
+        }
 
+        .btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
 
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
 
- .buttons {
-   display: flex;
-   flex-direction: row;
-   align-items: center;
- }
+        .btn:hover::before {
+            left: 100%;
+        }
 
- .playpause-track, .prev-track, .next-track {
-   padding: 25px;
-   opacity: 0.8;
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
 
-   /* Smoothly transition the opacity */
-   transition: opacity .2s;
- }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+        }
 
- .playpause-track:hover, .prev-track:hover, .next-track:hover {
-   opacity: 1.0;
- }
+        .btn-secondary {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+        }
 
- .slider_container {
-   width: 100%;
-   max-width: 400px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
- }
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            transform: translateY(-2px);
+        }
 
- /* Modify the appearance of the slider */
- .seek_slider, .volume_slider {
-   -webkit-appearance: none;
-   -moz-appearance: none;
-   appearance: none;
-   height: 5px;
-   background: #0E6400;
- }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 2rem 0 1rem;
+        }
 
- /* Modify the appearance of the slider thumb */
- .seek_slider::-webkit-slider-thumb, .volume_slider::-webkit-slider-thumb {
-   -webkit-appearance: none;
-   -moz-appearance: none;
-   appearance: none;
-   width: 15px;
-   height: 15px;
-   background: #41B02F;
-   cursor: pointer;
-   border-radius: 50%;
- }
+        .material-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
- .seek_slider:hover, .volume_slider:hover {
-   opacity: 1.0;
- }
+        .material-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
 
- .seek_slider {
-   width: 100%;
- }
+        .material-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
 
- .volume_slider {
-   width: 30%;
- }
+        .material-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ddd6fe 0%, #c7d2fe 100%);
+            color: #3b82f6;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            margin-bottom: 1rem;
+        }
 
- .current-time, .total-duration {
-   padding: 10px;
- }
+        .material-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
 
- i.fa-volume-down, i.fa-volume-up {
-   padding: 10px;
- }
+        .material-subtitle {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
 
- i.fa-play-circle, i.fa-pause-circle, i.fa-step-forward, i.fa-step-backward {
-   cursor: pointer;
- }
- </style>
-  @endpush
+        .material-meta {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
 
-  <x-FrontTopNav />
+        .meta-tag {
+            background: #f8fafc;
+            color: #475569;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
 
-  <p class="mt-3 prose-md text-center text-xl">Ahlan wa Sahlan</p>
+        .audio-player {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
 
-  @guest
-  <div class="p-3">
+        .player-info {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
 
-      {{-- <img class="mx-auto rounded-lg" src="https://www.hasmi.org/wp-content/uploads/2022/08/EKJ.png">         --}}
-      
-       @livewire('homepage.home-page-banner')
+        .track-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
 
-      <button wire:click.prevent="login" class="bg-primary-600 w-full rounded-xl p-3  text-white mt-5">Masuk</button>
-      <button wire:click.prevent="register" class="bg-gray-200 w-full rounded-xl p-3  text-gray-400 mt-5">Daftar</button>
-  </div>
-  @else
-  <div class="p-3">       
-       
-      @livewire('homepage.home-page-banner')
+        .track-subtitle {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
 
-      {{-- {{ dd( $angkatan ) }} --}}
-      
-      @if(auth()->user()->angkatan_user()->aktif()->count() == 0)
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
 
-       <p class="prose-sm mt-5 font-semibold mb-2 text-xl font-bold">Materi Tersedia:</p>
+        .control-btn {
+            background: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
 
-        @foreach($angkatan as $row)     
-        
-        
-        <?php 
+        .control-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
 
-          $cek_mulai_pendaftaran = strtotime( $row->mulai_pendaftaran )  <= strtotime( date('Y-m-d') ); 
-          $cek_akhir_pendaftaran = strtotime( $row->akhir_pendaftaran )  >= strtotime( date('Y-m-d') );           
+        .play-btn {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+        }
 
-        ?>
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
-         @if( $row->angkatan_user->count() < $row->kuota && $cek_mulai_pendaftaran )
+        .time-display {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
 
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+        }
 
-          <div class="mb-4 card shadow p-2 bg-blue-50">  
-            
-            
-            <p>Materi: <strong>{{ $row->kode_angkatan }} -{{ $row->materi->nama_materi }}</strong></p>
-            <p>Mulai Belajar: <strong>{{ date('d M Y' , strtotime($row->tanggal_mulai)) }}</strong></p>
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
 
-            <button wire:click="mendaftar({{ $row->id }})" class="bg-primary-600 rounded-lg px-2 py-1  text-white font-bold mt-4 open-modal">Ikuti</button>  
+        .progress-handle {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            background: #3b82f6;
+            border-radius: 50%;
+            cursor: pointer;
+        }
 
-          </div>
+        .exam-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #f59e0b;
+        }
 
+        .exam-title {
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
 
-        @endif 
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+        }
 
-        @endforeach 
-      @else
-   
-      
-        <p class="mb-2 mt-6 font-bold">Anda Terdaftar sebagai Peserta Aktif: </p>
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        <?php 
+        .modal-content {
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            margin: 1rem;
+            max-width: 400px;
+            width: 100%;
+        }
 
-        $angkatan = ( auth()->user()->angkatan_user()->aktif()->first() ) ?  auth()->user()->angkatan_user()->aktif()->first()->angkatan : null;
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+        }
 
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            color: #64748b;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
 
-        ?>
+        .nav-item.active {
+            color: #3b82f6;
+            background: #eff6ff;
+        }
 
-        <p class="my-2">
-          Materi: <span class="font-bold">{{ $angkatan->materi->nama_materi }}</span>  <br>
+        .nav-icon {
+            font-size: 1.25rem;
+        }
 
-          @if($angkatan->status == 'Pendaftaran')
-            Mulai Pembelajaran : <span class="font-bold">{{ date('d M Y', strtotime( $angkatan->tanggal_mulai )) }}</span>  <br>
-          @endif
+        .nav-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
 
-          Ujian Akhir : <span class="font-bold">{{ date('d M Y', strtotime( $angkatan->tanggal_ujian )) }}</span> 
-        </p>
-        
-      @endif
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
 
-      @if($materi) 
+        .pulse {
+            animation: pulse 2s infinite;
+        }
 
-      <p class="prose-sm mt-5 font-semibold text-xl">Materi Hari ini:</p>      
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="welcome-text">Ahlan wa Sahlan</h1>
+            <p class="welcome-subtitle">Platform Pembelajaran Digital</p>
+        </div>
 
-      {{-- @foreach ($materi as $row) --}}
-       
-        <div class="p-2 border rounded-lg my-3">
-            <div class="flex justify-between items-cente">
-                <a class="bg-accent text-primary pb-0.5 px-1 text-sm rounded-sm font-semibold">{{$materi->materi_detail->materi->kategori->nama_kategori}}</a>
-                {{-- <a class="pb-0.5 px-1 text-sm rounded-sm font-semibold">{{$materi->materi_detail->materi->type}}</a> --}}
-            </div>
-            <p class="text-normal font-bold pt-2 pb-1" >{{ $materi->materi_detail->judul}}</p>
-            <p class="text-xs font-semibold">{{ $materi->angkatan->kode_angkatan }}: {{$materi->materi_detail->materi->nama_materi}} </p>
-            <div class="flex gap-2 text-xs mt-3">
-                <div id="left-column" class="flex-shrink-0 bg-gray-200 py-1 px-2 rounded-md font-semibold flex items-center justify-center">
-                  {{ $materi->materi_detail->pertemuan}}
+        <!-- Content -->
+        <div class="content">
+            <!-- Auth Section (Guest) -->
+            <div id="auth-section" class="auth-section">
+                <div class="hero-image">
+                    <i class="fas fa-graduation-cap"></i>
                 </div>
-                <div id="right-column" class="flex-grow bg-gray-200 py-1 px-2  rounded-md font-semibold">
-                  {{date('d M Y', strtotime( $materi->tanggal ))}}          
+                <button class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt" style="margin-right: 0.5rem;"></i>
+                    Masuk
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-user-plus" style="margin-right: 0.5rem;"></i>
+                    Daftar
+                </button>
+            </div>
+
+            <!-- Main Content (User Logged In) -->
+            <div id="main-content" style="display: none;">
+                <!-- Available Materials -->
+                <div class="section">
+                    <h2 class="section-title">Materi Tersedia</h2>
+                    
+                    <div class="material-card">
+                        <div class="material-badge">Kategori Ilmu</div>
+                        <h3 class="material-title">EKJ-001 - Pengenalan Akhlak Islami</h3>
+                        <p class="material-subtitle">Mulai Belajar: 25 Jul 2025</p>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play" style="margin-right: 0.5rem;"></i>
+                            Ikuti Materi
+                        </button>
+                    </div>
+
+                    <div class="material-card">
+                        <div class="material-badge">Kategori Fiqh</div>
+                        <h3 class="material-title">FQH-002 - Thaharah dan Shalat</h3>
+                        <p class="material-subtitle">Mulai Belajar: 01 Agu 2025</p>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-play" style="margin-right: 0.5rem;"></i>
+                            Ikuti Materi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Today's Material -->
+                <div class="section">
+                    <h2 class="section-title">Materi Hari Ini</h2>
+                    
+                    <div class="material-card">
+                        <div class="material-badge">Akhlak</div>
+                        <h3 class="material-title">Adab Dalam Berinteraksi</h3>
+                        <p class="material-subtitle">EKJ-001: Pengenalan Akhlak Islami</p>
+                        
+                        <div class="material-meta">
+                            <span class="meta-tag">Pertemuan 3</span>
+                            <span class="meta-tag">20 Jul 2025</span>
+                        </div>
+
+                        <!-- Audio Player -->
+                        <div class="audio-player">
+                            <div class="player-info">
+                                <div class="track-title">Adab Dalam Berinteraksi</div>
+                                <div class="track-subtitle">Pengenalan Akhlak Islami</div>
+                            </div>
+                            
+                            <div class="player-controls">
+                                <button class="control-btn" id="prev-btn">
+                                    <i class="fas fa-step-backward"></i>
+                                </button>
+                                <button class="control-btn play-btn" id="play-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="control-btn" id="next-btn">
+                                    <i class="fas fa-step-forward"></i>
+                                </button>
+                            </div>
+
+                            <div class="progress-container">
+                                <span class="time-display" id="current-time">00:00</span>
+                                <div class="progress-bar" id="progress-bar">
+                                    <div class="progress-fill" id="progress-fill"></div>
+                                    <div class="progress-handle" id="progress-handle"></div>
+                                </div>
+                                <span class="time-display" id="total-time">00:00</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary pulse">
+                            <i class="fas fa-clipboard-question" style="margin-right: 0.5rem;"></i>
+                            Kerjakan Soal
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Today's Exam -->
+                <div class="section">
+                    <h2 class="section-title">Ujian Hari Ini</h2>
+                    
+                    <div class="exam-card">
+                        <h3 class="exam-title">Ujian Pekanan 1</h3>
+                        <p class="material-subtitle">EKJ-001 - Pengenalan Akhlak Islami</p>
+                        <button class="btn btn-primary" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); margin-top: 1rem;">
+                            <i class="fas fa-pencil-alt" style="margin-right: 0.5rem;"></i>
+                            Kerjakan Soal
+                        </button>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            @if($materi->materi_detail->jenis_kontent == 'Video')          
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active">
+                <i class="nav-icon fas fa-home"></i>
+                <span class="nav-label">Beranda</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="nav-icon fas fa-book"></i>
+                <span class="nav-label">Materi</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="nav-icon fas fa-clipboard-list"></i>
+                <span class="nav-label">Ujian</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="nav-icon fas fa-user"></i>
+                <span class="nav-label">Profil</span>
+            </a>
+        </nav>
+    </div>
 
-              <livewire:materi.materi-video video_url="{{ $materi->materi_detail->video_url }}" />
-
-            @else
-
-              <button class="bg-primary-600 w-full rounded-lg p-2  text-white font-bold mt-4 open-modal" data-modal-id="myModal">DENGARKAN MATERI</button>          
-              
-              @if($materi && $ujian_harian && $soal_harian > 0)                        
-              
-                <a href="{{route('kuis',['materi_id' => $materi->materi_detail->materi_id,'jadwal_id'=>$ujian_harian->id ])}}" class="bg-white block text-center text-primary w-full rounded-lg p-2 border-2 border-primary font-bold mt-3 open-modal"  >KERJAKAN SOAL</a>
-
-              @endif
-
-            @endif
-          </div>
-      {{-- @endforeach --}}
-
-      @endif 
-
-
-      @if(count( $jadwal_ujian ) > 0)
-
-      <p class="prose-sm mt-5 font-semibold">Ujian Hari ini</p>
-      
-      {{-- Ujian akhir / pekanan --}}
-      @foreach($jadwal_ujian as $jadwal)
-      
-      <div class="border p-2 rounded-lg mt-2">
-        <h2>Ujian {{ $jadwal->type }} {{ ($jadwal->type == 'Pekanan')? $jadwal->urutan : '' }}</h2>
-        <h2> {{ $jadwal->angkatan->kode_angkatan }} - {{ $jadwal->angkatan->materi->nama_materi }}</h2>
-        <a href="{{route('kuis',['materi_id' => $jadwal->angkatan->materi_id,'jadwal_id'=>$jadwal->id ])}}" class="bg-white block text-center text-primary w-full rounded-lg p-2 border-2 border-primary font-bold mt-3 open-modal"  >KERJAKAN SOAL</a>
-      </div>       
-      
-      @endforeach
-
-      
-
-      @endif
-
-      {{-- popup --}}
-
-      <div wire:ignore>
-        <x-modal.ModalPopup  id="myModal" default="close">
-          <div class="flex flex-col items-center justify-center">
-            <div class="details">        
-              <div class="track-name font-semibold">Judul Materi</div>
-              <div class="track-artist">Bab</div>
-              <div id="status_absen" class="flex items-center justify-center">
-
-              </div>
-              <p> </p>
-            </div>
-            <div class="buttons">
-              <div class="prev-track" onclick="prevTrack()"><i class="fa fa-step-backward fa-2x"></i></div>
-              <div class="playpause-track" onclick="playpauseTrack()"><i class="fa fa-play-circle text-primary fa-5x"></i></div>
-              <div class="next-track" onclick="nextTrack()"><i class="fa fa-step-forward fa-2x"></i></div>
-            </div>
-            <div class="slider_container">
-              <div class="current-time">00:00</div>
-              <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
-              <div class="total-duration">00:00</div>
-            </div>
-            {{-- <div class="slider_container">
-              <i class="fa fa-volume-down"></i>
-              <input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
-              <i class="fa fa-volume-up"></i>
-            </div> --}}
-           
-          </div>
-          <div class="text-center mt-2">
-            @if($materi && $ujian_harian && $soal_harian > 0)
-
-              <a href="{{route('kuis',['materi_id' => $materi->materi_detail->materi_id ,'jadwal_id'=> $ujian_harian->id ])}}" class="bg-primary-600 px-8 py-2 mx-auto  text-white font-bold mt-4 rounded-lg" >KERJAKAN SOAL</a>
-            @endif
-            </div>
-        </x-modal.ModalPopup>
-      </div>
-      
-       <x-FrontBottomNav />
-  </div>
-  @endguest
-
-
-    <!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-
-<!-- Initialize Swiper -->
-<script>
-  var swiper = new Swiper(".mySwiper", {
-      spaceBetween: 20,
-      speed: 900,
-      loop: true,
-      centeredSlides: false,
-      autoplay: {
-          delay: 2500,
-          disableOnInteraction: false
-      },
-      pagination: {
-              el: ".swiper-pagination",
-              clickable: true,
-      },
-  });
-
-</script>
-
-<script wire:ignore>
-          let track_name = document.querySelector(".track-name");
-          let track_artist = document.querySelector(".track-artist");
-
-          let playpause_btn = document.querySelector(".playpause-track");
-          let next_btn = document.querySelector(".next-track");
-          let prev_btn = document.querySelector(".prev-track");
-
-          let seek_slider = document.querySelector(".seek_slider");
-          let volume_slider = document.querySelector(".volume_slider");
-          let curr_time = document.querySelector(".current-time");
-          let total_duration = document.querySelector(".total-duration");
-
-          let track_index = 0;
-          let isPlaying = false;
-          let updateTimer;
-
-          // Create new audio element
-          let curr_track = document.createElement('audio');
-
-          // Define the tracks that have to be played
-          let track_list = [
-            @if($materi)
-              {
-                id:1,
-                name: "{{ $materi->materi_detail->judul }}",
-                artist: "{{$materi->materi_detail->materi->nama_materi}}",
-                path: "storage/{{$materi->materi_detail->multimedia_url}}"
-              },
-             @endif
-          ];
-
-          function open_modal(id){
-            track_index = id
-            console.log(track_list[track_index].path)
-            loadTrack(track_index)
-            playpauseTrack()
-          }
-
-          function loadTrack(track_index) {
-            clearInterval(updateTimer);
-            resetValues();
-            curr_track.src = track_list[track_index].path;
-            curr_track.load();
-            track_name.textContent = track_list[track_index].name;
-            track_artist.textContent = track_list[track_index].artist;
-            updateTimer = setInterval(seekUpdate, 1000);
-            curr_track.addEventListener("ended", pauseTrack);
-          }
-
-          function resetValues() {
-            curr_time.textContent = "00:00";
-            total_duration.textContent = "00:00";
-            seek_slider.value = 0;
-          }
-
-          // Load the first track in the tracklist
-          loadTrack(track_index);
-
-          function playpauseTrack() {
-            if (!isPlaying) playTrack();
-            else pauseTrack();
-          }
-
-          function playTrack() {
-            console.log('playPauseIcon'+track_index)
-            curr_track.play();
-            isPlaying = true;
-            playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x text-primary"></i>';  
-
-          }
-
-          function pauseTrack() {
-            curr_track.pause();
-            isPlaying = false;
-            playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x text-primary"></i>';;
-    
-          }
-
-          function nextTrack() {
-            if (track_index < track_list.length - 1)
-              track_index += 1;
-            else track_index = 0;
-            loadTrack(track_index);
-            playTrack();
-          }
-
-          function prevTrack() {
-            if (track_index > 0)
-              track_index -= 1;
-            else track_index = track_list.length;
-            loadTrack(track_index);
-            playTrack();
-          }
-
-          function seekTo() {
-            let seekto = curr_track.duration * (seek_slider.value / 100);
-            curr_track.currentTime = seekto;
-          }
-
-          function setVolume() {
-            curr_track.volume = volume_slider.value / 100;
-          }
-
-          function seekUpdate() {
-            let seekPosition = 0;
-
-            if (!isNaN(curr_track.duration)) {
-              seekPosition = curr_track.currentTime * (100 / curr_track.duration);
-
-              seek_slider.value = seekPosition;
-
-              let currentMinutes = Math.floor(curr_track.currentTime / 60);
-              let currentSeconds = Math.floor(curr_track.currentTime - currentMinutes * 60);
-              let durationMinutes = Math.floor(curr_track.duration / 60);
-              let durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
-
-              if (currentSeconds < 10) { currentSeconds = "0" + currentSeconds; }
-              if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
-              if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
-              if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
-
-              curr_time.textContent = currentMinutes + ":" + currentSeconds;
-              total_duration.textContent = durationMinutes + ":" + durationSeconds;
-              if(currentSeconds == durationSeconds-1){
-                  @if($materi)
-
-                  livewire.emit('absen', 
-                   
-                    {{$materi->materi_detail->id}}
-                   
-                  );
-
-                  @endif
-              }
-
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script>
+        // Simulate login/logout
+        let isLoggedIn = false;
+        const authSection = document.getElementById('auth-section');
+        const mainContent = document.getElementById('main-content');
+        
+        // Audio player functionality
+        let isPlaying = false;
+        let currentTime = 0;
+        let totalTime = 300; // 5 minutes example
+        
+        const playBtn = document.getElementById('play-btn');
+        const currentTimeDisplay = document.getElementById('current-time');
+        const totalTimeDisplay = document.getElementById('total-time');
+        const progressFill = document.getElementById('progress-fill');
+        
+        // Update total time display
+        totalTimeDisplay.textContent = formatTime(totalTime);
+        
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                startProgress();
+            } else {
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
             }
-          }
-       </script>
-
-
-</div>
-
-
+        });
+        
+        function startProgress() {
+            if (isPlaying && currentTime < totalTime) {
+                currentTime++;
+                updateProgress();
+                setTimeout(startProgress, 1000);
+            } else if (currentTime >= totalTime) {
+                isPlaying = false;
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        }
+        
+        function updateProgress() {
+            const progress = (currentTime / totalTime) * 100;
+            progressFill.style.width = progress + '%';
+            currentTimeDisplay.textContent = formatTime(currentTime);
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        // Toggle between auth and main content
+        document.querySelector('.btn-primary').addEventListener('click', () => {
+            if (!isLoggedIn) {
+                isLoggedIn = true;
+                authSection.style.display = 'none';
+                mainContent.style.display = 'block';
+            }
+        });
+        
+        // Show main content by default for demo
+        setTimeout(() => {
+            isLoggedIn = true;
+            authSection.style.display = 'none';
+            mainContent.style.display = 'block';
+        }, 1000);
+    </script>
+</body>
+</html>
