@@ -103,7 +103,7 @@
       <div class="modern-section">
         @livewire('homepage.home-page-banner')
         <button wire:click.prevent="login" class="modern-btn w-full mt-5">Masuk</button>
-        <button wire:click.prevent="register" class="modern-btn w-full mt-3 bg-white text-blue-700 border border-blue-200 hover:bg-blue-50 hover:text-blue-900">Daftar</button>
+        <button wire:click.prevent="register" class="modern-btn w-full mt-3 bg-white text-white border border-blue-200 hover:bg-blue-50 hover:text-blue-900">Daftar</button>
       </div>
       @else
       <div class="modern-section">
