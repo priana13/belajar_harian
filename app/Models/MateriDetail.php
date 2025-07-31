@@ -28,4 +28,9 @@ class MateriDetail extends Model
     {
         return $this->hasMany(MateriDetailUser::class, 'materi_detail_id');
     }
+
+    public function images()
+    {
+        return $this->hasMany(MateriDetailImage::class, 'materi_detail_id');
+    }
 }
