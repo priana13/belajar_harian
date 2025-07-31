@@ -1,321 +1,221 @@
-
 <div>
   @push('head')
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
   <style>
-      .swiper {
-      width: 100%;
-      height: 100%;
-      }
-
-      .swiper-slide {
-      text-align: center;
-      font-size: 18px;
-      background: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      }
-
-      .swiper-slide img {
-      display: block;
-      width: 100%;
-      /* height: 300px; */
-      object-fit: cover;
-      border-radius: 0.75rem;
-      }
-
-      .swiper-pagination-bullet {
-          height: 10px;
-          width: 10px;
-          border-radius: 24px;
-      }
-
-      .swiper-pagination-bullet-active {
-          height: 10px;
-          width: 30px;
-          border-radius: 24px;
-          background-color: #41B02F;
-      }
-
-      /* radio */
-
-      input[type="radio"]:checked + label span {
-          background-color: #41B02F; 
-          box-shadow: 0px 0px 0px 2px white inset;
-      }
-
-      input[type="radio"]:checked + label{
-          color: #41B02F; 
-      }
+   
+    .modern-card {
+        background: white;
+        border-radius: 1.25rem;
+        box-shadow: 0 8px 32px 0 rgba(30,64,175,0.10);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-left: 6px solid #fbbf24;
+        transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .modern-card:hover {
+        box-shadow: 0 16px 40px 0 rgba(30,64,175,0.18);
+        transform: translateY(-4px) scale(1.01);
+        border-left: 6px solid #2563eb;
+    }
+    .modern-btn {
+        background: linear-gradient(135deg, #4061f1 0%, #4713d8 100%);
+        color: #fff;
+        border: none;
+        border-radius: 0.75rem;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: background 0.3s, transform 0.2s;
+        box-shadow: 0 4px 16px rgba(30,64,175,0.10);
+    }
+    .modern-btn:hover {
+        background: linear-gradient(90deg, #0644c9 0%, #2445d8 100%);
+        transform: translateY(-2px) scale(1.03);
+    }
+    .modern-badge {
+        background: #fbbf24;
+        color: #fff;
+        border-radius: 9999px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-left: 0.5rem;
+    }
+    .modern-title {
+        color: #1e40af;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    .modern-subtitle {
+        color: #fbbf24;
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+    }
+    .modern-section {
+        background: linear-gradient(135deg, #fff7ed 0%, #eff6ff 100%);
+        border-radius: 1.5rem;
+        padding: 2rem 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 8px rgba(30,64,175,0.06);
+        border-top: 4px solid #fbbf24;
+    }
+    .modern-label {
+        color: #2563eb;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+    .modern-icon {
+        background: linear-gradient(135deg, #fbbf24 0%, #2563eb 100%);
+        color: #fff;
+        border-radius: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        margin-right: 0.75rem;
+    }
+    .modern-modal {
+        background: linear-gradient(135deg, #fff7ed 0%, #eff6ff 100%);
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 32px 0 rgba(30,64,175,0.10);
+        padding: 2rem 1.5rem;
+        border-top: 4px solid #fbbf24;
+    }
+    .modern-slider {
+        accent-color: #fbbf24;
+    }
+    .modern-section .modern-title {
+        color: #2563eb;
+    }
   </style>
-
-<style>
- 
-
- .details {
-   display: flex;
-   align-items: center;
-   flex-direction: column;
-   justify-content: center;
- }
-
-
-
- .buttons {
-   display: flex;
-   flex-direction: row;
-   align-items: center;
- }
-
- .playpause-track, .prev-track, .next-track {
-   padding: 25px;
-   opacity: 0.8;
-
-   /* Smoothly transition the opacity */
-   transition: opacity .2s;
- }
-
- .playpause-track:hover, .prev-track:hover, .next-track:hover {
-   opacity: 1.0;
- }
-
- .slider_container {
-   width: 100%;
-   max-width: 400px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
- }
-
- /* Modify the appearance of the slider */
- .seek_slider, .volume_slider {
-   -webkit-appearance: none;
-   -moz-appearance: none;
-   appearance: none;
-   height: 5px;
-   background: #0E6400;
- }
-
- /* Modify the appearance of the slider thumb */
- .seek_slider::-webkit-slider-thumb, .volume_slider::-webkit-slider-thumb {
-   -webkit-appearance: none;
-   -moz-appearance: none;
-   appearance: none;
-   width: 15px;
-   height: 15px;
-   background: #41B02F;
-   cursor: pointer;
-   border-radius: 50%;
- }
-
- .seek_slider:hover, .volume_slider:hover {
-   opacity: 1.0;
- }
-
- .seek_slider {
-   width: 100%;
- }
-
- .volume_slider {
-   width: 30%;
- }
-
- .current-time, .total-duration {
-   padding: 10px;
- }
-
- i.fa-volume-down, i.fa-volume-up {
-   padding: 10px;
- }
-
- i.fa-play-circle, i.fa-pause-circle, i.fa-step-forward, i.fa-step-backward {
-   cursor: pointer;
- }
- </style>
   @endpush
 
   <x-FrontTopNav />
 
-  <p class="mt-3 prose-md text-center text-xl">Ahlan wa Sahlan</p>
-
-  @guest
-  <div class="p-3">
-
-      {{-- <img class="mx-auto rounded-lg" src="https://www.hasmi.org/wp-content/uploads/2022/08/EKJ.png">         --}}
-      
-       @livewire('homepage.home-page-banner')
-
-      <button wire:click.prevent="login" class="bg-primary-600 w-full rounded-xl p-3  text-white mt-5">Masuk</button>
-      <button wire:click.prevent="register" class="bg-gray-200 w-full rounded-xl p-3  text-gray-400 mt-5">Daftar</button>
-  </div>
-  @else
-  <div class="p-3">       
-       
-      @livewire('homepage.home-page-banner')
-
-      {{-- {{ dd( $angkatan ) }} --}}
-      
-      @if(auth()->user()->angkatan_user()->aktif()->count() == 0)
-
-       <p class="prose-sm mt-5 font-semibold mb-2 text-xl font-bold">Materi Tersedia:</p>
-
-        @foreach($angkatan as $row)     
-        
-        
-        <?php 
-
-          $cek_mulai_pendaftaran = strtotime( $row->mulai_pendaftaran )  <= strtotime( date('Y-m-d') ); 
-          $cek_akhir_pendaftaran = strtotime( $row->akhir_pendaftaran )  >= strtotime( date('Y-m-d') );           
-
-        ?>
-
-         @if( $row->angkatan_user->count() < $row->kuota && $cek_mulai_pendaftaran )
-
-
-          <div class="mb-4 card shadow p-2 bg-blue-50">  
-            
-            
-            <p>Materi: <strong>{{ $row->kode_angkatan }} -{{ $row->materi->nama_materi }}</strong></p>
-            <p>Mulai Belajar: <strong>{{ date('d M Y' , strtotime($row->tanggal_mulai)) }}</strong></p>
-
-            <button wire:click="mendaftar({{ $row->id }})" class="bg-primary-600 rounded-lg px-2 py-1  text-white font-bold mt-4 open-modal">Ikuti</button>  
-
-          </div>
-
-
-        @endif 
-
-        @endforeach 
-      @else
-   
-      
-        <p class="mb-2 mt-6 font-bold">Anda Terdaftar sebagai Peserta Aktif: </p>
-
-        <?php 
-
-        $angkatan = ( auth()->user()->angkatan_user()->aktif()->first() ) ?  auth()->user()->angkatan_user()->aktif()->first()->angkatan : null;
-
-
-        ?>
-
-        <p class="my-2">
-          Materi: <span class="font-bold">{{ $angkatan->materi->nama_materi }}</span>  <br>
-
-          @if($angkatan->status == 'Pendaftaran')
-            Mulai Pembelajaran : <span class="font-bold">{{ date('d M Y', strtotime( $angkatan->tanggal_mulai )) }}</span>  <br>
-          @endif
-
-          Ujian Akhir : <span class="font-bold">{{ date('d M Y', strtotime( $angkatan->tanggal_ujian )) }}</span> 
-        </p>
-        
-      @endif
-
-      @if($materi) 
-
-      <p class="prose-sm mt-5 font-semibold text-xl">Materi Hari ini:</p>      
-
-      {{-- @foreach ($materi as $row) --}}
-       
-        <div class="p-2 border rounded-lg my-3">
-            <div class="flex justify-between items-cente">
-                <a class="bg-accent text-primary pb-0.5 px-1 text-sm rounded-sm font-semibold">{{$materi->materi_detail->materi->kategori->nama_kategori}}</a>
-                {{-- <a class="pb-0.5 px-1 text-sm rounded-sm font-semibold">{{$materi->materi_detail->materi->type}}</a> --}}
-            </div>
-            <p class="text-normal font-bold pt-2 pb-1" >{{ $materi->materi_detail->judul}}</p>
-            <p class="text-xs font-semibold">{{ $materi->angkatan->kode_angkatan }}: {{$materi->materi_detail->materi->nama_materi}} </p>
-            <div class="flex gap-2 text-xs mt-3">
-                <div id="left-column" class="flex-shrink-0 bg-gray-200 py-1 px-2 rounded-md font-semibold flex items-center justify-center">
-                  {{ $materi->materi_detail->pertemuan}}
-                </div>
-                <div id="right-column" class="flex-grow bg-gray-200 py-1 px-2  rounded-md font-semibold">
-                  {{date('d M Y', strtotime( $materi->tanggal ))}}          
-                </div>
-            </div>
-
-            @if($materi->materi_detail->jenis_kontent == 'Video')          
-
-              <livewire:materi.materi-video video_url="{{ $materi->materi_detail->video_url }}" />
-
-            @else
-
-              <button class="bg-primary-600 w-full rounded-lg p-2  text-white font-bold mt-4 open-modal" data-modal-id="myModal">DENGARKAN MATERI</button>          
-              
-              @if($materi && $ujian_harian && $soal_harian > 0)                        
-              
-                <a href="{{route('kuis',['materi_id' => $materi->materi_detail->materi_id,'jadwal_id'=>$ujian_harian->id ])}}" class="bg-white block text-center text-primary w-full rounded-lg p-2 border-2 border-primary font-bold mt-3 open-modal"  >KERJAKAN SOAL</a>
-
-              @endif
-
-            @endif
-          </div>
-      {{-- @endforeach --}}
-
-      @endif 
-
-
-      @if(count( $jadwal_ujian ) > 0)
-
-      <p class="prose-sm mt-5 font-semibold">Ujian Hari ini</p>
-      
-      {{-- Ujian akhir / pekanan --}}
-      @foreach($jadwal_ujian as $jadwal)
-      
-      <div class="border p-2 rounded-lg mt-2">
-        <h2>Ujian {{ $jadwal->type }} {{ ($jadwal->type == 'Pekanan')? $jadwal->urutan : '' }}</h2>
-        <h2> {{ $jadwal->angkatan->kode_angkatan }} - {{ $jadwal->angkatan->materi->nama_materi }}</h2>
-        <a href="{{route('kuis',['materi_id' => $jadwal->angkatan->materi_id,'jadwal_id'=>$jadwal->id ])}}" class="bg-white block text-center text-primary w-full rounded-lg p-2 border-2 border-primary font-bold mt-3 open-modal"  >KERJAKAN SOAL</a>
-      </div>       
-      
-      @endforeach
-
-      
-
-      @endif
-
-      {{-- popup --}}
-
-      <div wire:ignore>
-        <x-modal.ModalPopup  id="myModal" default="close">
-          <div class="flex flex-col items-center justify-center">
-            <div class="details">        
-              <div class="track-name font-semibold">Judul Materi</div>
-              <div class="track-artist">Bab</div>
-              <div id="status_absen" class="flex items-center justify-center">
-
-              </div>
-              <p> </p>
-            </div>
-            <div class="buttons">
-              <div class="prev-track" onclick="prevTrack()"><i class="fa fa-step-backward fa-2x"></i></div>
-              <div class="playpause-track" onclick="playpauseTrack()"><i class="fa fa-play-circle text-primary fa-5x"></i></div>
-              <div class="next-track" onclick="nextTrack()"><i class="fa fa-step-forward fa-2x"></i></div>
-            </div>
-            <div class="slider_container">
-              <div class="current-time">00:00</div>
-              <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
-              <div class="total-duration">00:00</div>
-            </div>
-            {{-- <div class="slider_container">
-              <i class="fa fa-volume-down"></i>
-              <input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
-              <i class="fa fa-volume-up"></i>
-            </div> --}}
-           
-          </div>
-          <div class="text-center mt-2">
-            @if($materi && $ujian_harian && $soal_harian > 0)
-
-              <a href="{{route('kuis',['materi_id' => $materi->materi_detail->materi_id ,'jadwal_id'=> $ujian_harian->id ])}}" class="bg-primary-600 px-8 py-2 mx-auto  text-white font-bold mt-4 rounded-lg" >KERJAKAN SOAL</a>
-            @endif
-            </div>
-        </x-modal.ModalPopup>
+  <div class="min-h-screen py-6 px-2 md:px-0" style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);">
+    <div class="max-w-2xl mx-auto">
+      <p class="text-center text-2xl font-bold text-white mb-6 drop-shadow">Ahlan wa Sahlan</p>
+      @guest
+      <div class="modern-section">
+        @livewire('homepage.home-page-banner')
+        <button wire:click.prevent="login" class="modern-btn w-full mt-5">Masuk</button>
+        <button wire:click.prevent="register" class="modern-btn w-full mt-3 bg-white text-white border border-blue-200 hover:bg-blue-50 hover:text-blue-900">Daftar</button>
       </div>
-      
-       <x-FrontBottomNav />
+      @else
+      <div class="modern-section">
+        @livewire('homepage.home-page-banner')
+        @if(auth()->user()->angkatan_user()->aktif()->count() == 0)
+          <div class="modern-title mb-2">Materi Tersedia:</div>
+          @foreach($angkatan as $row)
+          <?php 
+            $cek_mulai_pendaftaran = strtotime( $row->mulai_pendaftaran )  <= strtotime( date('Y-m-d') ); 
+            $cek_akhir_pendaftaran = strtotime( $row->akhir_pendaftaran )  >= strtotime( date('Y-m-d') );           
+          ?>
+          @if( $row->angkatan_user->count() < $row->kuota && $cek_mulai_pendaftaran )
+          <div class="modern-card">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+              <div>
+                <div class="modern-label">Materi:</div>
+                <div class="modern-title">{{ $row->kode_angkatan }} - {{ $row->materi->nama_materi }}</div>
+                <div class="text-gray-500 text-sm mb-2">Mulai Belajar: <span class="font-semibold text-blue-700">{{ date('d M Y' , strtotime($row->tanggal_mulai)) }}</span></div>
+              </div>
+              <button wire:click="mendaftar({{ $row->id }})" class="modern-btn mt-2 md:mt-0">Ikuti</button>
+            </div>
+          </div>
+          @endif
+          @endforeach
+        @else
+          <div class="modern-title mb-2">Anda Terdaftar sebagai Peserta Aktif:</div>
+          <?php 
+          $angkatan = ( auth()->user()->angkatan_user()->aktif()->first() ) ?  auth()->user()->angkatan_user()->aktif()->first()->angkatan : null;
+          ?>
+          <div class="modern-card">
+            <div class="modern-label">Materi:</div>
+            <div class="modern-title">{{ $angkatan->materi->nama_materi }}</div>
+            @if($angkatan->status == 'Pendaftaran')
+              <div class="text-gray-500 text-sm">Mulai Pembelajaran: <span class="font-semibold text-blue-700">{{ date('d M Y', strtotime( $angkatan->tanggal_mulai )) }}</span></div>
+            @endif
+            <div class="text-gray-500 text-sm">Ujian Akhir: <span class="font-semibold text-blue-700">{{ date('d M Y', strtotime( $angkatan->tanggal_ujian )) }}</span></div>
+          </div>
+        @endif
+        @if($materi)
+        <div class="modern-title mt-6 mb-2">Materi Hari ini:</div>
+        <div class="modern-card">
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <span class="modern-badge">{{ $materi->materi_detail->materi->kategori->nama_kategori }}</span>
+            </div>
+            <div class="modern-title">{{ $materi->materi_detail->judul }}</div>
+            <div class="text-xs font-semibold text-blue-900">{{ $materi->angkatan->kode_angkatan }}: {{ $materi->materi_detail->materi->nama_materi }}</div>
+            <div class="flex gap-2 text-xs mt-2">
+              <div class="bg-blue-100 text-blue-700 py-1 px-2 rounded-md font-semibold flex items-center justify-center">
+                {{ $materi->materi_detail->pertemuan }}
+              </div>
+              <div class="bg-blue-100 text-blue-700 py-1 px-2 rounded-md font-semibold">
+                {{date('d M Y', strtotime( $materi->tanggal ))}}
+              </div>
+            </div>
+            @if($materi->materi_detail->jenis_kontent == 'Video')
+              <livewire:materi.materi-video video_url="{{ $materi->materi_detail->video_url }}" />
+            @else
+              <button class="modern-btn w-full mt-4 open-modal" data-modal-id="myModal">DENGARKAN MATERI</button>
+              @if($materi && $ujian_harian && $soal_harian > 0)
+                <a href="{{route('kuis',['materi_id' => $materi->materi_detail->materi_id,'jadwal_id'=>$ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">KERJAKAN SOAL</a>
+              @endif
+            @endif
+          </div>
+        </div>
+        @endif
+        @if(count( $jadwal_ujian ) > 0)
+        <div class="modern-title mt-6 mb-2">Ujian Hari ini</div>
+        @foreach($jadwal_ujian as $jadwal)
+        <div class="modern-card">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+            <div>
+              <div class="modern-label">Ujian {{ $jadwal->type }} {{ ($jadwal->type == 'Pekanan')? $jadwal->urutan : '' }}</div>
+              <div class="modern-title">{{ $jadwal->angkatan->kode_angkatan }} - {{ $jadwal->angkatan->materi->nama_materi }}</div>
+            </div>
+            <a href="{{route('kuis',['materi_id' => $jadwal->angkatan->materi_id,'jadwal_id'=>$jadwal->id ])}}" class="modern-btn mt-2 md:mt-0 bg-white text-white border border-blue-200 hover:bg-blue-50">KERJAKAN SOAL</a>
+          </div>
+        </div>
+        @endforeach
+        @endif
+        <div wire:ignore>
+          <x-modal.ModalPopup  id="myModal" default="close">
+            <div class="modern-modal flex flex-col items-center justify-center">
+              <div class="details mb-4">
+                <div class="track-name font-semibold text-blue-900">Judul Materi</div>
+                <div class="track-artist text-blue-700">Bab</div>
+                <div id="status_absen" class="flex items-center justify-center"></div>
+              </div>
+              <div class="buttons flex gap-4 mb-4">
+                <div class="prev-track" onclick="prevTrack()"><i class="fa fa-step-backward fa-2x text-blue-700"></i></div>
+                <div class="playpause-track" onclick="playpauseTrack()"><i class="fa fa-play-circle text-blue-700 fa-5x"></i></div>
+                <div class="next-track" onclick="nextTrack()"><i class="fa fa-step-forward fa-2x text-blue-700"></i></div>
+              </div>
+              <div class="slider_container flex items-center gap-2 mb-2">
+                <div class="current-time text-blue-700">00:00</div>
+                <input type="range" min="1" max="100" value="0" class="seek_slider modern-slider" onchange="seekTo()">
+                <div class="total-duration text-blue-700">00:00</div>
+              </div>
+            </div>
+            <div class="text-center mt-2">
+              @if($materi && $ujian_harian && $soal_harian > 0)
+                <a href="{{route('kuis',['materi_id' => $materi->materi_detail->materi_id ,'jadwal_id'=> $ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white border border-blue-200 hover:bg-blue-50">KERJAKAN SOAL</a>
+              @endif
+            </div>
+          </x-modal.ModalPopup>
+        </div>
+      </div>
+      @endguest
+    </div>
   </div>
-  @endguest
-
+  <x-FrontBottomNav />
+</div>
 
     <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
@@ -478,8 +378,5 @@
             }
           }
        </script>
-
-
-</div>
 
 
