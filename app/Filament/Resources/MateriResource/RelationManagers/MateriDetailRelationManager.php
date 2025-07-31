@@ -68,6 +68,20 @@ class MateriDetailRelationManager extends RelationManager
                         TextInput::make('video_url')->visible(function($get) {
                             return $get('jenis_kontent') == 'Video';
                         } )->label("Url Video")->columnSpanFull(),
+                        // tambah materi details images upload
+                        Forms\Components\Repeater::make('images')
+                            ->relationship('images')
+                            ->label('Gambar Materi')
+                            ->schema([
+                                FileUpload::make('image')
+                                    ->preserveFilenames()
+                                    // ->maxSize(551200)
+                                    ->acceptedFileTypes(['image/*'])
+                                    ->enableOpen()
+                                    ->enableDownload()
+                            ])
+                            ->columnSpanFull(),
+
                     ]),
             ]);
     }
@@ -81,6 +95,7 @@ class MateriDetailRelationManager extends RelationManager
                 TextColumn::make('jenis_kontent'),
                 ImageColumn::make('multimedia_url')->label('Audio')->view('tables.columns.kolom-materi'),
                 TextColumn::make('video_url')->label('Video')->url(fn ($record) => $record->video_url )->openUrlInNewTab()->view('tables.columns.kolom-video'),
+                TextColumn::make('images_count')->counts('images')->label("Gambar/PDF"),
             ])
             ->filters([
                 //
