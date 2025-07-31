@@ -203,9 +203,27 @@
                 <div class="total-duration text-blue-700">00:00</div>
               </div>
             </div>
-            <div class="text-center mt-2">
+
+            {{-- tambah tombol dengan icon gambar di sini untuk melihat screen shoot materi --}}
+            <div>
+             
+              @if($materi && $materi->materi_detail->images->count() > 0)
+                <div class="flex flex-wrap gap-2 justify-center mb-2">
+                  @foreach($materi->materi_detail->images as $image)
+                    {{-- <button wire:click="open_modal({{$loop->index}})" class="modern-btn bg-white text-blue-700 border border-blue-200 hover:bg-blue-50"> --}}
+                      <a href="{{ asset('storage/'.$image->image) }}" target="_blank" class="flex items-center justify-center">
+                        <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md">
+                      </a>
+                    {{-- </button> --}}
+                  @endforeach
+                </div>
+              @endif
+
+            </div>
+
+            <div class="text-center mt-5">
               @if($materi && $ujian_harian && $soal_harian > 0)
-                <a href="{{route('kuis',['materi_id' => $materi->materi_detail->materi_id ,'jadwal_id'=> $ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white border border-blue-200 hover:bg-blue-50">KERJAKAN SOAL</a>
+                <a href="{{route('kuis',['materi_id' => $materi->materi_detail->materi_id ,'jadwal_id'=> $ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white border border-blue-200 hover:bg-blue-50">KERJAKAN SOALs</a>
               @endif
             </div>
           </x-modal.ModalPopup>
