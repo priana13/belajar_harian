@@ -41,4 +41,9 @@ class Materi extends Model
 
         return $this->hasMany(Angkatan::class);
     }
+
+    public function scopeReady($query){
+
+        return $query->where('is_active', true)->whereHas('pertemuan')->whereHas('soal');
+    }
 }

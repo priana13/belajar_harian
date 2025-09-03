@@ -23,14 +23,20 @@ class MateriSeeder extends Seeder
        $materi = [
         "KHUTBAH JUM'AT", "PIDATO", "SAR", "PENGURUSAN JENAZAH", "LEADERSHIP"
     ];
+
+    $no = 1;
+
     foreach ($materi as $row) {
         Materi::create([
             "nama_materi" => $row,
             'type' => 'Diklat',
             'jenis_materi' => 'multimedia',
             'sinopsis' => fake()->words(10, true),
-            'kode_materi' => uniqid()
+            'kode_materi' => uniqid(),
+            'urutan' => $no
         ]);
+
+        $no++;
     }
 
     // insert data sample materi_detail diklat

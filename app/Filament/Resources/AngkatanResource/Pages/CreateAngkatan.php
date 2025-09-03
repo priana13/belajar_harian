@@ -95,7 +95,7 @@ class CreateAngkatan extends CreateRecord
         }
 
         // Buat Jadwal Ujian Pekanan
-        // ujian pekana mulai dari hari ke-6,7 ; 
+        // ujian pekanan mulai dari hari ke-6,7 ; 
 
         $ujian_pekanan = [];
         $tanggal_ujian = $this->record->tanggal_mulai;
