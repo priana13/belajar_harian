@@ -29,6 +29,7 @@ class MateriSeeder extends Seeder
             'type' => 'Diklat',
             'jenis_materi' => 'multimedia',
             'sinopsis' => fake()->words(10, true),
+            'kode_materi' => uniqid()
         ]);
     }
 
@@ -43,33 +44,12 @@ class MateriSeeder extends Seeder
     $kategori = ["Fiqih", "Aqidah", "Muamalah"];
     foreach ($kategori as $row) {
         KategoriMateri::create(["nama_kategori" => $row]);
-    }
-
-    // insert data sample materi pembinaan
-    $materi = [
-        ["RJMI", 1],
-        ["HDH", 1],
-        ["MMI", 1],
-        ["SIROTUL MUSTAQIM", 1],
-        ["TORIQUNA", 1],
-        ["Tafsir Al-Qur'an", 3],
-        ["Hadits Shahih Bukhari", 3],
-        ["Fiqh Al-Sunnah", 2],
-        ["Tafsir Jalalain", 3],
-        ["Ihya Ulum Al-Din", 2]
-    ];
-    foreach ($materi as $row) {
-        Materi::create([
-            "nama_materi" => $row[0],
-            'kategori_id' => $row[1],
-            // 'sinopsis' => 'aaaaa'
-        ]);
-    }
+    }  
 
 
     // insert data sample materi_detail_user
     for ($i = 0; $i < 1; $i++) {
-        $randMateri = rand(1, 15);
+        $randMateri = rand(1, 5);
         $jumlahMateriDetail = MateriDetail::where('materi_id', $randMateri)->count();
 
         for ($j = 0; $j < rand(0, $jumlahMateriDetail); $j++) {
