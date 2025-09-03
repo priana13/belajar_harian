@@ -26,6 +26,7 @@ use App\Filament\Resources\MateriResource\Pages;
 use App\Filament\Resources\MateriResource\RelationManagers\SoalRelationManager;
 use App\Filament\Resources\MateriResource\RelationManagers\MateriDetailRelationManager;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Filters\Filter;
 
 class MateriResource extends Resource
 {
@@ -78,7 +79,7 @@ class MateriResource extends Resource
                         
                     ]),
                 
-                    Checkbox::make('is_active')->default(true)->label("Aktif")->disabledOn('edit'),
+                    Checkbox::make('is_active')->default(true)->label("Aktif"),
                     Checkbox::make('kelas_intensif')->helperText("Masukan ke dalam kelas yang berututan dari materi 1 dst"),
                     
 
@@ -103,12 +104,13 @@ class MateriResource extends Resource
 
             ])
             ->filters([
-                SelectFilter::make('type')->options([
-                    'Pembinaan' => 'Pembinaan',
-                    'Diklat' => 'Diklat',
-                    'Umum' => 'Umum'
-                ]),
+                // SelectFilter::make('type')->options([
+                //     'Pembinaan' => 'Pembinaan',
+                //     'Diklat' => 'Diklat',
+                //     'Umum' => 'Umum'
+                // ]),
                 SelectFilter::make('kategori')->relationship('kategori', 'nama_kategori'),
+                Filter::make('is_active')->query(fn (Builder $query): Builder => $query->where('is_active', true))->label('Aktif'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -43,7 +43,11 @@ class AngkatanResource extends Resource
         return $form
             ->schema([     
                 Forms\Components\TextInput::make('kode_angkatan')->unique(ignoreRecord: true),                  
-                Forms\Components\Select::make('materi_id')->relationship('materi', 'nama_materi')->searchable()->preload()
+                Forms\Components\Select::make('materi_id')->relationship('materi', 'nama_materi', function($query){
+                    
+                   return $query->where('is_active', true);
+
+                })->searchable()->preload()
                     ->required(), 
                     
                 Fieldset::make('Pendaftaran')->schema([
