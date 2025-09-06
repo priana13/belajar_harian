@@ -21,7 +21,7 @@ class MateriSeeder extends Seeder
     {
        // insert data sample materi diklat
        $materi = [
-        "KHUTBAH JUM'AT", "PIDATO", "SAR", "PENGURUSAN JENAZAH", "LEADERSHIP"
+        "FIQIH", "AQIDAH"
     ];
 
     $no = 1;
@@ -29,7 +29,7 @@ class MateriSeeder extends Seeder
     foreach ($materi as $row) {
         Materi::create([
             "nama_materi" => $row,
-            'type' => 'Diklat',
+            'type' => 'Umum',
             'jenis_materi' => 'multimedia',
             'sinopsis' => fake()->words(10, true),
             'kode_materi' => uniqid(),
@@ -39,12 +39,23 @@ class MateriSeeder extends Seeder
         $no++;
     }
 
-    // insert data sample materi_detail diklat
-    $materi_detail = [
-        'Materi 1', 'Materi 2', 'Materi 3', 'Materi 4',
-        'Materi 5', 'Materi 6', 'Materi 7'
-    ];
-   
+    // insert data sample materi_detail
+    // $materi_detail = [
+    //     'Materi 1', 'Materi 2', 'Materi 3', 'Materi 4',
+    //     'Materi 5', 'Materi 6', 'Materi 7'
+    // ];
+
+
+    for ($i=0; $i < 20; $i++) { 
+
+       MateriDetail::create([
+        "materi_id" => 1,
+        "pertemuan" => $i +1,
+        "judul" => "BAB " . $i +1,
+        "isi" => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta vitae fugit earum temporibus expedita rerum necessitatibus error tempore, aperiam dolores blanditiis saepe possimus, ad quis! Corrupti molestiae eius error commodi.",
+        "audio" => "audio.mp3"
+       ]);
+    }   
 
     // insert data sample kategori materi pembinaan
     $kategori = ["Fiqih", "Aqidah", "Muamalah"];
