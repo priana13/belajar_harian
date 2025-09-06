@@ -38,6 +38,7 @@ class AngkatanSeeder extends Seeder
                         'tanggal_mulai' => $tanggal_mulai,
                         'tanggal_akhir' => $tanggal_akhir,
                         'tanggal_ujian' => $tanggal_ujian,
+                        'gelombang_id' => 1
                         // 'admin1' => $user_id,        
         
                     ]);

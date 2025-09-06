@@ -34,7 +34,8 @@ class UserSeeder extends Seeder
                 'email' => fake()->email(),
                 'password' => fake()->password(),
                 'no_hp' => fake()->numerify('8##########'),
-                'jenis_user_id' => 2
+                'jenis_user_id' => 2,
+                'gelombang_id' => 1
             ]);
         }  
   
