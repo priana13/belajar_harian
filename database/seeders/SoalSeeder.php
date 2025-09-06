@@ -18,6 +18,7 @@ class SoalSeeder extends Seeder
                 // insert data soal
                 $kunci = ['a', 'b', 'c', 'd'];
                 for ($i = 1; $i < 13; $i++) {
+
                     for ($j = 1; $j < rand(0, 11); $j++) {
                         Soal::create([
                             'jenis_ujian_id' => rand(1,3),
@@ -28,7 +29,7 @@ class SoalSeeder extends Seeder
                             'c' => fake()->realText($maxNbChars = 10, $indexSize = 2),
                             'd' => fake()->realText($maxNbChars = 10, $indexSize = 2),
                             'kunci' => $kunci[rand(0, 3)],
-                            'materi_id' => $i
+                            'materi_id' => 1
                         ]);
                     }
                 }

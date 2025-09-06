@@ -80,7 +80,7 @@ class MateriResource extends Resource
                     ]),
                 
                     Checkbox::make('is_active')->default(true)->label("Aktif"),
-                    Checkbox::make('kelas_intensif')->helperText("Masukan ke dalam kelas yang berututan dari materi 1 dst"),
+                    Checkbox::make('kelas_intensif')->helperText("Masukan ke dalam kelas yang berurutan dari materi 1 dst"),
                     
 
                 ])->columns(3),

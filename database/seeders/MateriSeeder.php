@@ -7,6 +7,7 @@ use App\Models\MateriDetail;
 use App\Models\KategoriMateri;
 use Illuminate\Database\Seeder;
 use App\Models\MateriDetailUser;
+use App\Models\Soal;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -19,6 +20,14 @@ class MateriSeeder extends Seeder
      */
     public function run()
     {
+
+        // insert data sample kategori materi pembinaan
+        $kategori = ["Fiqih", "Aqidah", "Muamalah"];
+        foreach ($kategori as $row) {
+            KategoriMateri::create(["nama_kategori" => $row]);
+        }  
+
+
        // insert data sample materi diklat
        $materi = [
         "FIQIH", "AQIDAH"
@@ -33,7 +42,8 @@ class MateriSeeder extends Seeder
             'jenis_materi' => 'multimedia',
             'sinopsis' => fake()->words(10, true),
             'kode_materi' => uniqid(),
-            'urutan' => $no
+            'urutan' => $no,
+            "kategori_id" => 1
         ]);
 
         $no++;
@@ -55,14 +65,13 @@ class MateriSeeder extends Seeder
         "isi" => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta vitae fugit earum temporibus expedita rerum necessitatibus error tempore, aperiam dolores blanditiis saepe possimus, ad quis! Corrupti molestiae eius error commodi.",
         "audio" => "audio.mp3"
        ]);
+
+
+
+           
+
     }   
-
-    // insert data sample kategori materi pembinaan
-    $kategori = ["Fiqih", "Aqidah", "Muamalah"];
-    foreach ($kategori as $row) {
-        KategoriMateri::create(["nama_kategori" => $row]);
-    }  
-
+  
 
     // insert data sample materi_detail_user
     for ($i = 0; $i < 1; $i++) {

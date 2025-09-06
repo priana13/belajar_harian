@@ -47,11 +47,12 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             MateriSeeder::class,
             JenisUjianSeeder::class,
-            // SoalSeeder::class,  
+            SoalSeeder::class,  
             // AngkatanSeeder::class, 
             // KelasSeeder::class,         
             // UjianSeeder::class,
             // BelajarSeeder::class, 
+            SertifikatSeeder::class,
             BannerSeeder::class,
 
         ]);   
