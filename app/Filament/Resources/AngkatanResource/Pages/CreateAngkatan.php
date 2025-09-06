@@ -24,74 +24,81 @@ class CreateAngkatan extends CreateRecord
 
         ]);
 
+        
         // Buat Jadwal Ujian Harian
         $materi = Materi::find($this->record->materi_id);
 
-        // dd($materi->pertemuan);
-
         $hari_ke = 1;
         $tanggal = $this->record->tanggal_mulai;
-
         $materi_per_pekan = $materi->materi_per_pekan;
 
+        // Pastikan tanggal mulai adalah hari Senin
+        $dayOfWeek = date('N', strtotime($tanggal)); // 1 = Senin, 7 = Minggu
+        if ($dayOfWeek != 1) {
+            // Jika bukan Senin, mundur ke Senin sebelumnya
+            $daysToSubtract = $dayOfWeek - 1;
+            $tanggal = date('Y-m-d', strtotime('-' . $daysToSubtract . ' days', strtotime($tanggal)));
+        }
 
         foreach ($materi->pertemuan()->orderBy('pertemuan')->get() as $pertemuan) {
 
-           $jadwal_ujian = JadwalUjian::create([
+            $jadwal_ujian = JadwalUjian::create([
                 "tanggal" => $tanggal,
                 "type" => "Harian",
                 "angkatan_id" => $this->record->id,
                 "urutan" => $hari_ke                
-           ]);
+            ]);
 
             // tambahkan jadwal belajar
+            Belajar::create([
+                "tanggal" => $tanggal,
+                "materi_detail_id" => $pertemuan->id,
+                "user_id" => auth()->user()->id,
+                "angkatan_id" => $this->record->id,
+                "code" => uniqid()    
+            ]);
 
-                Belajar::create([
-                    "tanggal" => $tanggal,
-                    "materi_detail_id" => $pertemuan->id,
-                    "user_id" => auth()->user()->id,
-                    "angkatan_id" => $this->record->id,
-                    "code" => uniqid()    
-                ]);
+            // tambahkan soal ke jadwal ujian
+            $list_soal = $materi->soal()->where('urutan', $hari_ke)->harian()->get();
 
-           // tambahkan soal ke jadwal ujian
-           
-           $list_soal = $materi->soal()->where('urutan', $hari_ke)->harian()->get();
-
-           foreach ($list_soal as $soal) {
-
+            foreach ($list_soal as $soal) {
                 JadwalUjianSoal::create([
-
                     "jadwal_ujian_id" => $jadwal_ujian->id,
                     "soal_id" => $soal->id
                 ]);
+            }           
+            
+            // Tentukan tanggal berikutnya berdasarkan pola materi per pekan
+            $posisi_dalam_pekan = (($hari_ke - 1) % $materi_per_pekan) + 1;
+            
+            if ($materi_per_pekan == 2) {
+                // Pola: Senin dan Kamis
+                if ($posisi_dalam_pekan == 1) {
+                    // Dari Senin ke Kamis (tambah 3 hari)
+                    $penambah_hari = 3;
+                } else {
+                    // Dari Kamis ke Senin minggu berikutnya (tambah 4 hari)
+                    $penambah_hari = 4;
+                }
+            } elseif ($materi_per_pekan == 3) {
+                // Pola: Senin, Rabu, Jumat
+                if ($posisi_dalam_pekan == 1) {
+                    // Dari Senin ke Rabu (tambah 2 hari)
+                    $penambah_hari = 2;
+                } elseif ($posisi_dalam_pekan == 2) {
+                    // Dari Rabu ke Jumat (tambah 2 hari)
+                    $penambah_hari = 2;
+                } else {
+                    // Dari Jumat ke Senin minggu berikutnya (tambah 3 hari)
+                    $penambah_hari = 3;
+                }
+            } else {
+                // Fallback untuk kasus lain (setiap hari)
+                $penambah_hari = 1;
+            }
 
-           }           
-           
-           // cek apakah termasuk hari ujian atau bukan, jika tanggal ujian lewati 2 hari
-
-          // $list_tanggal_lama = [5,10,15,20,25,30,35]; // belajar dari senin sd jumat
-
-          // $list_tanggal_baru = [6,12,18,24,30,36]; // belajar dari senin sd sabtu
-
-          $jumlah_hari_sepekan = 7;
-
-          $cek_akhir_pekan = $hari_ke % $materi_per_pekan;
-
-           if(  $cek_akhir_pekan == 0 ){
-
-             $penambah_hari = $jumlah_hari_sepekan - $materi_per_pekan + 1  ;
-
-           }else{
-
-            $penambah_hari = 1;
-
-           }
-
-           $tanggal = date('Y-m-d', strtotime('+'. $penambah_hari.' day' , strtotime($tanggal)));
-
-           $hari_ke ++;
-
+            $tanggal = date('Y-m-d', strtotime('+' . $penambah_hari . ' day', strtotime($tanggal)));
+            $hari_ke++;
         }
 
         // Buat Jadwal Ujian Pekanan
@@ -159,10 +166,8 @@ class CreateAngkatan extends CreateRecord
        }
 
 
-
-
-
-
-
     }
+
+
+
 }

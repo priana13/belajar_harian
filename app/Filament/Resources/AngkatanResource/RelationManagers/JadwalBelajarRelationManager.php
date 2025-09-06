@@ -46,7 +46,7 @@ class JadwalBelajarRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tanggal')->date(),
+                Tables\Columns\TextColumn::make('tanggal')->date('D, d-M-Y'),
                 Tables\Columns\TextColumn::make('materi_detail.pertemuan')->label("Materi Pertemuan"),
                 // Tables\Columns\TextColumn::make('user.name')->label("Peserta")->searchable(),
                 Tables\Columns\TextColumn::make('code'),   

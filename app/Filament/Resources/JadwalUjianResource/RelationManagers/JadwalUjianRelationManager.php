@@ -33,7 +33,7 @@ class JadwalUjianRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('urutan')->label("Hari/Pekan"),
                 Tables\Columns\TextColumn::make('tanggal')
-                    ->dateTime(),
+                    ->date("D, d M Y"),
                 Tables\Columns\TextColumn::make('soal_ujian_count')->counts('soal_ujian')->label("Jumlah Soal"),
 
             ])
