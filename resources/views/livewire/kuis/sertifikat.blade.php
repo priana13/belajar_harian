@@ -1,9 +1,9 @@
 
-<div>
+<div class="mt-12 mx-auto shadow-lg" >
 
     <link href="https://fonts.cdnfonts.com/css/certificate" rel="stylesheet">
 
-    <div id="capture-me" class="mx-auto flex justify-center items-center ">
+    <div id="capture-me" class="mx-auto flex justify-center items-center relative" style="width:1200px; height:850px;">
             <img src="{{ asset('storage/' . $ujian->angkatan->sertifikat->bg ) }}" alt="" class=" shadow-lg"> 
             <div class="absolute z-30 mt-5 text-center max-w-3xl font-serif ">
                 <div class="flex justify-end">
