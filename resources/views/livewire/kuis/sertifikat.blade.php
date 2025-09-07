@@ -24,7 +24,7 @@
 
                 <p class="text-2xl" >Dengan Nilai: <span class="text-3xl font-serif font-extrabold my-2 uppercase">"{{ $ujian->predikat }}"</span> </p>
                 
-                <img src="data:image/png;base64,{{ $barcodeData }}" class="mx-auto mb-3 mt-6" alt="Barcode" />
+                <img src="data:image/png;base64,{{ $barcodeData }}" class="mx-auto mb-3 mt-6 absolute bottom-20 -right-5" alt="Barcode" />
                 
                 <P class=" text-2xl">Semoga Ilmunya Bermanfaat Dan Menjadi Amal Soleh</P>
                 <p class="text-xl mt-1">Bogor, {{ $ujian->created_at->format('d M Y') }}</p>
