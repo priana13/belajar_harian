@@ -82,6 +82,10 @@ class InsertGelombangUserSeeder extends Seeder
 
             $this->command->info("Ex: $total_ex sehingga Peserta yang tersisa tanpa gelombang: $list_peserta");
 
+            $peserta_baru = User::where('gelombang_id' , 0)->count();
+
+            $this->command->info("Peserta Baru tanpa Gelombang: $peserta_baru");
+
 
         }
 
