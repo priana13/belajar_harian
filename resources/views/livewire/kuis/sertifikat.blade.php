@@ -1,12 +1,11 @@
 
 <div>
 
-
     <link href="https://fonts.cdnfonts.com/css/certificate" rel="stylesheet">
 
     <div id="capture-me" class="mx-auto flex justify-center items-center ">
             <img src="{{ asset('storage/' . $ujian->angkatan->sertifikat->bg ) }}" alt="" class=" shadow-lg"> 
-            <div class="absolute z-30 mt-10 text-center max-w-3xl font-serif ">
+            <div class="absolute z-30 mt-5 text-center max-w-3xl font-serif ">
                 <div class="flex justify-end">
                     {{-- <img class="h-16 w-auto self-end" src="{{ url('storage/') }}/icon/logo.jpg" alt=""> --}}
                 </div>              
@@ -15,9 +14,9 @@
 
                 <h2 style="font-size:60px" >Pernghargaan</h2> --}}
 
-                <h2 class="mt-40" style="font-size:30px;padding-top:40px;" >Penghargaan ini diberikan kepada:</h2>
+                <h2 class="mt-40" style="font-size:30px;padding-top:38px;" >Penghargaan ini diberikan kepada:</h2>
                
-                <p style="font-size:60px" class="capitalize border-b-2 border-biru mb-2 text-biru">{{$user->name}}</p>
+                <p style="font-size:40px" class="capitalize border-b-2 border-biru mb-2 text-biru">{{$user->name}}</p>
 
                 <p class="text-2xl">Telah berhasil menyelesaikan Bimbingan Instensif Studi Islam Online</a></p>
                 
@@ -28,7 +27,7 @@
                 <img src="data:image/png;base64,{{ $barcodeData }}" class="mx-auto mb-3 mt-6" alt="Barcode" />
                 
                 <P class=" text-2xl">Semoga Ilmunya Bermanfaat Dan Menjadi Amal Soleh</P>
-                <p class="text-xl mt-5">Bogor, {{ $ujian->created_at->format('d M Y') }}</p>
+                <p class="text-xl mt-1">Bogor, {{ $ujian->created_at->format('d M Y') }}</p>
 
                 <img src="{{ asset('img/ttd2.png') }}" alt="" class="mx-auto">
                 

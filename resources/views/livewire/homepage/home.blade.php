@@ -183,7 +183,7 @@
             @else
               <button class="modern-btn w-full mt-4 open-modal" data-modal-id="myModal">DENGARKAN MATERI</button>
               @if($materi && $ujian_harian && $soal_harian > 0)
-                <a href="{{route('kuis',['materi_id' => $materi->materi_detail->materi_id,'jadwal_id'=>$ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">KERJAKAN SOAL</a>
+                <a href="{{route('kuis',['materi_id' => $materi->materi_detail->materi_id,'jadwal_id'=>$ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">Kerjakan</a>
               @endif
             @endif
           </div>
@@ -198,7 +198,7 @@
               <div class="modern-label">Ujian {{ $jadwal->type }} {{ ($jadwal->type == 'Pekanan')? $jadwal->urutan : '' }}</div>
               <div class="modern-title">{{ $jadwal->angkatan->kode_angkatan }} - {{ $jadwal->angkatan->materi->nama_materi }}</div>
             </div>
-            <a href="{{route('kuis',['materi_id' => $jadwal->angkatan->materi_id,'jadwal_id'=>$jadwal->id ])}}" class="modern-btn mt-2 md:mt-0 bg-white text-white border border-blue-200 hover:bg-blue-50">KERJAKAN SOAL</a>
+            <a href="{{route('kuis',['materi_id' => $jadwal->angkatan->materi_id,'jadwal_id'=>$jadwal->id ])}}" class="modern-btn mt-2 md:mt-0 bg-white text-white border border-blue-200 hover:bg-blue-50">Kerjakan</a>
           </div>
         </div>
         @endforeach
