@@ -1,4 +1,5 @@
 @push('head')
+
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
@@ -7,7 +8,7 @@
     }
 
     .gradient-bg {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #9fcaf1ff 0%, #2f56d4ff 100%);
     }
 
     .glass-effect {
@@ -21,7 +22,7 @@
     }
 
     .btn-gradient {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #9fcaf1ff 0%, #2f56d4ff 100%);
         transition: all 0.3s ease;
     }
 
