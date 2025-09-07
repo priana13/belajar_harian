@@ -98,9 +98,9 @@
  
   <x-FrontTopNav />
 
+ <p class="py-6 bg-white-700"></p>
  @endauth
 
- <p class="py-4 bg-white-700"></p>
 
   <div class="min-h-screen py-6 px-0 md:px-0 " style="background: linear-gradient(135deg, #9fcaf1ff 0%, #2f56d4ff 100%);">
     <div class="max-w-2xl mx-auto">
