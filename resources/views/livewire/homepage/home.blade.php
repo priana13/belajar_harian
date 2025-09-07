@@ -95,13 +95,17 @@
   @endpush
 
  @auth
+ 
   <x-FrontTopNav />
+
  @endauth
 
-  <div class="min-h-screen py-6 px-0 md:px-0" style="background: linear-gradient(135deg, #9fcaf1ff 0%, #2f56d4ff 100%);">
+ <p class="py-4 bg-white-700">tes</p>
+
+  <div class="min-h-screen py-6 px-0 md:px-0 " style="background: linear-gradient(135deg, #9fcaf1ff 0%, #2f56d4ff 100%);">
     <div class="max-w-2xl mx-auto">
       <div class="text-center mb-6">
-        <p class="text-2xl font-bold text-white drop-shadow">Ahlan wa Sahlan</p>
+        <p class="text-2xl font-bold text-white">Ahlan wa Sahlan</p>
         <p class="text-white">Semoga hari ini mendapatkan tambahan ilmu yang bermanfaat</p>
       </div>
 

@@ -46,4 +46,4 @@
 
 
 </nav>
-<p class="py-8 bg-primary-700"></p>
+{{-- <p class="py-8 bg-primary-700"></p> --}}
