@@ -48,7 +48,7 @@ class AngkatanUserRelationManager extends RelationManager
 
                     return $users;
 
-                 })->searchable()->required()->preload(),
+                 })->searchable()->required()->preload()->label("Peserta"),
 
                 // Forms\Components\Select::make('kelas_id')->relationship('kelas', 'nama_kelas')->searchable()->required()->preload(),
 

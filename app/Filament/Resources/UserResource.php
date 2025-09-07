@@ -41,7 +41,7 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->placeholder('Nama lengkap'),
+                TextInput::make('name')->placeholder('Nama lengkap'),               
                 TextInput::make('nip')->placeholder('NIP')->unique(ignoreRecord:true),
                 TextInput::make('no_hp'),
                 TextInput::make('kode_user')->placeholder('kode_user')->unique(ignoreRecord:true)->default(uniqid()),
@@ -77,6 +77,7 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(),
+                Tables\Columns\TextColumn::make('gelombang.gel')->label('Gel'),
                 Tables\Columns\TextColumn::make('nip')->searchable(),
                 Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\TextColumn::make('no_hp')->searchable(),
