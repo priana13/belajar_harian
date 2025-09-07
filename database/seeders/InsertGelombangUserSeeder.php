@@ -20,9 +20,9 @@ class InsertGelombangUserSeeder extends Seeder
         $list_gelombang = Gelombang::get();          
 
         
-        foreach ($list_gelombang as $key => $gelombang) {   
+        foreach ($list_gelombang as $key => $gelombang) {             
             
-            $angkatan_id = $this->command->ask('Masukan Id Angkatan');
+            $angkatan_id = $this->command->ask("Masukan Id Angkatan untuk Gelombang $gelombang->id");
             
             $angkatan = Angkatan::where('id',$angkatan_id)->where('gelombang_id', $gelombang->id)->first();                
 
