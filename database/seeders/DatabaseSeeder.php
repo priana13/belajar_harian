@@ -54,6 +54,7 @@ class DatabaseSeeder extends Seeder
             // BelajarSeeder::class, 
             SertifikatSeeder::class,
             BannerSeeder::class,
+            KotaSeeder::class,
 
         ]);   
 

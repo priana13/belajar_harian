@@ -15,14 +15,27 @@ class KotaSeeder extends Seeder
      */
     public function run()
     {
-        $provinsi = 'database/seeders/wilayah/provinsi.sql'; // Ganti dengan path file SQL Anda
+         // path file SQL
+        $provinsi = database_path('seeders/wilayah/provinsi.sql');
+        $kota     = database_path('seeders/wilayah/wilayah_kota.sql');
 
-        // Baca isi file SQL
-        $sql = file_get_contents($provinsi);
+        // eksekusi provinsi
+        if (file_exists($provinsi)) {
+            $sql = file_get_contents($provinsi);
+            DB::unprepared($sql);
+            $this->command->info("Data provinsi berhasil diimport.");
+        } else {
+            $this->command->error("File provinsi.sql tidak ditemukan!");
+        }
 
-        DB::unprepared($sql);
-
-
+        // eksekusi kota
+        if (file_exists($kota)) {
+            $sql2 = file_get_contents($kota);
+            DB::unprepared($sql2);
+            $this->command->info("Data kota berhasil diimport.");
+        } else {
+            $this->command->error("File wilayah_kota.sql tidak ditemukan!");
+        }
 
     }
 }

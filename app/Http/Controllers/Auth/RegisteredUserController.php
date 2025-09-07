@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Angkatan;
 use App\Models\AngkatanUser;
 use App\Models\Belajar;
+use App\Models\Gelombang;
 use App\Models\Kota;
 use App\Models\User;
 use DateTime;
@@ -52,6 +53,8 @@ class RegisteredUserController extends Controller
 
         $tahun_lahir = $this->getTahunLahir($request->umur);
 
+        $gelombang = Gelombang::latest()->first();
+
         $user = User::create([
             'name' => $request->nama,
             'email' => $request->email,
@@ -71,8 +74,15 @@ class RegisteredUserController extends Controller
         $nip = $user->id . date('Y');
         $user->nip = $nip;
         $user->kode_user = uniqid();
-        $user->save();
 
+        if($gelombang){
+            
+            $user->gelombang_id = $gelombang->id;
+        }
+
+        $user->save();       
+
+       
 
         if($request->kode_angkatan){
 
