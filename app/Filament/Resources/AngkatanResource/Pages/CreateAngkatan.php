@@ -2,14 +2,16 @@
 
 namespace App\Filament\Resources\AngkatanResource\Pages;
 
-use App\Filament\Resources\AngkatanResource;
-use App\Models\JadwalUjian;
-use App\Models\JadwalUjianSoal;
+use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Materi;
-use Filament\Pages\Actions;
-use Filament\Resources\Pages\CreateRecord;
 use App\Models\Belajar;
+use App\Models\Angkatan;
+use App\Models\JadwalUjian;
+use Filament\Pages\Actions;
+use App\Models\JadwalUjianSoal;
+use Filament\Resources\Pages\CreateRecord;
+use App\Filament\Resources\AngkatanResource;
 
 class CreateAngkatan extends CreateRecord
 {
@@ -162,6 +164,17 @@ class CreateAngkatan extends CreateRecord
                 "jadwal_ujian_id" => $jadwal_ujian_akhir->id,
                 "soal_id" => $soal->id
             ]);
+
+         // Daftarkan Para Peserta
+
+        $list_peserta = User::where('gelombang_id', $this->record->gelombang_id)->get();      
+
+        // daftarkan peserta ke angkatan
+
+        foreach ($list_peserta as $peserta) {
+
+            Angkatan::daftarkanPeserta($this->record , $peserta->id);
+        }
 
        }
 
