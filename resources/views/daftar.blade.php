@@ -32,7 +32,7 @@
 
 
 <x-FrontTopNav />
-<div class="p-3">
+<div class="px-3">
     
    {{-- <a href="{{ route('home') }}">
       <img class="mx-auto mt-9 w-40" src="{{ asset('storage/logo.png') }}" alt="thumbnail">

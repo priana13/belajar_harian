@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<x-FrontTopNav />
-<div class="p-3">
+{{-- <x-FrontTopNav /> --}}
+
+<div class="px-3 py-12">
     {{-- <a href="{{ route('home') }}">
         <img class="mx-auto mt-9 w-40" src="{{ asset('storage/logo.png') }}" alt="thumbnail">
     </a>     --}}

@@ -30,7 +30,7 @@
     @endpush
 
 
-    <x-FrontTopNav />
+    {{-- <x-FrontTopNav /> --}}
     <div class="p-3">
         
     {{-- <a href="{{ route('home') }}">
