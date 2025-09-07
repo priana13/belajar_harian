@@ -94,11 +94,17 @@
   </style>
   @endpush
 
+ @auth
   <x-FrontTopNav />
+ @endauth
 
-  <div class="min-h-screen py-6 px-2 md:px-0" style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);">
+  <div class="min-h-screen py-6 px-0 md:px-0" style="background: linear-gradient(135deg, #9fcaf1ff 0%, #2f56d4ff 100%);">
     <div class="max-w-2xl mx-auto">
-      <p class="text-center text-2xl font-bold text-white mb-6 drop-shadow">Ahlan wa Sahlan</p>
+      <div class="text-center mb-6">
+        <p class="text-2xl font-bold text-white drop-shadow">Ahlan wa Sahlan</p>
+        <p class="text-white">Semoga hari ini mendapatkan tambahan ilmu yang bermanfaat</p>
+      </div>
+
       @guest
       <div class="modern-section">
         @livewire('homepage.home-page-banner')
@@ -107,9 +113,18 @@
       </div>
       @else
       <div class="modern-section">
-        @livewire('homepage.home-page-banner')
+
+        @livewire('homepage.home-page-banner')      
+
+        @if( \App\Models\Angkatan::count() == 0 )
+
+          <div class="mb-2 text-center">Seperti nya belum ada materi yang tersedia</div>
+
+        @endif
+
+
         @if(auth()->user()->angkatan_user()->aktif()->count() == 0)
-          <div class="modern-title mb-2">Materi Tersedia:</div>
+          {{-- <div class="modern-title mb-2">Materi Tersedia:</div> --}}
           @foreach($angkatan as $row)
           <?php 
             $cek_mulai_pendaftaran = strtotime( $row->mulai_pendaftaran )  <= strtotime( date('Y-m-d') ); 

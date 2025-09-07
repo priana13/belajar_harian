@@ -1,4 +1,4 @@
-<nav class="bg-primary-700 py-3 z-40 px-5 grid grid-cols-2 fixed inset-x-0 max-w-lg mx-auto -top-[1px]">
+<nav class="bg-primary-700 py-3 z-40 px-5 grid grid-cols-2 fixed inset-x-0 max-w-lg mx-auto shadow-lg">
     <div class="flex items-center">
         <a href="{{ route('home') }}" >
             <img class="h-8 w-auto" src="{{ asset('storage/icon/logo_ksi_putih.png') }}" alt="">
@@ -46,4 +46,4 @@
 
 
 </nav>
-<p class="py-8"></p>
+<p class="py-8 bg-primary-700"></p>
