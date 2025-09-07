@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
             MateriSeeder::class,
             JenisUjianSeeder::class,
             SoalSeeder::class,  
-            // AngkatanSeeder::class, 
+            AngkatanSeeder::class, 
             // KelasSeeder::class,         
             // UjianSeeder::class,
             // BelajarSeeder::class, 
