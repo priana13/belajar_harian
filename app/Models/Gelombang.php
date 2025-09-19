@@ -23,7 +23,7 @@ class Gelombang extends Model
         return $this->hasMany(User::class , 'gelombang_id');
     }
 
-    public function roadmaps(): BelongsToMany
+    public function roadmaps()
     {
         return $this->belongsToMany(Roadmap::class, 'gelombang_roadmap', 'gelombang_id', 'roadmap_id');
     }

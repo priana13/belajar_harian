@@ -25,7 +25,7 @@ class Roadmap extends Model
     /**
      * Relasi Many-to-Many dengan Gelombang
      */
-    public function gelombang()
+    public function gelombangs()
     {
         return $this->belongsToMany(Gelombang::class, 'gelombang_roadmap', 'roadmap_id', 'gelombang_id');
     }
