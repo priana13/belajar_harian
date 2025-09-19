@@ -17,7 +17,7 @@ class Roadmap extends Model
     /**
      * Relasi Many-to-Many dengan Materi
      */
-    public function materis(): BelongsToMany
+    public function materi()
     {
         return $this->belongsToMany(Materi::class, 'roadmap_materi', 'roadmap_id', 'materi_id');
     }
@@ -25,7 +25,7 @@ class Roadmap extends Model
     /**
      * Relasi Many-to-Many dengan Gelombang
      */
-    public function gelombangs(): BelongsToMany
+    public function gelombang()
     {
         return $this->belongsToMany(Gelombang::class, 'gelombang_roadmap', 'roadmap_id', 'gelombang_id');
     }
@@ -33,7 +33,7 @@ class Roadmap extends Model
     /**
      * Relasi Many-to-Many dengan User
      */
-    public function users(): BelongsToMany
+    public function users()
     {
         return $this->belongsToMany(User::class, 'user_roadmap', 'roadmap_id', 'user_id');
     }

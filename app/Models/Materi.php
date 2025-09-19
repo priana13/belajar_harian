@@ -47,7 +47,7 @@ class Materi extends Model
         return $query->where('is_active', true)->whereHas('pertemuan')->whereHas('soal');
     }
 
-    public function roadmaps(): BelongsToMany
+    public function roadmaps()
     {
         return $this->belongsToMany(Roadmap::class, 'roadmap_materi', 'materi_id', 'roadmap_id');
     }

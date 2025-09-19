@@ -18,12 +18,12 @@ class RoadmapMateri extends Model
 
     public function roadmap(): BelongsTo
     {
-        return $this->belongsTo(Roadmap::class);
+        return $this->belongsTo(Roadmap::class , 'roadmap_id');
     }
 
     public function materi(): BelongsTo
     {
-        return $this->belongsTo(Materi::class);
+        return $this->belongsTo(Materi::class , 'materi_id');
     }
 
 }
