@@ -119,5 +119,10 @@ class User extends Authenticatable implements FilamentUser
         return $query->where('jenis_user_id', 2);
     }
 
+    public function roadmaps(): BelongsToMany
+    {
+        return $this->belongsToMany(Roadmap::class, 'user_roadmap', 'user_id', 'roadmap_id');
+    }
+
     // public function 
 }
