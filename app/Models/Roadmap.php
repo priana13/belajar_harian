@@ -37,5 +37,13 @@ class Roadmap extends Model
     {
         return $this->belongsToMany(User::class, 'user_roadmap', 'roadmap_id', 'user_id');
     }
+
+    /**
+     * Relasi One-to-Many dengan JadwalRoadmap
+     */
+    public function jadwalRoadmaps()
+    {
+        return $this->hasMany(JadwalRoadmap::class, 'roadmap_id');
+    }
     
 }

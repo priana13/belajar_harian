@@ -64,7 +64,7 @@ class RoadmapResource extends Resource
             'index' => Pages\ListRoadmaps::route('/'),
             'create' => Pages\CreateRoadmap::route('/create'),
             'edit' => Pages\EditRoadmap::route('/{record}/edit'),
-            'buat-jadwal' => Pages\BuatJadwalRoadmap::route('/buat-jadwal'),
+            'buat-jadwal' => Pages\BuatJadwalRoadmap::route('/buat-jadwal/{record}'),
         ];
     }    
 }
