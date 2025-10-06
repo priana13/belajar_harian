@@ -28,6 +28,10 @@ class BuatJadwalRoadmap extends Page
     public function getViewData(): array
     {  
 
+
+        $tanggal_awal = $this->getSeninAwalBulan("2025-10");      
+
+
         return [
             'record' => $this->record,
             'list_gelombang' => \App\Models\Gelombang::all(),
@@ -51,15 +55,21 @@ class BuatJadwalRoadmap extends Page
 
                 foreach($list_materi as $materi){
 
-                    \App\Models\JadwalRoadmap::create([
-                        'gelombang_id' => $gelombang->id,
-                        'roadmap_id' => $this->record->id,
-                        'materi_id' => $materi->id,
-                        'judul' => $materi->nama_materi,                      
-                        'bulan_tahun' => $this->bulan_tahun,
-                        'tanggal_ujian' => null,
-                        'is_aktif' => true,
-                    ]);
+                    $cek = \App\Models\JadwalRoadmap::where('gelombang_id', $gelombang->id)->where('materi_id', $materi->id)->where('roadmap_id', $this->record->id)->first();
+
+                    if(!$cek){
+
+                        \App\Models\JadwalRoadmap::create([
+                            'gelombang_id' => $gelombang->id,
+                            'roadmap_id' => $this->record->id,
+                            'materi_id' => $materi->id,
+                            'judul' => $materi->nama_materi,                      
+                            'bulan_tahun' => $this->bulan_tahun,
+                            'tanggal_ujian' => date('Y-m-t', strtotime($this->bulan_tahun)),
+                            'is_aktif' => true,
+                        ]);
+
+                    }
 
                     // bulan di tambah 1 bulan
                     $this->bulan_tahun = date('Y-m-d', strtotime($this->bulan_tahun . ' +1 month'));
@@ -75,4 +85,29 @@ class BuatJadwalRoadmap extends Page
 
        
     }
+
+    /**
+     * Mendapatkan tanggal Senin pertama dari bulan yang diberikan
+     * Format input: YYYY-MM (contoh: 2025-10)
+     * Format output: YYYY-MM-DD (contoh: 2025-10-07)
+     */
+    public function getSeninAwalBulan($bulan): string
+    {
+        // Tambahkan -01 untuk mendapatkan tanggal pertama bulan
+        $tanggal_awal_bulan = $bulan . '-01';
+        
+        // Dapatkan hari dari tanggal 1
+        $dayOfWeek = date('N', strtotime($tanggal_awal_bulan)); // 1 = Senin, 7 = Minggu
+        
+        if ($dayOfWeek == 1) {
+            // Jika tanggal 1 adalah Senin, gunakan tanggal tersebut
+            return $tanggal_awal_bulan;
+        } else {
+            // Jika bukan Senin, maju ke Senin berikutnya
+            $daysToAdd = 8 - $dayOfWeek; // 8 dikurangi hari ini untuk dapat Senin depan
+            return date('Y-m-d', strtotime("+{$daysToAdd} days", strtotime($tanggal_awal_bulan)));
+        }
+    }
+
+
 }
