@@ -129,7 +129,7 @@
 
         @if(auth()->user()->angkatan_user()->aktif()->count() == 0)
           {{-- <div class="modern-title mb-2">Materi Tersedia:</div> --}}
-          @foreach($angkatan as $row)
+          {{-- @foreach($angkatan as $row)
           <?php 
             $cek_mulai_pendaftaran = strtotime( $row->mulai_pendaftaran )  <= strtotime( date('Y-m-d') ); 
             $cek_akhir_pendaftaran = strtotime( $row->akhir_pendaftaran )  >= strtotime( date('Y-m-d') );           
@@ -146,7 +146,7 @@
             </div>
           </div>
           @endif
-          @endforeach
+          @endforeach --}}
         @else
           {{-- <div class="modern-title mb-2">Anda Terdaftar sebagai Peserta Aktif:</div>
           <?php 
@@ -169,7 +169,7 @@
               <span class="modern-badge">{{ $materi->materi_detail->materi->kategori->nama_kategori }}</span>
             </div>
             <div class="modern-title">{{ $materi->materi_detail->judul }}</div>
-            <div class="text-xs font-semibold text-blue-900">{{ $materi->angkatan->kode_angkatan }}: {{ $materi->materi_detail->materi->nama_materi }}</div>
+            <div class="text-xs font-semibold text-blue-900">{{ $materi->materi_detail->materi->nama_materi }}</div>
             <div class="flex gap-2 text-xs mt-2">
               <div class="bg-blue-100 text-blue-700 py-1 px-2 rounded-md font-semibold flex items-center justify-center">
                 {{ $materi->materi_detail->pertemuan }}

@@ -19,7 +19,7 @@ use App\Http\Controllers\API\UjianController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-
+use App\Http\Livewire\Homepage\HomeNew;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +33,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 */
 
 Route::get('/',Home::class)->name('home');
+Route::get('/new',HomeNew::class)->name('home-new');
 
 Route::middleware(['auth'])->group(function(){
 
