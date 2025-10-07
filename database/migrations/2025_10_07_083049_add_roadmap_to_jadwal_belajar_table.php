@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::table('jadwal_belajar', function (Blueprint $table) {
             $table->unsignedBigInteger('roadmap_id')->nullable();
             $table->unsignedBigInteger('gelombang_id')->nullable();
+            $table->unsignedBigInteger('jadwal_roadmap_id')->nullable();
 
             $table->unsignedBigInteger("angkatan_id")->nullable()->change();
+
+
         });
 
 
@@ -44,6 +47,7 @@ return new class extends Migration
         Schema::table('jadwal_belajar', function (Blueprint $table) {
             $table->dropColumn('roadmap_id');
             $table->dropColumn('gelombang_id');
+             $table->dropColumn('jadwal_roadmap_id');
 
             $table->unsignedBigInteger("angkatan_id")->change();
         });

@@ -192,6 +192,7 @@ class BuatJadwalRoadmap extends Page
                 "code" => uniqid(),
                 'roadmap_id' => $jadwal->roadmap_id,
                 'gelombang_id' => $jadwal->gelombang_id,
+                'jadwal_roadmap_id' => $jadwal->id,
             ]);
 
             // tambahkan soal ke jadwal ujian

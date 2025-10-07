@@ -29,5 +29,9 @@ class JadwalRoadmap extends Model
         return $this->belongsTo(Materi::class, 'materi_id');
     }
 
+    public function jadwal_belajar()
+    {
+        return $this->hasMany(Belajar::class, 'jadwal_roadmap_id');
+    }
 
 }
