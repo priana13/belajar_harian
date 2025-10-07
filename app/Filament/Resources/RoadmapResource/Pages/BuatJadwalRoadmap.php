@@ -13,6 +13,7 @@ use App\Models\JadwalUjian;
 use App\Models\JadwalRoadmap;
 use App\Models\JadwalUjianSoal;
 use Filament\Resources\Pages\Page;
+use Filament\Notifications\Notification;
 use App\Filament\Resources\RoadmapResource;
 
 class BuatJadwalRoadmap extends Page
@@ -121,20 +122,20 @@ class BuatJadwalRoadmap extends Page
     public function buatJadwalHarian($jadwal_id): void
     {
         $jadwal = \App\Models\JadwalRoadmap::find($jadwal_id);
-
+     
         if($jadwal){
 
             // dd($jadwal);
 
-            $list_peserta = Gelombang::find($jadwal->gelombang_id)->peserta;
+            // $list_peserta = Gelombang::find($jadwal->gelombang_id)->peserta;
 
-            foreach ($list_peserta as $peserta) {
+            // foreach ($list_peserta as $peserta) {
 
                 // buat jadwal belajar untuk peserta
 
-                $this->buatJadwalPeserta($jadwal->gelombang_id);
+                $this->buatJadwalPeserta($jadwal , $jadwal->gelombang_id , $jadwal->materi_id);
 
-            }           
+            // }           
 
            
 
@@ -143,23 +144,23 @@ class BuatJadwalRoadmap extends Page
     }
 
 
-    public function buatJadwalPeserta($gelombang_id): void 
+    public function buatJadwalPeserta(JadwalRoadmap $jadwal, int $gelombang_id , int $materi_id): void 
     {
 
-        $angkatan = Angkatan::first(); // sementara
+        // $angkatan = Angkatan::first(); // sementara
 
-        Kelas::create([
-            "angkatan_id" => $angkatan->id,
-            "nama_kelas" => $angkatan->kode_angkatan . '-' . "Kelas 1"           
+        // Kelas::create([
+        //     "angkatan_id" => $angkatan->id,
+        //     "nama_kelas" => $angkatan->kode_angkatan . '-' . "Kelas 1"           
 
-        ]);
-
+        // ]);   
         
         // Buat Jadwal Ujian Harian
-        $materi = Materi::find($angkatan->materi_id);
+        $materi = Materi::find($materi_id);  
+
 
         $hari_ke = 1;
-        $tanggal = $angkatan->tanggal_mulai;
+        $tanggal = $jadwal->bulan_tahun;
         $materi_per_pekan = $materi->materi_per_pekan;
 
         // Pastikan tanggal mulai adalah hari Senin
@@ -170,13 +171,16 @@ class BuatJadwalRoadmap extends Page
             $tanggal = date('Y-m-d', strtotime('-' . $daysToSubtract . ' days', strtotime($tanggal)));
         }
 
+    
         foreach ($materi->pertemuan()->orderBy('pertemuan')->get() as $pertemuan) {
 
             $jadwal_ujian = JadwalUjian::create([
                 "tanggal" => $tanggal,
                 "type" => "Harian",
-                "angkatan_id" => $angkatan->id,
-                "urutan" => $hari_ke                
+                // "angkatan_id" => $angkatan->id,
+                "urutan" => $hari_ke,
+                'roadmap_id' => $jadwal->roadmap_id,
+                'gelombang_id' => $jadwal->gelombang_id,              
             ]);
 
             // tambahkan jadwal belajar
@@ -184,8 +188,10 @@ class BuatJadwalRoadmap extends Page
                 "tanggal" => $tanggal,
                 "materi_detail_id" => $pertemuan->id,
                 "user_id" => auth()->user()->id,
-                "angkatan_id" => $angkatan->id,
-                "code" => uniqid()    
+                // "angkatan_id" => $angkatan->id,
+                "code" => uniqid(),
+                'roadmap_id' => $jadwal->roadmap_id,
+                'gelombang_id' => $jadwal->gelombang_id,
             ]);
 
             // tambahkan soal ke jadwal ujian
@@ -235,7 +241,7 @@ class BuatJadwalRoadmap extends Page
         // ujian pekanan mulai dari hari ke-6,7 ; 
 
         $ujian_pekanan = [];
-        $tanggal_ujian = $angkatan->tanggal_mulai;
+        $tanggal_ujian = $tanggal;
 
         for ($i=1; $i <= 4; $i++) { 
 
@@ -252,8 +258,10 @@ class BuatJadwalRoadmap extends Page
             $jadwal_ujian = JadwalUjian::create([
                 "tanggal" => $tanggal_ujian,
                 "type" => "Pekanan",
-                "angkatan_id" => $angkatan->id,
-                "urutan" => $i                
+                // "angkatan_id" => $angkatan->id,
+                "urutan" => $i,
+                'roadmap_id' => $jadwal->roadmap_id,
+                'gelombang_id' => $jadwal->gelombang_id,              
            ]);
 
            //tambahkan soal ke jadwal ujian
@@ -277,34 +285,42 @@ class BuatJadwalRoadmap extends Page
 
             // Buat jadwal ujian Akhir
             $jadwal_ujian_akhir = JadwalUjian::create([
-                "tanggal" => $angkatan->tanggal_ujian,
+                "tanggal" => $jadwal->tanggal_ujian,
                 "type" => "Akhir",
-                "angkatan_id" => $angkatan->id,
-                "urutan" => 1               
+                // "angkatan_id" => $angkatan->id,
+                "urutan" => 1,
+                'roadmap_id' => $jadwal->roadmap_id,
+                'gelombang_id' => $jadwal->gelombang_id,         
            ]);
 
            $soal_ujian_akhir = $materi->soal()->akhir()->get();
 
            foreach ($soal_ujian_akhir as $soal) {
 
-            JadwalUjianSoal::create([
+                JadwalUjianSoal::create([
 
-                "jadwal_ujian_id" => $jadwal_ujian_akhir->id,
-                "soal_id" => $soal->id
-            ]);
+                    "jadwal_ujian_id" => $jadwal_ujian_akhir->id,
+                    "soal_id" => $soal->id
+                ]);
 
-         // Daftarkan Para Peserta
+                // Daftarkan Para Peserta
 
-        $list_peserta = User::where('gelombang_id', $gelombang_id)->get();      
+                // $list_peserta = User::where('gelombang_id', $gelombang_id)->get();      
 
-        // daftarkan peserta ke angkatan
+                // // daftarkan peserta ke angkatan
 
-        foreach ($list_peserta as $peserta) {
+                // foreach ($list_peserta as $peserta) {
 
-            Angkatan::daftarkanPeserta($angkatan , $peserta->id);
-        }
+                //     Angkatan::daftarkanPeserta($angkatan , $peserta->id);
+                // }
 
-       }
+            }
+
+
+        Notification::make()
+                ->title( 'Jadwal Harian untuk Materi ' . $materi->nama_materi . ' Berhasil Dibuat' )
+                ->success()
+                ->send();
 
        
     }

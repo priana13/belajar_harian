@@ -42,12 +42,16 @@ class BelajarResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')->sortable(),
                 Tables\Columns\TextColumn::make('tanggal')->date(),
-                Tables\Columns\TextColumn::make('angkatan.tanggal_mulai')->date(),
-                Tables\Columns\TextColumn::make('angkatan.kode_angkatan')->label("Kode"),
+                // Tables\Columns\TextColumn::make('angkatan.tanggal_mulai')->date(),
+                // Tables\Columns\TextColumn::make('angkatan.kode_angkatan')->label("Kode"),
+
+                Tables\Columns\TextColumn::make('roadmap.nama_roadmap')->label("Roadmap"),
+                Tables\Columns\TextColumn::make('gelombang.gel')->label("Gelombang"),
                 Tables\Columns\TextColumn::make('materi_detail.pertemuan')->label("Materi Pertemuan"),
                 Tables\Columns\TextColumn::make('user.name')->label("Peserta"),
-                Tables\Columns\TextColumn::make('menit_terakhir'),   
+                // Tables\Columns\TextColumn::make('menit_terakhir'),   
                 Tables\Columns\TextColumn::make('status'),             
             ])
             ->filters([

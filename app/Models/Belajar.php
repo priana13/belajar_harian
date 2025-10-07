@@ -30,6 +30,16 @@ class Belajar extends Model
         return $this->belongsTo(Angkatan::class, 'angkatan_id');
     }
 
+    public function roadmap(){
+
+        return $this->belongsTo(Roadmap::class, 'roadmap_id');
+    }
+
+    public function gelombang(){
+
+        return $this->belongsTo(Gelombang::class, 'gelombang_id');
+    }
+
     public function scopeAktif($query){
 
         return $query->whereIn('status',["Berikutnya" , "Sekarang" , "Selesai"]);
