@@ -32,8 +32,8 @@ use App\Http\Livewire\Homepage\HomeNew;
 |
 */
 
-Route::get('/',Home::class)->name('home');
-Route::get('/new',HomeNew::class)->name('home-new');
+// Route::get('/',Home::class)->name('home');
+Route::get('/',HomeNew::class)->name('home');
 
 Route::middleware(['auth'])->group(function(){
 

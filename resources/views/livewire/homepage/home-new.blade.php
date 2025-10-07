@@ -196,7 +196,7 @@
           <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
             <div>
               <div class="modern-label">Ujian {{ $jadwal->type }} {{ ($jadwal->type == 'Pekanan')? $jadwal->urutan : '' }}</div>
-              <div class="modern-title">{{ $jadwal->angkatan->kode_angkatan }} - {{ $jadwal->angkatan->materi->nama_materi }}</div>
+              <div class="modern-title">{{ $jadwal->materi->nama_materi }}</div>
             </div>
             <a href="{{route('kuis',['materi_id' => $jadwal->angkatan->materi_id,'jadwal_id'=>$jadwal->id ])}}" class="modern-btn mt-2 md:mt-0 bg-white text-white border border-blue-200 hover:bg-blue-50">Kerjakan</a>
           </div>
