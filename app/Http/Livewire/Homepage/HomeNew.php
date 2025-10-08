@@ -14,6 +14,7 @@ use App\Models\AngkatanUser;
 use App\Models\AbsensiKegiatan;
 use App\Models\JadwalRoadmap;
 use App\Models\Roadmap;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 
 class HomeNew extends Component
@@ -97,6 +98,8 @@ class HomeNew extends Component
 
         }
 
-        return view('livewire.homepage.home-new',compact('materi', 'angkatan' , 'jadwal_ujian' , 'ujian_harian' , 'soal_harian'))->extends('layouts.app')->section('content');
+        $pengumuman = Setting::getValue('pengumuman');
+
+        return view('livewire.homepage.home-new',compact('materi', 'angkatan' , 'jadwal_ujian' , 'ujian_harian' , 'soal_harian' , 'pengumuman'))->extends('layouts.app')->section('content');
     }
 }
