@@ -49,7 +49,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($record->jadwalRoadmaps as $index => $row)
+                    @foreach($record->jadwalRoadmaps()->orderBy('bulan_tahun')->get() as $index => $row)
                     <tr>
                         {{-- <td class="border border-slate-300 px-4 py-2">{{ $index + 1 }}</td> --}}
                         <td class="border border-slate-300 px-4 py-2">{{ $row->gelombang->gel }}</td>

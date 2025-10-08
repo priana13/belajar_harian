@@ -42,7 +42,7 @@ class HomeNew extends Component
 
         if (Auth::check()) {
 
-            $angkatan_aktif = AngkatanUser::aktif()->where('user_id', auth()->user()->id)->first();  
+            // $angkatan_aktif = AngkatanUser::aktif()->where('user_id', auth()->user()->id)->first();  
             
             $jadwal_roadmap = JadwalRoadmap::where('gelombang_id', auth()->user()->gelombang_id)->first();
 
@@ -57,12 +57,14 @@ class HomeNew extends Component
                 if($materi){
                     
                     $ujian_harian = JadwalUjian::where('type', 'Harian')
-                                    ->where('angkatan_id', $angkatan_aktif->angkatan_id)->where('urutan', $materi->materi_detail->pertemuan )
+                                    // ->where('angkatan_id', $angkatan_aktif->angkatan_id)
+                                    ->where('gelombang_id', auth()->user()->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
+                                    ->where('urutan', $materi->materi_detail->pertemuan )
                                     ->first();
 
                     
 
-                    $soal_harian = ($ujian_harian) ?  Soal::where('materi_id' , $ujian_harian->angkatan->materi_id)->where('jenis_ujian_id' , 1)->where('urutan' , $ujian_harian->urutan)->count() : 0;
+                    $soal_harian = ($ujian_harian) ?  Soal::where('materi_id' , $materi->id)->where('jenis_ujian_id' , 1)->where('urutan' , $ujian_harian->urutan)->count() : 0;
                    
 
                 }
@@ -88,7 +90,9 @@ class HomeNew extends Component
 
         if($angkatan_aktif){
 
-            $jadwal_ujian = JadwalUjian::where('angkatan_id', $angkatan_aktif->angkatan_id)->whereIn('type', ["Pekanan", "Akhir"])->duaHari()->get();             
+            $jadwal_ujian = JadwalUjian::where('gelombang_id', auth()->user()->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
+            // ->where('angkatan_id', $angkatan_aktif->angkatan_id)
+            ->whereIn('type', ["Pekanan", "Akhir"])->duaHari()->get();             
            
 
         }
