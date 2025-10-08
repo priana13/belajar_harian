@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\Auth;
 class HomeNew extends Component
 {
 
-    protected $listeners = ['absen' => 'absen'];
-
     public $status_absen=null;
 
     public function render()

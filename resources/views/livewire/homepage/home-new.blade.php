@@ -421,18 +421,7 @@
               if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
 
               curr_time.textContent = currentMinutes + ":" + currentSeconds;
-              total_duration.textContent = durationMinutes + ":" + durationSeconds;
-              if(currentSeconds == durationSeconds-1){
-                  @if($materi)
-
-                  livewire.emit('absen', 
-                   
-                    {{$materi->materi_detail->id}}
-                   
-                  );
-
-                  @endif
-              }
+              total_duration.textContent = durationMinutes + ":" + durationSeconds;              
 
             }
           }
