@@ -163,7 +163,7 @@
         @endif
         @if($materi)
         <div class="modern-title mt-6 mb-2">Materi Hari ini:</div>
-        <div class="modern-card">
+        <div class="bg-white p-4 rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
           <div class="flex flex-col gap-2">
             <div class="flex justify-between items-center">
               <span class="modern-badge">{{ $materi->materi_detail->materi->kategori->nama_kategori }}</span>

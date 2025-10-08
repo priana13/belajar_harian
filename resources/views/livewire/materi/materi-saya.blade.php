@@ -265,7 +265,7 @@
                                                     </div>
                                                     <div class="flex items-center gap-1 text-xs">
                                                         {{-- <i class="fas fa-users text-green-500"></i> --}}
-                                                        <span>{{ $row->angkatan->kode_angkatan }}</span>
+                                                        {{-- <span>{{ $row->angkatan->kode_angkatan }}</span> --}}
                                                     </div>
                                                 </div>
                                                 {{-- <div class="flex items-center gap-2">
