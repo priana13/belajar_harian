@@ -97,10 +97,14 @@ class MateriResource extends Resource
                 // TextColumn::make('type')->label('Jenis Materi')->sortable(),
                 TextColumn::make('kategori.nama_kategori'),
                 TextColumn::make('materi_detail_count')
-                    ->counts('materi_detail')->label('Jumlah Pertemuan'),
-                TextColumn::make('jenis_materi')->label('Jenis Konten'),
-                ImageColumn::make('image')->height(80),
-                // ToggleColumn::make('is_active')
+                    ->counts('materi_detail')->label('Pertemuan'),
+                // TextColumn::make('jenis_materi')->label('Jenis Konten'),
+                // ImageColumn::make('image')->height(80),
+                BadgeColumn::make('is_active')->formatStateUsing(fn (string $state): string => $state ? 'Aktif' : 'Off')
+                    ->colors([
+                        'success' => 1,
+                        'danger' => 0,
+                    ])->label('Status'),
 
             ])
             ->filters([
