@@ -100,4 +100,28 @@ class HomeNew extends Component
 
         return view('livewire.homepage.home-new',compact('materi', 'angkatan' , 'jadwal_ujian' , 'ujian_harian' , 'soal_harian' , 'pengumuman'))->extends('layouts.app')->section('content');
     }
+
+    public function login(){
+
+        return redirect()->route('login');
+    }
+
+    public function register(){
+
+        return redirect()->route('register');
+    }
+
+    public function mendaftar(Angkatan $angkatan){
+        
+        $kelas = $angkatan->kelas->first();
+
+        AngkatanUser::create([
+            "kode_angkatan" => $angkatan->kode_angkatan . auth()->user()->id,
+            "user_id" => auth()->user()->id,
+            "angkatan_id" => $angkatan->id,
+            "kelas_id" => $kelas->id
+        ]);
+
+    }
+
 }
