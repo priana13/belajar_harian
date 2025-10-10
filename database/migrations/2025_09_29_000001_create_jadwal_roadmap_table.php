@@ -20,7 +20,7 @@ class CreateJadwalRoadmapTable extends Migration
             $table->unsignedBigInteger('materi_id');
             $table->string('judul');
             $table->string('deskripsi')->nullable();
-            $table->date('bulan_tahun');
+            $table->date('tanggal_mulai');
             $table->date('tanggal_ujian')->nullable();
             $table->boolean('is_aktif')->default(true);
             $table->timestamps();

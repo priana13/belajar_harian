@@ -24,7 +24,7 @@ class BuatJadwalRoadmap extends Page
 
     public $gelombang;
 
-    public $bulan_tahun;
+    public $tanggal_mulai;
 
     public $record;
 
@@ -61,7 +61,8 @@ class BuatJadwalRoadmap extends Page
 
             foreach ($list_gelombang as $gelombang) {
 
-                $this->bulan_tahun = date('Y-m-d'); // reset bulan tahun ke tanggal sekarang
+                $tanggal = $this->tanggal_mulai; // reset bulan tahun ke tanggal sekarang
+              
 
                 foreach($list_materi as $materi){
 
@@ -74,15 +75,15 @@ class BuatJadwalRoadmap extends Page
                             'roadmap_id' => $this->record->id,
                             'materi_id' => $materi->id,
                             'judul' => $materi->nama_materi,                      
-                            'bulan_tahun' => $this->bulan_tahun,
-                            'tanggal_ujian' => date('Y-m-t', strtotime($this->bulan_tahun)),
+                            'tanggal_mulai' => $this->getSeninAwalBulan($tanggal),
+                            'tanggal_ujian' => date('Y-m-t', strtotime($tanggal)),
                             'is_aktif' => true,
                         ]);
 
                     }
 
                     // bulan di tambah 1 bulan
-                    $this->bulan_tahun = date('Y-m-d', strtotime($this->bulan_tahun . ' +1 month'));
+                    $tanggal = date('Y-m-d', strtotime($tanggal . ' +1 month'));
 
                 }               
 
@@ -160,7 +161,7 @@ class BuatJadwalRoadmap extends Page
 
 
         $hari_ke = 1;
-        $tanggal = $jadwal->bulan_tahun;
+        $tanggal = $jadwal->tanggal_mulai;
         $materi_per_pekan = $materi->materi_per_pekan;
 
         // Pastikan tanggal mulai adalah hari Senin
