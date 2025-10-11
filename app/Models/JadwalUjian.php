@@ -25,6 +25,11 @@ class JadwalUjian extends Model
         return $this->hasMany(JadwalUjianSoal::class);
     }
 
+    public function roadmap(){
+
+        return $this->belongsTo(Roadmap::class, 'roadmap_id');
+    }
+
     public function scopeHarian($query){
 
         return $query->where('type', 'Harian');
