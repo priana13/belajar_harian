@@ -45,6 +45,7 @@ class BuatJadwalRoadmap extends Page
         return [
             'record' => $this->record,
             'list_gelombang' => \App\Models\Gelombang::all(),
+            'jadwal_roadmap'=> $this->record->jadwalRoadmaps()->withCount('jadwal_belajar')->orderBy('tanggal_mulai')->paginate(10)
         ];
     }
 
@@ -325,6 +326,46 @@ class BuatJadwalRoadmap extends Page
                 ->send();
 
        
+    }
+
+    public function hapusJadwal($jadwal_id): void
+    {
+        $jadwal = \App\Models\JadwalRoadmap::find($jadwal_id);
+     
+        if($jadwal){
+
+            // hapus jadwal belajar
+            $list_jadwal_belajar = Belajar::where('jadwal_roadmap_id', $jadwal->id)->get();
+
+            foreach ($list_jadwal_belajar as $belajar) {
+                $belajar->delete();
+            }
+
+            // hapus jadwal ujian
+            $list_jadwal_ujian = JadwalUjian::where('roadmap_id', $jadwal->roadmap_id)->where('gelombang_id', $jadwal->gelombang_id)->get();
+
+            foreach ($list_jadwal_ujian as $ujian) {
+
+                // hapus soal ujian
+                $list_soal_ujian = JadwalUjianSoal::where('jadwal_ujian_id', $ujian->id)->get();
+
+                foreach ($list_soal_ujian as $soal) {
+                    $soal->delete();
+                }
+
+                $ujian->delete();
+            }
+
+            // hapus jadwal roadmap
+            $jadwal->delete();
+
+            Notification::make()
+                ->title( 'Jadwal Roadmap Berhasil Dihapus' )
+                ->success()
+                ->send();
+
+        }
+
     }
 
 

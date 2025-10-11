@@ -49,14 +49,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($record->jadwalRoadmaps()->orderBy('tanggal_mulai')->get() as $index => $row)
+                    @foreach($jadwal_roadmap as $index => $row)
+                   
                     <tr>
                         {{-- <td class="border border-slate-300 px-4 py-2">{{ $index + 1 }}</td> --}}
                         <td class="border border-slate-300 px-4 py-2">{{ $row->gelombang->gel }}</td>
                         <td class="border border-slate-300 px-4 py-2">{{ $row->materi->nama_materi }}</td>
                         <td class="border border-slate-300 px-4 py-2">{{ \Carbon\Carbon::parse($row->tanggal_mulai)->format('d F Y') }}</td>
                         <td class="border border-slate-300 px-4 py-2">{{ $row->tanggal_ujian ? \Carbon\Carbon::parse($row->tanggal_ujian)->format('d F Y') : '-' }}</td>
-                        <td class="border border-slate-300 px-4 py-2">{{ ($row->jadwal_belajar->count() > 0)  ? "Ready" : "-"}}</td>
+                        <td class="border border-slate-300 px-4 py-2">{{ ($row->jadwal_belajar_count > 0)  ? "Ready" : "-"}}</td>
                         <td class="border border-slate-300 px-4 py-2">
                             <button wire:click="hapusJadwal({{ $row->id }})" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800 mt-3">Hapus</button>
                             <button wire:click="buatJadwalHarian({{ $row->id }})" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-3">Buat Jadwal Harian</button>
@@ -64,7 +65,12 @@
                     </tr>
                     @endforeach
                 </tbody>
+                
             </table>
+
+            <div class="mt-3 flex justify-left">
+                {{ $jadwal_roadmap->links() }}
+            </div>
         @endif
 
 
