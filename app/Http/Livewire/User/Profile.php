@@ -63,42 +63,48 @@ class Profile extends Component
         ];
     }
 
-    public function submit(){
+    public function submit(){    
 
-    $validated = $this->validate();
-    if($this->password){
-        $password =Hash::make($this->password);
-    }else{
-        $password =auth()->user()->password;
-    }
-    if($this->foto_profil){
-        $profilePicturePath = $this->foto_profil->store('foto_profil', 'public');
-    }else{
-        $profilePicturePath = auth()->user()->foto_profil;
-    }
-    $this->foto_profil = $profilePicturePath;
 
-    $tahun_lahir = date('Y') - $this->umur;    
+        $this->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'no_hp' => 'required|max:255',
+            'password' => 'nullable|min:8|confirmed',
+            'password_confirmation' => 'nullable', 
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',       
+        ]);
 
-    $user = User::where('id',auth()->user()->id)->update([
-        'name' => $this->name,
-        'email' => $this->email,
-        // 'temp_lahir' => $this->temp_lahir,
-        // 'tgl_lahir' => $this->tgl_lahir,
-        'kota' => $this->kota,
-        'no_hp' => $this->no_hp,
-        // 'pekerjaan' => $request->pekerjaan,
-        'status' => $this->status,
-        // 'gender' => $request->gender,
-        'foto_profil' => $profilePicturePath,
-        'password' => $password,  
-        'tahun_lahir' => $tahun_lahir
-    ]);
-    // if($this->foto_profil){
-    //     $profilePicturePath = $this->foto_profil->store('foto_profil');
-    //     $user->foto_profil = $profilePicturePath;
-    //     $user->save();
-    // }
+
+        if($this->password){
+            $password =Hash::make($this->password);
+        }else{
+            $password =auth()->user()->password;
+        }
+        if($this->foto_profil){
+            $profilePicturePath = $this->foto_profil->store('foto_profil', 'public');
+        }else{
+            $profilePicturePath = auth()->user()->foto_profil;
+        }
+        $this->foto_profil = $profilePicturePath;
+
+        $tahun_lahir = date('Y') - $this->umur;    
+
+        $user = User::where('id',auth()->user()->id)->update([
+            'name' => $this->name,
+            'email' => $this->email,
+            // 'temp_lahir' => $this->temp_lahir,
+            // 'tgl_lahir' => $this->tgl_lahir,
+            'kota' => $this->kota,
+            'no_hp' => $this->no_hp,
+            // 'pekerjaan' => $request->pekerjaan,
+            'status' => $this->status,
+            // 'gender' => $request->gender,
+            'foto_profil' => $profilePicturePath,
+            'password' => $password,  
+            'tahun_lahir' => $tahun_lahir
+        ]);
+      
    
     }
 }
