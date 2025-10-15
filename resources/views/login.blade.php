@@ -14,12 +14,12 @@
     <form action="{{ route('login.store') }}" method="post" class="px-8">
         @csrf
 
-        <input name="email" placeholder="Email" class="bg-gray-100 w-full border border-gray-400 rounded-xl mt-5" type="text">
+        <input name="email" placeholder="Email" class="bg-gray-100 w-full border border-gray-400 rounded-xl mt-5 p-2" type="text">
         @error('email')
             <span class="text-danger">{{ $message }}</span>  
         @enderror
 
-        <input name="password" placeholder="Password" class="bg-gray-100 w-full border border-gray-400 rounded-xl mt-5" type="password">
+        <input name="password" placeholder="Password" class="bg-gray-100 w-full border border-gray-400 rounded-xl mt-5 p-2" type="password">
         @error('password')
             <span class="text-danger">{{ $message }}</span>  
         @enderror
