@@ -6,8 +6,8 @@
         
         {{-- {{ dd( asset( "storage/" . $banner->image ) ) }}       --}}
 
-        <a href="{{ $banner->url }}" class="swiper-slide" target="_blank">
-            <img src="{{ asset('storage/' . $banner->image) }}">
+        <a href="{{ $banner->url }}" class="swiper-slide" target="_blank" >
+            <img src="{{ asset('storage/' . $banner->image) }}" onerror="this.style.display='none'">
         </a>
 
         @empty

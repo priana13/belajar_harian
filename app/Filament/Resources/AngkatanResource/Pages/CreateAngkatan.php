@@ -181,6 +181,16 @@ class CreateAngkatan extends CreateRecord
 
     }
 
+    public function getSeninAwalBulan($tanggal): string
+    {
+        $dayOfWeek = date('N', strtotime($tanggal)); // 1 = Senin, 7 = Minggu
+        if ($dayOfWeek != 1) {
+            // Jika bukan Senin, mundur ke Senin sebelumnya
+            $daysToSubtract = $dayOfWeek - 1;
+            $tanggal = date('Y-m-d', strtotime('-' . $daysToSubtract . ' days', strtotime($tanggal)));
+        }
+        return $tanggal;
+    }
 
 
 }

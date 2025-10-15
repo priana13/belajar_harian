@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\GelombangResource\Pages;
 use App\Filament\Resources\GelombangResource\RelationManagers;
+use App\Filament\Resources\GelombangResource\RelationManagers\RoadmapsRelationManager;
 use App\Models\Gelombang;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -40,6 +41,7 @@ class GelombangResource extends Resource
                     ->date(),
                     Tables\Columns\TextColumn::make('peserta_count')->counts('peserta')->label("Peserta"),
                 Tables\Columns\TextColumn::make('angkatan_count')->counts('angkatan')->label("Kelas/Angkatan"),
+                Tables\Columns\TextColumn::make('roadmaps_count')->counts('roadmaps')->label("Roadmap"),
             ])
             ->filters([
                 //
@@ -55,7 +57,7 @@ class GelombangResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RoadmapsRelationManager::class,
         ];
     }
     
@@ -64,7 +66,7 @@ class GelombangResource extends Resource
         return [
             'index' => Pages\ListGelombangs::route('/'),
             // 'create' => Pages\CreateGelombang::route('/create'),
-            // 'edit' => Pages\EditGelombang::route('/{record}/edit'),
+            'edit' => Pages\EditGelombang::route('/{record}/edit'),
         ];
     }    
 }

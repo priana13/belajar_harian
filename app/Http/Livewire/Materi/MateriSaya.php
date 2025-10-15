@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire\Materi;
 
+use App\Models\Belajar;
 use Livewire\Component;
 use App\Models\AngkatanUser;
-use App\Models\AbsensiKegiatan;
-use App\Models\Belajar;
 use Livewire\WithPagination;
+use App\Models\JadwalRoadmap;
+use App\Models\AbsensiKegiatan;
 
 class MateriSaya extends Component
 {
@@ -20,24 +21,22 @@ class MateriSaya extends Component
         if(request()->paginate){
 
             $this->paginate = request()->paginate;
-        }        
-        
+        }
 
-        // $angkatan_aktif = AngkatanUser::aktif()->where('user_id', auth()->user()->id)->first(); 
         
-        $angkatan_saya = AngkatanUser::where('user_id', auth()->user()->id)->pluck('angkatan_id');      
+        // $angkatan_saya = AngkatanUser::where('user_id', auth()->user()->id)->pluck('angkatan_id');      
         
-        // $data['materi'] = $angkatan_aktif->angkatan->materi;
+        $jadwal_roadmap = JadwalRoadmap::where('gelombang_id', auth()->user()->gelombang_id)->first();
 
       
         // materi saya
         $data['materi_detail'] = [];
         
-        if($angkatan_saya){
+        if($jadwal_roadmap){
 
-            $jadwal_belajar = Belajar::aktif()->whereDate('tanggal' , '<=' , now())->orderBy('id', 'desc');
+            $jadwal_belajar = Belajar::where('gelombang_id', auth()->user()->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)->aktif()->whereDate('tanggal' , '<=' , now())->orderBy('id', 'desc');
 
-            $jadwal_belajar = $jadwal_belajar->whereIn('angkatan_id', $angkatan_saya);
+            // $jadwal_belajar = $jadwal_belajar->whereIn('angkatan_id', $angkatan_saya);
 
             $data['materi_detail'] = $jadwal_belajar->simplePaginate($this->paginate);
         }         

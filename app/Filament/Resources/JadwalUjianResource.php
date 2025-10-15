@@ -23,7 +23,7 @@ class JadwalUjianResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
-    protected static bool $shouldRegisterNavigation = false;
+    protected static bool $shouldRegisterNavigation = true;
 
     public static function form(Form $form): Form
     {
@@ -54,6 +54,7 @@ class JadwalUjianResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('angkatan.kode_angkatan')->searchable(),
+                Tables\Columns\TextColumn::make('roadmap.nama_roadmap')->label("Roadmap"),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('urutan')->label("Hari/Pekan")->searchable(),
                 Tables\Columns\TextColumn::make('tanggal')

@@ -148,7 +148,7 @@
           @endif
           @endforeach
         @else
-          <div class="modern-title mb-2">Anda Terdaftar sebagai Peserta Aktif:</div>
+          {{-- <div class="modern-title mb-2">Anda Terdaftar sebagai Peserta Aktif:</div>
           <?php 
           $angkatan = ( auth()->user()->angkatan_user()->aktif()->first() ) ?  auth()->user()->angkatan_user()->aktif()->first()->angkatan : null;
           ?>
@@ -159,7 +159,7 @@
               <div class="text-gray-500 text-sm">Mulai Pembelajaran: <span class="font-semibold text-blue-700">{{ date('d M Y', strtotime( $angkatan->tanggal_mulai )) }}</span></div>
             @endif
             <div class="text-gray-500 text-sm">Ujian Akhir: <span class="font-semibold text-blue-700">{{ date('d M Y', strtotime( $angkatan->tanggal_ujian )) }}</span></div>
-          </div>
+          </div> --}}
         @endif
         @if($materi)
         <div class="modern-title mt-6 mb-2">Materi Hari ini:</div>

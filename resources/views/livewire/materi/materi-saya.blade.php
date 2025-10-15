@@ -200,7 +200,7 @@
 
     <div class="gradient-bg min-h-screen pt-4">
         <div class="p-3">
-            <div x-data="{ activeTab: 'materi_ajaran' }" class="max-w-lg mx-auto mt-6">
+            <div x-data="{ activeTab: 'materi_ajaran' }" class="max-w-lg mx-auto mt-12">
                 <!-- Modern Tab Navigation -->
                 <div class="glass-effect rounded-2xl p-1 mb-6">
                     <div class="flex">
@@ -210,7 +210,7 @@
                             class="tab-modern flex-1 py-3 px-4 text-center font-semibold text-sm rounded-xl transition-all duration-300"
                         >
                             <i class="fas fa-book-open mr-2"></i>
-                            MATERI AJAR
+                            MATERI
                         </button>
                         <button
                             x-on:click="activeTab = 'evaluasi'"
@@ -265,7 +265,7 @@
                                                     </div>
                                                     <div class="flex items-center gap-1 text-xs">
                                                         {{-- <i class="fas fa-users text-green-500"></i> --}}
-                                                        <span>{{ $row->angkatan->kode_angkatan }}</span>
+                                                        {{-- <span>{{ $row->angkatan->kode_angkatan }}</span> --}}
                                                     </div>
                                                 </div>
                                                 {{-- <div class="flex items-center gap-2">
