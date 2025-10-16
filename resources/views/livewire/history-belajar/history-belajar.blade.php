@@ -193,10 +193,64 @@
         .modern-card:hover {
             box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.1);
         }
+
+        .tab-modern {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .tab-modern::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+
     </style>
+    
     @endpush
+    
 
         <x-FrontTopNav />
+
+        <br><br><br>
+
+
+        <div x-data="{ activeTab: 'history' }" class="glass-effect rounded-2xl p-1 mb-6 bg-blue-200 mx-4">
+            <div class="flex">
+                <button
+                    x-on:click="activeTab = 'history'"
+                    :class="{'bg-white text-gray-800 shadow-lg': activeTab == 'history', 'text-gray-600 hover:text-gray-800': activeTab !== 'history' }"
+                    class="tab-modern flex-1 py-3 px-4 text-center font-semibold text-sm rounded-xl transition-all duration-300"
+                >
+                    <i class="fas fa-book-open mr-2"></i>
+                    HISTORY
+                </button>
+                <button
+                    x-on:click="activeTab = 'sertifikat'"
+                    :class="{ 'bg-white text-gray-800 shadow-lg': activeTab == 'sertifikat', 'text-gray-600 hover:text-gray-800': activeTab !== 'sertifikat' }"
+                    class="tab-modern flex-1 py-3 px-4 text-center font-semibold text-sm rounded-xl transition-all duration-300"
+                >
+                    <i class="fas fa-clipboard-check mr-2"></i>
+                   SERTIFIKAT
+                </button>
+                <button
+                    x-on:click="activeTab = 'daftar_nilai'"
+                    :class="{ 'bg-white text-gray-800 shadow-lg': activeTab == 'daftar_nilai', 'text-gray-600 hover:text-gray-800': activeTab !== 'daftar_nilai' }"
+                    class="tab-modern flex-1 py-3 px-4 text-center font-semibold text-sm rounded-xl transition-all duration-300"
+                >
+                    <i class="fas fa-ellipsis-h mr-2"></i>
+                    DAFTAR NILAI
+                </button>
+            </div>
+        </div>
 
         <h2 class="p-5 text-xl" >Materi yang sudah Diikuti:</h2>
 

@@ -10,6 +10,8 @@ class HistoryBelajar extends Component
 {
 
     public $no = 1;
+
+    public $activeTab = 'history';
     
     public function render()
     {
