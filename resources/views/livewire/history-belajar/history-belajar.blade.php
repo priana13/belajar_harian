@@ -223,7 +223,7 @@
         <br><br><br>
 
 
-        <div x-data="{ activeTab: 'history' }" class="glass-effect rounded-2xl p-1 mb-6 bg-blue-200 mx-4">
+        <div x-data="{ activeTab: @entangle('activeTab') }" class="glass-effect rounded-2xl p-1 mb-6 bg-blue-200 mx-4">
             <div class="flex">
                 <button
                     x-on:click="activeTab = 'history'"
@@ -252,7 +252,7 @@
             </div>
         </div>
 
-        <h2 class="p-5 text-xl" >Materi yang sudah Diikuti:</h2>
+        <h2 class="px-5 text-xl" >Materi yang sudah Diikuti:</h2>
 
         <div class="p-5 glass-effect">
             @foreach($angkatan_user as $row)             
