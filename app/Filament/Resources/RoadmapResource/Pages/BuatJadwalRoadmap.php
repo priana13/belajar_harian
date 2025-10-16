@@ -92,6 +92,39 @@ class BuatJadwalRoadmap extends Page
 
             }
 
+        }else{
+
+            $gelombang = \App\Models\Gelombang::find($this->gelombang);
+
+            $tanggal = $this->tanggal_mulai; // reset bulan tahun ke tanggal sekarang
+              
+
+                foreach($list_materi as $materi){
+
+                    $cek = \App\Models\JadwalRoadmap::where('gelombang_id', $gelombang->id)->where('materi_id', $materi->id)->where('roadmap_id', $this->record->id)->first();
+
+                    if(!$cek){
+
+                        \App\Models\JadwalRoadmap::create([
+                            'gelombang_id' => $gelombang->id,
+                            'roadmap_id' => $this->record->id,
+                            'materi_id' => $materi->id,
+                            'judul' => $materi->nama_materi,                      
+                            'tanggal_mulai' => $this->getSeninAwalBulan($tanggal),
+                            'tanggal_ujian' => date('Y-m-t', strtotime($tanggal)),
+                            'is_aktif' => true,
+                        ]);
+
+                    }
+
+                    // bulan di tambah 1 bulan
+                    $tanggal = date('Y-m-d', strtotime($tanggal . ' +1 month'));
+
+                }     
+
+
+
+
         }
 
 
