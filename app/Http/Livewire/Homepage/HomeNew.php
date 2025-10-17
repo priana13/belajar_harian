@@ -40,6 +40,7 @@ class HomeNew extends Component
         $soal_harian = 0;
         $jadwal_roadmap = null;
         $pengumuman = null;
+        $jadwal = null;
         
 
         if (Auth::check()) {
