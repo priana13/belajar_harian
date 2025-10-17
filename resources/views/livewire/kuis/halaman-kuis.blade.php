@@ -4,6 +4,9 @@
 @endpush
     <x-FrontTopNav />
 
+    <br>
+    <br>
+
     @if($ujian)   
 
     <div class="p-5">

@@ -52,13 +52,13 @@ class EvaluasiKuis extends Component
         
         if($jenis_ujian->id == 3){
 
-            $soal = Soal::where('materi_id', $jadwal->angkatan->materi_id)
+            $soal = Soal::where('materi_id', $this->materi_id)
             ->where('jenis_ujian_id', $jenis_ujian->id)            
             ->get(); 
 
         }else{
 
-            $soal = Soal::where('materi_id', $jadwal->angkatan->materi_id)
+            $soal = Soal::where('materi_id', $this->materi_id)
             ->where('jenis_ujian_id', $jenis_ujian->id)
             ->where('urutan',$jadwal->urutan)
             ->get(); 

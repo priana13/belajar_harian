@@ -4,8 +4,12 @@
 
 @endpush
     <x-FrontTopNav />
+    <br>
+    <br>
+   
     <div class="p-5">
-        <p class="font-semibold">EVALUASI HASIL UJIAN ({{$ujian->nama_ujian}})</p>
+        <p class="font-semibold my-2 uppercase"> HASIL EVALUASI {{ $ujian->jenis_ujian->nama }}</p>
+  
         <p>Materi: {{ $ujian->materi->nama_materi }}</p>
         <div class="flex justify-between items-center pb-2 border-b">
             <div class="mt-3">
