@@ -38,41 +38,70 @@ class HomeNew extends Component
         $materi = null;
         $ujian_harian = null;
         $soal_harian = 0;
+        $jadwal_roadmap = null;
+        $pengumuman = null;
+
 
         if (Auth::check()) {
 
             // $angkatan_aktif = AngkatanUser::aktif()->where('user_id', auth()->user()->id)->first();  
-            
-            $jadwal_roadmap = JadwalRoadmap::where('gelombang_id', auth()->user()->gelombang_id)->first();
 
-                      
-            if($jadwal_roadmap){
+            if( request()->trial){                 
 
-                $materi = Belajar::where('gelombang_id', auth()->user()->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)->where('tanggal', date('Y-m-d'))->latest()->first();
-
-           
-                // dd($materi->materi_detail->pertemuan);
-                
+                $materi = Belajar::where('gelombang_id', auth()->user()->gelombang_id)->latest()->first();    
+                  
                 if($materi){
                     
                     $ujian_harian = JadwalUjian::where('type', 'Harian')
                                     // ->where('angkatan_id', $angkatan_aktif->angkatan_id)
-                                    ->where('gelombang_id', auth()->user()->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
+                                    ->where('gelombang_id', auth()->user()->gelombang_id)
+                                    // ->where('roadmap_id', $jadwal_roadmap->roadmap_id)
                                     ->where('urutan', $materi->materi_detail->pertemuan )
                                     ->first();
-
-                    
-
+                                    
+                  
                     $soal_harian = ($ujian_harian) ?  Soal::where('materi_id' , $materi->id)->where('jenis_ujian_id' , 1)->where('urutan' , $ujian_harian->urutan)->count() : 0;
                    
 
                 }
-              
+
+
+                 
+
+            }else{
+
+                $jadwal_roadmap = JadwalRoadmap::where('gelombang_id', auth()->user()->gelombang_id)->first();
+                      
+                if($jadwal_roadmap){
+
+                    $materi = Belajar::where('gelombang_id', auth()->user()
+                            ->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
+                            ->where('tanggal', date('Y-m-d'))
+                            ->latest()->first(); 
+                
+                    
+                    if($materi){
+                        
+                        $ujian_harian = JadwalUjian::where('type', 'Harian')
+                                        // ->where('angkatan_id', $angkatan_aktif->angkatan_id)
+                                        ->where('gelombang_id', auth()->user()->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
+                                        ->where('urutan', $materi->materi_detail->pertemuan )
+                                        ->first();                    
+
+                        $soal_harian = ($ujian_harian) ?  Soal::where('materi_id' , $materi->id)->where('jenis_ujian_id' , 1)->where('urutan' , $ujian_harian->urutan)->count() : 0;
+                    
+
+                    }
+                
+
+
+                }
+                
 
 
             }
-
-            // dd($materi);
+           
+          
 
                     
         if($materi){
@@ -87,7 +116,7 @@ class HomeNew extends Component
         
         $jadwal_ujian = []; 
 
-        if($angkatan_aktif){
+        if($jadwal_roadmap){
 
             $jadwal_ujian = JadwalUjian::where('gelombang_id', auth()->user()->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
             // ->where('angkatan_id', $angkatan_aktif->angkatan_id)
