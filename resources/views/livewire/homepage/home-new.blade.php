@@ -207,7 +207,7 @@
             @else
               <button class="modern-btn w-full mt-4 open-modal" data-modal-id="myModal">DENGARKAN MATERI</button>
               @if($jadwal && $ujian_harian && $soal_harian > 0)
-                <a href="{{route('kuis',['materi_id' => $materi->id,'jadwal_id'=>$ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
+                <a href="{{route('kuis',['materi_id' => $materi->id,'jadwal_id'=>$ujian_harian->id ])}}?trial={{ request()->trial }}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
               @endif
             @endif
           </div>
