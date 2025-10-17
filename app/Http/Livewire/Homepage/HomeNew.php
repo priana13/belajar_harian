@@ -40,7 +40,7 @@ class HomeNew extends Component
         $soal_harian = 0;
         $jadwal_roadmap = null;
         $pengumuman = null;
-
+        
 
         if (Auth::check()) {
 
@@ -48,19 +48,21 @@ class HomeNew extends Component
 
             if( request()->trial){                 
 
-                $materi = Belajar::where('gelombang_id', auth()->user()->gelombang_id)->latest()->first();    
+                $jadwal = Belajar::where('gelombang_id', auth()->user()->gelombang_id)->latest()->first();  
+                $materi = $jadwal->materi_detail->materi;
                   
-                if($materi){
+                if($jadwal){                   
                     
                     $ujian_harian = JadwalUjian::where('type', 'Harian')
                                     // ->where('angkatan_id', $angkatan_aktif->angkatan_id)
                                     ->where('gelombang_id', auth()->user()->gelombang_id)
                                     // ->where('roadmap_id', $jadwal_roadmap->roadmap_id)
-                                    ->where('urutan', $materi->materi_detail->pertemuan )
+                                    ->where('urutan', $jadwal->materi_detail->pertemuan )
                                     ->first();
                                     
                   
-                    $soal_harian = ($ujian_harian) ?  Soal::where('materi_id' , $materi->id)->where('jenis_ujian_id' , 1)->where('urutan' , $ujian_harian->urutan)->count() : 0;
+                    $soal_harian = ($ujian_harian) ?  Soal::where('materi_id' , $jadwal->materi_detail->materi_id)->where('jenis_ujian_id' , 1)->where('urutan' , $ujian_harian->urutan)->count() : 0;
+               
                    
 
                 }
@@ -74,18 +76,23 @@ class HomeNew extends Component
                       
                 if($jadwal_roadmap){
 
-                    $materi = Belajar::where('gelombang_id', auth()->user()
+                    $jadwal = Belajar::where('gelombang_id', auth()->user()
                             ->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
                             ->where('tanggal', date('Y-m-d'))
                             ->latest()->first(); 
-                
+
                     
-                    if($materi){
+                            
+                            
+                    if($jadwal){
+                        
+                        $materi = $jadwal->materi_detail->materi;
+
                         
                         $ujian_harian = JadwalUjian::where('type', 'Harian')
                                         // ->where('angkatan_id', $angkatan_aktif->angkatan_id)
                                         ->where('gelombang_id', auth()->user()->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
-                                        ->where('urutan', $materi->materi_detail->pertemuan )
+                                        ->where('urutan', $jadwal->materi_detail->pertemuan )
                                         ->first();                    
 
                         $soal_harian = ($ujian_harian) ?  Soal::where('materi_id' , $materi->id)->where('jenis_ujian_id' , 1)->where('urutan' , $ujian_harian->urutan)->count() : 0;
@@ -103,10 +110,11 @@ class HomeNew extends Component
            
           
 
+        
                     
-        if($materi){
+        if($jadwal){
             
-            $this->status_absen = AbsensiKegiatan::where('user_id',auth()->id())->where('materi_detail_id', $materi->materi_detail->id)->first();
+            $this->status_absen = AbsensiKegiatan::where('user_id',auth()->id())->where('materi_detail_id', $jadwal->materi_detail->id)->first();
         }
             
         }
@@ -115,6 +123,7 @@ class HomeNew extends Component
        
         
         $jadwal_ujian = []; 
+      
 
         if($jadwal_roadmap){
 
@@ -125,9 +134,11 @@ class HomeNew extends Component
 
         }
 
+  
+
         $pengumuman = Setting::getValue('pengumuman');
 
-        return view('livewire.homepage.home-new',compact('materi', 'angkatan' , 'jadwal_ujian' , 'ujian_harian' , 'soal_harian' , 'pengumuman'))->extends('layouts.app')->section('content');
+        return view('livewire.homepage.home-new',compact('materi', 'angkatan' , 'jadwal_ujian' , 'ujian_harian' , 'soal_harian' , 'pengumuman' , 'jadwal'))->extends('layouts.app')->section('content');
     }
 
     public function login(){

@@ -183,29 +183,31 @@
             <div class="text-gray-500 text-sm">Ujian Akhir: <span class="font-semibold text-blue-700">{{ date('d M Y', strtotime( $angkatan->tanggal_ujian )) }}</span></div>
           </div> --}}
         @endif
-        @if($materi)
+        @if($jadwal)
+
+    
         <div class="modern-title mt-6 mb-2">Materi Hari ini:</div>
         <div class="bg-white p-4 rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
           <div class="flex flex-col gap-2">
             <div class="flex justify-between items-center">
-              <span class="modern-badge">{{ $materi->materi_detail->materi->kategori->nama_kategori }}</span>
+              <span class="modern-badge">{{ $materi->kategori->nama_kategori }}</span>
             </div>
-            <div class="modern-title">{{ $materi->materi_detail->judul }}</div>
-            <div class="text-xs font-semibold text-blue-900">{{ $materi->materi_detail->materi->nama_materi }}</div>
+            <div class="modern-title">{{ $jadwal->materi_detail->judul }}</div>
+            <div class="text-xs font-semibold text-blue-900">{{ $materi->nama_materi }}</div>
             <div class="flex gap-2 text-xs mt-2">
               <div class="bg-blue-100 text-blue-700 py-1 px-2 rounded-md font-semibold flex items-center justify-center">
-                {{ $materi->materi_detail->pertemuan }}
+                {{ $jadwal->materi_detail->pertemuan }}
               </div>
               <div class="bg-blue-100 text-blue-700 py-1 px-2 rounded-md font-semibold">
-                {{date('d M Y', strtotime( $materi->tanggal ))}}
+                {{date('d M Y', strtotime( $jadwal->tanggal ))}}
               </div>
             </div>
-            @if($materi->materi_detail->jenis_kontent == 'Video')
-              <livewire:materi.materi-video video_url="{{ $materi->materi_detail->video_url }}" />
+            @if($jadwal->materi_detail->jenis_kontent == 'Video')
+              <livewire:materi.materi-video video_url="{{ $jadwal->materi_detail->video_url }}" />
             @else
               <button class="modern-btn w-full mt-4 open-modal" data-modal-id="myModal">DENGARKAN MATERI</button>
-              @if($materi && $ujian_harian && $soal_harian > 0)
-                <a href="{{route('kuis',['materi_id' => $materi->materi_detail->materi_id,'jadwal_id'=>$ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">Kerjakan</a>
+              @if($jadwal && $ujian_harian && $soal_harian > 0)
+                <a href="{{route('kuis',['materi_id' => $materi->id,'jadwal_id'=>$ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
               @endif
             @endif
           </div>
@@ -218,9 +220,9 @@
           <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
             <div>
               <div class="modern-label">Ujian {{ $jadwal->type }} {{ ($jadwal->type == 'Pekanan')? $jadwal->urutan : '' }}</div>
-              <div class="modern-title">{{ $jadwal->materi->nama_materi }}</div>
+              <div class="modern-title">{{ $materi->nama_materi }}</div>
             </div>
-            <a href="{{route('kuis',['materi_id' => $jadwal->angkatan->materi_id,'jadwal_id'=>$jadwal->id ])}}" class="modern-btn mt-2 md:mt-0 bg-white text-white border border-blue-200 hover:bg-blue-50">Kerjakan</a>
+            <a href="{{route('kuis',['materi_id' => $jadwal->angkatan->materi_id,'jadwal_id'=>$jadwal->id ])}}" class="modern-btn mt-2 md:mt-0 bg-white text-white border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
           </div>
         </div>
         @endforeach
@@ -248,9 +250,9 @@
             {{-- tambah tombol dengan icon gambar di sini untuk melihat screen shoot materi --}}
             <div>
              
-              @if($materi && $materi->materi_detail->images->count() > 0)
+              @if($jadwal && $jadwal->materi_detail->images->count() > 0)
                 <div class="flex flex-wrap gap-2 justify-center mb-2">
-                  @foreach($materi->materi_detail->images as $image)
+                  @foreach($jadwal->materi_detail->images as $image)
                     {{-- <button wire:click="open_modal({{$loop->index}})" class="modern-btn bg-white text-blue-700 border border-blue-200 hover:bg-blue-50"> --}}
                       <a href="{{ asset('storage/'.$image->image) }}" target="_blank" class="flex items-center justify-center">
                         <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md">
@@ -263,8 +265,8 @@
             </div>
 
             <div class="text-center mt-5">
-              @if($materi && $ujian_harian && $soal_harian > 0)
-                <a href="{{route('kuis',['materi_id' => $materi->materi_detail->materi_id ,'jadwal_id'=> $ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white border border-blue-200 hover:bg-blue-50">KERJAKAN SOAL</a>
+              @if($jadwal && $ujian_harian && $soal_harian > 0)
+                <a href="{{route('kuis',['materi_id' => $jadwal->materi_detail->materi_id ,'jadwal_id'=> $ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white border border-blue-200 hover:bg-blue-50">KERJAKAN SOAL</a>
               @endif
             </div>
           </x-modal.ModalPopup>
@@ -320,12 +322,12 @@
 
           // Define the tracks that have to be played
           let track_list = [
-            @if($materi)
+            @if($jadwal)
               {
                 id:1,
-                name: "{{ $materi->materi_detail->judul }}",
-                artist: "{{$materi->materi_detail->materi->nama_materi}}",
-                path: "storage/{{$materi->materi_detail->multimedia_url}}"
+                name: "{{ $jadwal->materi_detail->judul }}",
+                artist: "{{$jadwal->materi_detail->materi->nama_materi}}",
+                path: "storage/{{$jadwal->materi_detail->multimedia_url}}"
               },
              @endif
           ];
