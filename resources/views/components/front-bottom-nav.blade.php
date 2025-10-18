@@ -11,7 +11,7 @@
                 <i class="fa-solid fa-book-open text-xl"></i>
                 <span class="tab tab-kategori block text-xs">Materi Saya</span>
             </a>
-            <a href="{{route('history_belajar')}}" class="{{ Request::segment(1) == 'history-belajar' ? 'text-secondary' : '' }} w-full focus:text-teal-500 hover:text-[#1169a8] justify-center inline-block text-center pt-2 pb-1  border-[#E0E0E0]">
+            <a href="{{route('history_belajar')}}?trial={{ request()->trial }}" class="{{ Request::segment(1) == 'history-belajar' ? 'text-secondary' : '' }} w-full focus:text-teal-500 hover:text-[#1169a8] justify-center inline-block text-center pt-2 pb-1  border-[#E0E0E0]">
                 <i class="fa-solid fa-book-bookmark text-xl"></i>            
                 <span class="tab tab-explore block text-xs">Hustory Belajar</span>
             </a>

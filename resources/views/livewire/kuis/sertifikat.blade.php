@@ -4,7 +4,7 @@
     <link href="https://fonts.cdnfonts.com/css/certificate" rel="stylesheet">
 
     <div id="capture-me" class="mx-auto flex justify-center items-center relative" style="width:1200px; height:850px;">
-            <img src="{{ asset('storage/' . $ujian->angkatan->sertifikat->bg ) }}" alt="" class=" shadow-lg"> 
+            <img src="{{ asset('storage/' . $sertifikat->sertifikat->bg ) }}" alt="" class=" shadow-lg"> 
             <div class="absolute z-30 mt-5 text-center max-w-3xl font-serif ">
                 <div class="flex justify-end">
                     {{-- <img class="h-16 w-auto self-end" src="{{ url('storage/') }}/icon/logo.jpg" alt=""> --}}
@@ -20,14 +20,14 @@
 
                 <p class="text-2xl">Telah berhasil menyelesaikan Bimbingan Instensif Studi Islam Online</a></p>
                 
-                <p class="text-2xl" >Paket: <span class="font-extrabold">"{{ $ujian->materi->nama_materi }}"</span> </p>
+                <p class="text-2xl" >Paket: <span class="font-extrabold">"{{ $sertifikat->materi->nama_materi }}"</span> </p>
 
-                <p class="text-2xl" >Dengan Nilai: <span class="text-3xl font-serif font-extrabold my-2 uppercase">"{{ $ujian->predikat }}"</span> </p>
+                <p class="text-2xl" >Dengan Nilai: <span class="text-3xl font-serif font-extrabold my-2 uppercase">"{{ $sertifikat->predikat }}"</span> </p>
                 
                 <img src="data:image/png;base64,{{ $barcodeData }}" class="mx-auto mb-3 mt-6 absolute bottom-20 -right-5" alt="Barcode" />
                 
                 <P class=" text-2xl">Semoga Ilmunya Bermanfaat Dan Menjadi Amal Soleh</P>
-                <p class="text-xl mt-1">Bogor, {{ $ujian->created_at->format('d M Y') }}</p>
+                <p class="text-xl mt-1">Bogor, {{ date('d M Y' , strtotime( $sertifikat->tanggal)) }}</p>
 
                 <img src="{{ asset('img/ttd2.png') }}" alt="" class="mx-auto">
                 

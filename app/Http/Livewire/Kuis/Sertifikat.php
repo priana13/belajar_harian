@@ -2,10 +2,11 @@
 
 namespace App\Http\Livewire\Kuis;
 
-use Livewire\Component;
 use App\Models\User;
-use App\Models\Materi;
 use App\Models\Ujian;
+use App\Models\Materi;
+use Livewire\Component;
+use App\Models\SertifikatUser;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
@@ -19,21 +20,18 @@ class Sertifikat extends Component
 
     public $ujian;
 
-    public function mount(Ujian $ujian)
-    {            
-      
-        $this->ujian = $ujian;  
-              
+    public $sertifikat;
 
-        // if($ujian->predikat == 'Kurang'){
+    public function mount($code)
+    {          
+             
+        // $this->ujian = Ujian::where('kode_ujian', $code)->first(); 
 
-        //    abort(403 , "Data tidak tersedia");
+        $this->sertifikat = SertifikatUser::where('code', $code)->first();
+     
+        $this->user = User::find($this->sertifikat->user_id);
 
-        // }
-
-        $this->user = User::find($this->ujian->user_id);
-
-        $this->materi = $ujian->materi;
+        $this->materi = $this->sertifikat->materi;
 
         // dd('test');
     }

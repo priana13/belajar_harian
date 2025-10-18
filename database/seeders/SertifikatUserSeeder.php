@@ -44,7 +44,7 @@ class SertifikatUserSeeder extends Seeder
                     'materi_id' => $materi->id,
                     'predikat' => $row->predikat, // Contoh predikat
                     'tanggal' => $row->angkatan->tanggal_ujian,
-                    'code' => ($row->code) ? $row->code :uniqid(),
+                    'code' => ($row->kode_ujian) ? $row->code :uniqid(),
                     'ttd_image' => 'img/ttd2.png',
 
                     'ttd_nama' => 'Irfan Bahar Nurdin, S.Th.I, M.M.,',

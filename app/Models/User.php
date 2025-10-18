@@ -90,6 +90,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsTo(Gelombang::class, 'gelombang_id');
     }
 
+    public function sertifikatUser(){
+
+        return $this->hasMany(SertifikatUser::class, 'user_id');
+    }
+
     // public function jenis_kelompok(){
 
     //     return $this->belongsTo(JenisKelompok::class);
