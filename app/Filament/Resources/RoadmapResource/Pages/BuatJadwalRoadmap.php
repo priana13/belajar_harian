@@ -158,20 +158,9 @@ class BuatJadwalRoadmap extends Page
     {
         $jadwal = \App\Models\JadwalRoadmap::find($jadwal_id);
      
-        if($jadwal){
+        if($jadwal){          
 
-            // dd($jadwal);
-
-            // $list_peserta = Gelombang::find($jadwal->gelombang_id)->peserta;
-
-            // foreach ($list_peserta as $peserta) {
-
-                // buat jadwal belajar untuk peserta
-
-                $this->buatJadwalPeserta($jadwal , $jadwal->gelombang_id , $jadwal->materi_id);
-
-            // }           
-
+            $this->buatJadwalPeserta($jadwal , $jadwal->gelombang_id , $jadwal->materi_id);
            
 
         }
