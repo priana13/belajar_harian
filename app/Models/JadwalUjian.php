@@ -30,6 +30,11 @@ class JadwalUjian extends Model
         return $this->belongsTo(Roadmap::class, 'roadmap_id');
     }
 
+    public function gelombang(){
+
+        return $this->belongsTo(Gelombang::class, 'gelombang_id');
+    }
+
     public function scopeHarian($query){
 
         return $query->where('type', 'Harian');

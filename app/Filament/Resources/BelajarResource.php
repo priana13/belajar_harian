@@ -8,6 +8,7 @@ use App\Models\Belajar;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Filters\SelectFilter;
 use App\Filament\Resources\BelajarResource\Pages;
 
@@ -62,6 +63,19 @@ class BelajarResource extends Resource
                 })->searchable(),
                 SelectFilter::make('status')->options(Belajar::getOptions()),
                 SelectFilter::make('angkatan')->relationship('angkatan', 'kode_angkatan'),
+                SelectFilter::make('gelombang')->relationship('gelombang', 'gel'),
+                SelectFilter::make('roadmap')->relationship('roadmap', 'nama_roadmap'),
+                // tanggal filter 
+                Tables\Filters\Filter::make('tanggal')
+                    ->form([
+                        Forms\Components\DatePicker::make('from')->label('Dari Tanggal'),
+                        Forms\Components\DatePicker::make('to')->label('Sampai Tanggal'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when($data['from'], fn ($query, $date) => $query->whereDate('tanggal', '>=', $date))
+                            ->when($data['to'], fn ($query, $date) => $query->whereDate('tanggal', '<=', $date));
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -87,5 +101,13 @@ class BelajarResource extends Resource
             'rekap' => Pages\Rekap::route('/sumary'),
            
         ];
-    }    
+    } 
+    
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        return $query->orderByDesc('id');
+    }
+
 }

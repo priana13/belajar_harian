@@ -53,12 +53,12 @@ class JadwalUjianResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('tanggal')->date()->sortable(),
                 Tables\Columns\TextColumn::make('angkatan.kode_angkatan')->searchable(),
                 Tables\Columns\TextColumn::make('roadmap.nama_roadmap')->label("Roadmap"),
+                Tables\Columns\TextColumn::make('gelombang.gel')->label("Gelombang"),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('urutan')->label("Hari/Pekan")->searchable(),
-                Tables\Columns\TextColumn::make('tanggal')
-                    ->dateTime(),
                 Tables\Columns\TextColumn::make('soal_ujian_count')->counts('soal_ujian')->label("Jumlah Soal"),
             ])
             ->filters([
@@ -68,6 +68,25 @@ class JadwalUjianResource extends Resource
                     "Harian" => "Harian",
                     "Akhir" => "Akhir"
                 ]),
+                SelectFilter::make('roadmap')->relationship('roadmap', 'nama_roadmap'),
+                SelectFilter::make('gelombang')->relationship('gelombang', 'gel'),
+                // tanggal filter
+                Tables\Filters\Filter::make('tanggal')
+                    ->form([
+                        Forms\Components\DatePicker::make('from')->label('Dari Tanggal'),
+                        Forms\Components\DatePicker::make('to')->label('Sampai Tanggal'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when(
+                                $data['from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('tanggal', '>=', $date),
+                            )
+                            ->when(
+                                $data['to'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('tanggal', '<=', $date),
+                            );
+                    }),
                
             ])
             ->actions([
@@ -92,5 +111,13 @@ class JadwalUjianResource extends Resource
             'create' => Pages\CreateJadwalUjian::route('/create'),
             'edit' => Pages\EditJadwalUjian::route('/{record}/edit'),
         ];
-    }    
+    }   
+
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        return $query->orderByDesc('id');
+    }
 }
