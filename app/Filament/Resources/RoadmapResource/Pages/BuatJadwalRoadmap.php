@@ -15,9 +15,12 @@ use App\Models\JadwalUjianSoal;
 use Filament\Resources\Pages\Page;
 use Filament\Notifications\Notification;
 use App\Filament\Resources\RoadmapResource;
+use Livewire\WithPagination;
 
 class BuatJadwalRoadmap extends Page
 {
+    use WithPagination;
+    
     protected static string $resource = RoadmapResource::class;
 
     protected static string $view = 'filament.resources.roadmap-resource.pages.buat-jadwal-roadmap';
@@ -27,6 +30,10 @@ class BuatJadwalRoadmap extends Page
     public $tanggal_mulai;
 
     public $record;
+
+    public $filter_gelombang;
+
+    public $filter_materi;
 
 
     public function mount($record): void
@@ -38,14 +45,27 @@ class BuatJadwalRoadmap extends Page
     public function getViewData(): array
     {  
 
+        $tanggal_awal = $this->getSeninAwalBulan("2025-10");  
 
-        $tanggal_awal = $this->getSeninAwalBulan("2025-10");      
+        $jadwal_roadmap = $this->record->jadwalRoadmaps()->withCount('jadwal_belajar')->orderBy('tanggal_mulai');
+
+        if($this->filter_gelombang){
+
+            $jadwal_roadmap = $jadwal_roadmap->where('gelombang_id', $this->filter_gelombang);
+            
+        }
+
+        if($this->filter_materi){
+
+            $jadwal_roadmap = $jadwal_roadmap->where('materi_id', $this->filter_materi);
+            
+        }
 
 
         return [
             'record' => $this->record,
             'list_gelombang' => \App\Models\Gelombang::all(),
-            'jadwal_roadmap'=> $this->record->jadwalRoadmaps()->withCount('jadwal_belajar')->orderBy('tanggal_mulai')->paginate(10)
+            'jadwal_roadmap'=> $jadwal_roadmap->paginate(10)
         ];
     }
 
