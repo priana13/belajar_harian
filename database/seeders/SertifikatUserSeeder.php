@@ -62,5 +62,7 @@ class SertifikatUserSeeder extends Seeder
 
         // Generate Daftar Nilai
 
+        
+
     }
 }

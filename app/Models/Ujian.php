@@ -56,4 +56,16 @@ class Ujian extends Model
 
         return $query->where('jenis_ujian_id', 3);
     }
+
+    public function scopeLulus($query){
+
+        return $query->where('keterangan', 'Lulus');
+    }
+
+    public function scopeTidakLulus($query){
+
+        return $query->where('keterangan', 'Tidak Lulus');
+    }
+
+
 }
