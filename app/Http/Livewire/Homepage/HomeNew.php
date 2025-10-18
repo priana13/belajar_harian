@@ -49,7 +49,8 @@ class HomeNew extends Component
 
             if( request()->trial){                 
 
-                $jadwal = Belajar::where('gelombang_id', auth()->user()->gelombang_id)->latest()->first();  
+                $jadwal = Belajar::whereHas('gelombang')->latest()->first();
+               
                 $materi = $jadwal->materi_detail->materi;
                   
                 if($jadwal){                   
