@@ -275,6 +275,18 @@
       @endguest
     </div>
   </div>
+
+
+<div class="bg-white mt-6 mb-6 py-6 px-0 md:px-0 ">
+
+  <div class="max-w-2xl mx-auto">
+    <x-card-carousel /> 
+  </div>
+
+</div
+
+
+
   <x-FrontBottomNav />
 </div>
 
