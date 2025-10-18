@@ -20,7 +20,7 @@ use Livewire\WithPagination;
 class BuatJadwalRoadmap extends Page
 {
     use WithPagination;
-    
+
     protected static string $resource = RoadmapResource::class;
 
     protected static string $view = 'filament.resources.roadmap-resource.pages.buat-jadwal-roadmap';
@@ -45,7 +45,7 @@ class BuatJadwalRoadmap extends Page
     public function getViewData(): array
     {  
 
-        $tanggal_awal = $this->getSeninAwalBulan("2025-10");  
+        // $tanggal_awal = $this->getSeninAwalBulan("2025-10");  
 
         $jadwal_roadmap = $this->record->jadwalRoadmaps()->withCount('jadwal_belajar')->orderBy('tanggal_mulai');
 
