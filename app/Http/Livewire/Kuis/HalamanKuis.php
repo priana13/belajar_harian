@@ -239,7 +239,8 @@ class HalamanKuis extends Component
         if($jenis_ujian->id == 3){
 
             $soal = Soal::where('materi_id', $this->materi_id)
-            ->where('jenis_ujian_id', $jenis_ujian->id)            
+            ->where('jenis_ujian_id', $jenis_ujian->id)          
+            ->orderBy('nomor','asc')  
             ->get(); 
 
         }else{
@@ -247,6 +248,7 @@ class HalamanKuis extends Component
             $soal = Soal::where('materi_id', $this->materi_id)
             ->where('jenis_ujian_id', $jenis_ujian->id)
             ->where('urutan',$jadwal->urutan)
+            ->orderBy('nomor','asc') 
             ->get(); 
 
         }
