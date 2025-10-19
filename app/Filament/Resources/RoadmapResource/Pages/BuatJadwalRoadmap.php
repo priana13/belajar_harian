@@ -224,7 +224,8 @@ class BuatJadwalRoadmap extends Page
                 // "angkatan_id" => $angkatan->id,
                 "urutan" => $hari_ke,
                 'roadmap_id' => $jadwal->roadmap_id,
-                'gelombang_id' => $jadwal->gelombang_id,              
+                'gelombang_id' => $jadwal->gelombang_id,   
+                'materi_id' => $materi->id           
             ]);
 
             // tambahkan jadwal belajar
@@ -306,7 +307,8 @@ class BuatJadwalRoadmap extends Page
                 // "angkatan_id" => $angkatan->id,
                 "urutan" => $i,
                 'roadmap_id' => $jadwal->roadmap_id,
-                'gelombang_id' => $jadwal->gelombang_id,              
+                'gelombang_id' => $jadwal->gelombang_id, 
+                'materi_id' => $materi->id              
            ]);
 
            //tambahkan soal ke jadwal ujian
@@ -335,7 +337,8 @@ class BuatJadwalRoadmap extends Page
                 // "angkatan_id" => $angkatan->id,
                 "urutan" => 1,
                 'roadmap_id' => $jadwal->roadmap_id,
-                'gelombang_id' => $jadwal->gelombang_id,         
+                'gelombang_id' => $jadwal->gelombang_id, 
+                 'materi_id' => $materi->id         
            ]);
 
            $soal_ujian_akhir = $materi->soal()->akhir()->get();
@@ -373,7 +376,7 @@ class BuatJadwalRoadmap extends Page
             }
 
             // hapus jadwal ujian
-            $list_jadwal_ujian = JadwalUjian::where('roadmap_id', $jadwal->roadmap_id)->where('gelombang_id', $jadwal->gelombang_id)->get();
+            $list_jadwal_ujian = JadwalUjian::where('roadmap_id', $jadwal->roadmap_id)->where('gelombang_id', $jadwal->gelombang_id)->where('materi_id' , $jadwal->materi_id)->get();
 
             foreach ($list_jadwal_ujian as $ujian) {
 
@@ -398,6 +401,44 @@ class BuatJadwalRoadmap extends Page
         }
 
     }
+
+    public function hapusJadwalHarian($jadwal_id): void
+    {
+        $jadwal = \App\Models\JadwalRoadmap::find($jadwal_id);    
+     
+        if($jadwal){
+
+            // hapus jadwal belajar
+            $list_jadwal_belajar = Belajar::where('jadwal_roadmap_id', $jadwal->id)->get();
+
+            foreach ($list_jadwal_belajar as $belajar) {
+                $belajar->delete();
+            }
+
+            // hapus jadwal ujian
+            $list_jadwal_ujian = JadwalUjian::where('roadmap_id', $jadwal->roadmap_id)->where('gelombang_id', $jadwal->gelombang_id)->where('materi_id' , $jadwal->materi_id)->get();
+
+            foreach ($list_jadwal_ujian as $ujian) {
+
+                // hapus soal ujian
+                $list_soal_ujian = JadwalUjianSoal::where('jadwal_ujian_id', $ujian->id)->get();
+
+                foreach ($list_soal_ujian as $soal) {
+                    $soal->delete();
+                }
+
+                $ujian->delete();
+            }          
+
+            Notification::make()
+                ->title( 'Jadwal Harian Roadmap Sudah Dihapus' )
+                ->success()
+                ->send();
+
+        }
+
+    }
+
 
 
 }
