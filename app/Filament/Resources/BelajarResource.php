@@ -44,7 +44,7 @@ class BelajarResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')->sortable(),
-                Tables\Columns\TextColumn::make('tanggal')->date(),
+                Tables\Columns\TextColumn::make('tanggal')->date("D, d M Y"),
                 // Tables\Columns\TextColumn::make('angkatan.tanggal_mulai')->date(),
                 // Tables\Columns\TextColumn::make('angkatan.kode_angkatan')->label("Kode"),
 

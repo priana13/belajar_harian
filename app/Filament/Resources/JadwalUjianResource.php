@@ -53,7 +53,7 @@ class JadwalUjianResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tanggal')->date()->sortable(),
+                Tables\Columns\TextColumn::make('tanggal')->date("D, d M Y")->sortable(),
                 Tables\Columns\TextColumn::make('angkatan.kode_angkatan')->searchable(),
                 Tables\Columns\TextColumn::make('roadmap.nama_roadmap')->label("Roadmap"),
                 Tables\Columns\TextColumn::make('gelombang.gel')->label("Gelombang"),
@@ -118,6 +118,6 @@ class JadwalUjianResource extends Resource
     {
         $query = parent::getEloquentQuery();
 
-        return $query->orderByDesc('id');
+        return $query->orderByDesc('tanggal');
     }
 }

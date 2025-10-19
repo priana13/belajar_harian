@@ -98,7 +98,9 @@ class MateriResource extends Resource
                 TextColumn::make('kategori.nama_kategori'),
                 TextColumn::make('materi_detail_count')
                     ->counts('materi_detail')->label('Pertemuan'),
-                // TextColumn::make('jenis_materi')->label('Jenis Konten'),
+                TextColumn::make('materi_per_pekan')->label("Sepekan")->formatStateUsing(function($state){
+                    return $state . "x";
+                }),
                 // ImageColumn::make('image')->height(80),
                 BadgeColumn::make('is_active')->formatStateUsing(fn (string $state): string => $state ? 'Aktif' : 'Off')
                     ->colors([
