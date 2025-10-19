@@ -14,6 +14,10 @@ class EditRoadmap extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Actions\Action::make('Jadwal Roadmap')->url(function(){
+
+                return route('filament.resources.roadmaps.buat-jadwal' , $this->record->id);
+            })
         ];
     }
 }

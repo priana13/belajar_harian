@@ -286,13 +286,13 @@ class BuatJadwalRoadmap extends Page
         // ujian pekanan mulai dari hari ke-6,7 ; 
 
         $ujian_pekanan = [];
-        $tanggal_ujian = $tanggal;
+        $tanggal_ujian = $jadwal->tanggal_mulai;
 
         for ($i=1; $i <= 4; $i++) { 
 
             if($i == 1){
 
-                $penambah = 6;
+                $penambah = 5;
 
             }else{
                 $penambah = 7;
@@ -346,18 +346,7 @@ class BuatJadwalRoadmap extends Page
 
                     "jadwal_ujian_id" => $jadwal_ujian_akhir->id,
                     "soal_id" => $soal->id
-                ]);
-
-                // Daftarkan Para Peserta
-
-                // $list_peserta = User::where('gelombang_id', $gelombang_id)->get();      
-
-                // // daftarkan peserta ke angkatan
-
-                // foreach ($list_peserta as $peserta) {
-
-                //     Angkatan::daftarkanPeserta($angkatan , $peserta->id);
-                // }
+                ]);         
 
             }
 
