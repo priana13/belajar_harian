@@ -7,7 +7,7 @@
     <title>Document</title>
 
     @vite('resources/css/app.css')
-    
+
 </head>
 <body>
 
@@ -102,7 +102,7 @@
                         </div>
 
                         <!-- Attachment -->
-                        <div class="mb-6">
+                        <div class="mb-6 hidden">
                             <label for="attachment" class="block text-sm font-medium text-gray-700 mb-2">
                                 Lampiran (Opsional)
                             </label>
