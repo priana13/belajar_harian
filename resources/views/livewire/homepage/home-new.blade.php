@@ -183,50 +183,59 @@
             <div class="text-gray-500 text-sm">Ujian Akhir: <span class="font-semibold text-blue-700">{{ date('d M Y', strtotime( $angkatan->tanggal_ujian )) }}</span></div>
           </div> --}}
         @endif
+
         @if($jadwal)
 
     
-        <div class="modern-title mt-6 mb-2">Materi Hari ini:</div>
-        <div class="bg-white p-4 rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-          <div class="flex flex-col gap-2">
-            <div class="flex justify-between items-center">
-              <span class="modern-badge">{{ $materi->kategori->nama_kategori }}</span>
-            </div>
-            <div class="modern-title">{{ $jadwal->materi_detail->judul }}</div>
-            <div class="text-xs font-semibold text-blue-900">{{ $materi->nama_materi }}</div>
-            <div class="flex gap-2 text-xs mt-2">
-              <div class="bg-blue-100 text-blue-700 py-1 px-2 rounded-md font-semibold flex items-center justify-center">
-                {{ $jadwal->materi_detail->pertemuan }}
-              </div>
-              <div class="bg-blue-100 text-blue-700 py-1 px-2 rounded-md font-semibold">
-                {{date('d M Y', strtotime( $jadwal->tanggal ))}}
-              </div>
-            </div>
-            @if($jadwal->materi_detail->jenis_kontent == 'Video')
-              <livewire:materi.materi-video video_url="{{ $jadwal->materi_detail->video_url }}" />
-            @else
-              <button class="modern-btn w-full mt-4 open-modal" data-modal-id="myModal">DENGARKAN MATERI</button>
-              @if($jadwal && $ujian_harian && $soal_harian > 0)
-                <a href="{{route('kuis',['materi_id' => $materi->id,'jadwal_id'=>$ujian_harian->id ])}}?trial={{ request()->trial }}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
+          <h2 class="modern-title mt-6 mb-2">Materi Hari ini </h2>
+
+          <div class="bg-white p-4 rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+            <div class="flex flex-col gap-2">
+                <div class="flex justify-between items-center">
+                  <span class="modern-badge">{{ $materi->kategori->nama_kategori }}</span>
+                </div>
+                <div class="modern-title">{{ $jadwal->materi_detail->judul }}</div>
+                <div class="text-xs font-semibold text-blue-900">{{ $materi->nama_materi }}</div>
+                <div class="flex gap-2 text-xs mt-2">
+                  <div class="bg-blue-100 text-blue-700 py-1 px-2 rounded-md font-semibold flex items-center justify-center">
+                    {{ $jadwal->materi_detail->pertemuan }}
+                  </div>
+                  <div class="bg-blue-100 text-blue-700 py-1 px-2 rounded-md font-semibold">
+                    {{date('d M Y', strtotime( $jadwal->tanggal ))}}
+                  </div>
+                </div>
+              @if($jadwal->materi_detail->jenis_kontent == 'Video')
+                <livewire:materi.materi-video video_url="{{ $jadwal->materi_detail->video_url }}" />
+              @else
+                <button class="modern-btn w-full mt-4 open-modal" data-modal-id="myModal">DENGARKAN MATERI</button>
+                @if($jadwal && $ujian_harian && $soal_harian > 0)
+                  <a href="{{route('kuis',['materi_id' => $materi->id,'jadwal_id'=>$ujian_harian->id ])}}?trial={{ request()->trial }}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
+                @endif
               @endif
-            @endif
-          </div>
-        </div>
-        @endif
-        @if(count( $jadwal_ujian ) > 0)
-        <div class="modern-title mt-6 mb-2">Ujian Hari ini</div>
-        @foreach($jadwal_ujian as $jadwal)
-        <div class="modern-card">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-            <div>
-              <div class="modern-label">Ujian {{ $jadwal->type }} {{ ($jadwal->type == 'Pekanan')? $jadwal->urutan : '' }}</div>
-              <div class="modern-title">{{ $materi->nama_materi }}</div>
             </div>
-            <a href="{{route('kuis',['materi_id' => $jadwal->angkatan->materi_id,'jadwal_id'=>$jadwal->id ])}}" class="modern-btn mt-2 md:mt-0 bg-white text-white border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
-          </div>
         </div>
-        @endforeach
+        
         @endif
+
+
+        @if(count( $jadwal_ujian ) > 0)
+          <div class="modern-title mt-6 mb-2">Ujian Hari ini</div>
+          @foreach($jadwal_ujian as $jadwal)
+          <div class="modern-card">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+              <div>
+                <div class="modern-label">Ujian {{ $jadwal->type }} {{ ($jadwal->type == 'Pekanan')? $jadwal->urutan : '' }}</div>
+                <div class="modern-title">{{ $materi->nama_materi }}</div>
+              </div>
+              <a href="{{route('kuis',['materi_id' => $jadwal->angkatan->materi_id,'jadwal_id'=>$jadwal->id ])}}" class="modern-btn mt-2 md:mt-0 bg-white text-white border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
+            </div>
+          </div>
+          @endforeach
+        @endif
+      
+
+        @livewire('materi-berikutnya')
+
         <div wire:ignore>
           <x-modal.ModalPopup  id="myModal" default="close">
             <div class="modern-modal flex flex-col items-center justify-center">
