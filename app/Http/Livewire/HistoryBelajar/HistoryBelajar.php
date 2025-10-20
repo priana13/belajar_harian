@@ -2,10 +2,11 @@
 
 namespace App\Http\Livewire\HistoryBelajar;
 
-use App\Models\AngkatanUser;
-use Livewire\Component;
-use App\Models\Materi;
+use App\Models\User;
 use App\Models\Ujian;
+use App\Models\Materi;
+use Livewire\Component;
+use App\Models\AngkatanUser;
 
 class HistoryBelajar extends Component
 {
@@ -17,9 +18,21 @@ class HistoryBelajar extends Component
     public function render()
     {
 
-        $user = auth()->user();
+      
+        
+        if(request()->trial){
+            
+            $user = User::find(4); // Ust Jami Furqon            
+            
+        }else{
+
+            $user = auth()->user();
+            
+        }
+
 
         $data['user'] = $user;
+
 
         $ujian_akhir = Ujian::ujianAkhir()->where('user_id', $user->id)->pluck('kode_ujian' , 'angkatan_id')->toArray();   
 

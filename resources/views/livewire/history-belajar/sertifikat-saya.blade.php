@@ -264,7 +264,7 @@
                     {{-- <p class="text-sm text-gray-600">Diterbitkan pada: {{ $row->tanggal }}</p> --}}
                 </div>
                 <div>
-                    <a href="{{ route('sertifikat', ['code' => $row->code]) }}" class="btn-gradient text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg">
+                    <a href="{{ route('sertifikat', ['code' => $row->code]) }}" class="btn-gradient text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg" target="_blank">
                         <i class="fas fa-download mr-2"></i> Unduh Sertifikat
                     </a>
                 </div>
