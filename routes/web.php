@@ -19,6 +19,7 @@ use App\Http\Controllers\API\UjianController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\EmailController;
 use App\Http\Livewire\Homepage\HomeNew;
 
 /*
@@ -103,6 +104,10 @@ require __DIR__ . '/auth.php';
 
 
 Route::get('page/{page:slug}', [PageController::class, 'show'])->name('page.show');
+
+Route::get('/email/pesan' , [EmailController::class, 'pesan'])->name('email.pesan');
+
+Route::post('/email/kirim' , [EmailController::class, 'kirim'])->name('email.kirim');
 
 
 Route::get('/redis' , function(){
