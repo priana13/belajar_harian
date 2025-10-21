@@ -36,6 +36,10 @@ class Ujian extends Model
         return $this->hasMany(SoalUjian::class, 'ujian_id');
     }
 
+    public function jadwal_ujian(){
+        return $this->belongsTo(JadwalUjian::class, 'jadwal_ujian_id');
+    }
+
     public function scopeStatusUjian($query, $materi_id, $user_id)
     {
         return $this->where('materi_id', $materi_id)
