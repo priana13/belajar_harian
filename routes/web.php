@@ -102,12 +102,16 @@ Route::get('/jadwal', [JadwalController::Class , 'index'] );
 
 require __DIR__ . '/auth.php';
 
-
 Route::get('page/{page:slug}', [PageController::class, 'show'])->name('page.show');
 
-Route::get('/email/pesan' , [EmailController::class, 'pesan'])->name('email.pesan');
+Route::middleware(['admin'])->group(function(){
 
-Route::post('/email/kirim' , [EmailController::class, 'kirim'])->name('email.kirim');
+    Route::get('/email/pesan' , [EmailController::class, 'pesan'])->name('email.pesan');
+    
+    Route::post('/email/kirim' , [EmailController::class, 'kirim'])->name('email.kirim');
+
+});
+
 
 
 Route::get('/redis' , function(){
