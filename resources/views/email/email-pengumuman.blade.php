@@ -83,7 +83,7 @@
         
         <div class="email-footer">
             <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
-            <p>Email ini dikirim secara otomatis, mohon tidak membalas email ini.</p>
+            {{-- <p>Email ini dikirim secara otomatis, mohon tidak membalas email ini.</p> --}}
         </div>
     </div>
 </body>

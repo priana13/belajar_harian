@@ -24,7 +24,7 @@ class EmailPengumuman extends Mailable
      * Create a new message instance.
      */
     public function __construct(User $user, string $subject, string $message, ?string $attachmentPath = null)
-    {
+    {               
         $this->user = $user;
         $this->emailSubject = $subject;
         $this->emailMessage = $message;

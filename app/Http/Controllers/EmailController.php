@@ -41,12 +41,13 @@ class EmailController extends Controller
         }
 
         // Counter untuk tracking
-        $emailCount = 0;  
+        $emailCount = 0;
 
         // Loop kirim email ke setiap user
         foreach ($recipients as $user_id) {
-            $user = User::find($user_id);       
-            
+      
+            $user = User::find($user_id); 
+                 
             if ($user && $user->email) {
                 // Dispatch job untuk kirim email
                 \App\Jobs\JobKirimEmail::dispatch(
