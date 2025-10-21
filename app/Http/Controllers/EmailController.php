@@ -35,18 +35,17 @@ class EmailController extends Controller
 
         // Tentukan recipients berdasarkan pilihan
         if ($request->recipient_type === 'all') {
-            $recipients = User::pluck('id')->toArray();
+            $recipients = User::all();
         } else {
-            $recipients = $request->recipients;
-        }
 
+            $recipients = User::whereIn('id' , $request->recipients)->get();
+        }
+   
         // Counter untuk tracking
         $emailCount = 0;
 
         // Loop kirim email ke setiap user
-        foreach ($recipients as $user_id) {
-      
-            $user = User::find($user_id); 
+        foreach ($recipients as $user) {
                  
             if ($user && $user->email) {
                 // Dispatch job untuk kirim email
