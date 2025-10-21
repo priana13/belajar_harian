@@ -218,16 +218,18 @@
         @endif
 
 
-        @if(count( $jadwal_ujian ) > 0)
+        @if(count( $jadwal_ujian ) > 0)    
+
+
           <div class="modern-title mt-6 mb-2">Ujian Hari ini</div>
-          @foreach($jadwal_ujian as $jadwal)
+          @foreach($jadwal_ujian as $row)       
           <div class="modern-card">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
               <div>
-                <div class="modern-label">Ujian {{ $jadwal->type }} {{ ($jadwal->type == 'Pekanan')? $jadwal->urutan : '' }}</div>
-                <div class="modern-title">{{ $materi->nama_materi }}</div>
+                <div class="modern-label">Ujian {{ $row->type }} {{ ($row->type == 'Pekanan')? $row->urutan : '' }}</div>
+                <div class="modern-title">{{ $row->materi->nama_materi }}</div>
               </div>
-              <a href="{{route('kuis',['materi_id' => $jadwal->angkatan->materi_id,'jadwal_id'=>$jadwal->id ])}}" class="modern-btn mt-2 md:mt-0 bg-white text-white border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
+              <a href="{{route('kuis',['materi_id' => $row->materi_id,'jadwal_id'=>$row->id ])}}" class="modern-btn mt-2 md:mt-0 bg-white text-white border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
             </div>
           </div>
           @endforeach

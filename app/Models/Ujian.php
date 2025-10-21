@@ -136,6 +136,9 @@ class Ujian extends Model
 
         $ujian->save();
 
+        // Buat Sertifikat di Sini
+        
+
     }
 
     public static function tentukanPredikat(int $ujian_id ,int $nilai): string 
@@ -151,8 +154,18 @@ class Ujian extends Model
 
         $data_ujian = Ujian::find($ujian_id);
 
-        $nilai_harian = Ujian::where('angkatan_id', $data_ujian->angkatan_id)->where('user_id', $data_ujian->user_id)->harian()->sum('nilai');
-        $nilai_pekanan = Ujian::where('angkatan_id', $data_ujian->angkatan_id)->where('user_id', $data_ujian->user_id)->pekanan()->sum('nilai');
+        // $nilai_harian = Ujian::where('angkatan_id', $data_ujian->angkatan_id)->where('user_id', $data_ujian->user_id)->harian()->sum('nilai');
+        // $nilai_pekanan = Ujian::where('angkatan_id', $data_ujian->angkatan_id)->where('user_id', $data_ujian->user_id)->pekanan()->sum('nilai');
+
+
+        $nilai_harian = Ujian::where('materi_id', $data_ujian->materi_id)->harian()
+                        ->whereMonth('created_at', date('m'))
+                        ->sum('nilai');
+
+        $nilai_pekanan = Ujian::where('materi_id', $data_ujian->materi_id)->pekanan()
+                        ->whereMonth('created_at', date('m'))
+                        ->sum('nilai');
+
 
         $total_nilai_pekanan = $nilai_pekanan / 4;
         $total_nilai_harian = $nilai_harian / 20;

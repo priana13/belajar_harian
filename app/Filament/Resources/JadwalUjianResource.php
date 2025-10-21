@@ -29,19 +29,17 @@ class JadwalUjianResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('angkatan_id')
-                    ->required()
-                    ->relationship('angkatan', 'kode_angkatan')->preload()->disabledOn('edit'),
                 Forms\Components\Select::make('type')
-                    ->required()
-                    ->options([
-                        "Harian" => "Harian",
-                        "Pekanan" => "Pekanan",
-                        "Akhir" => "Akhir"
-                    ]),
+                ->required()
+                ->options([
+                    "Harian" => "Harian",
+                    "Pekanan" => "Pekanan",
+                    "Akhir" => "Akhir"
+                ]),
                 Forms\Components\TextInput::make('urutan')->numeric()
-                    ->required(),
+                ->required(),
                 Forms\Components\DateTimePicker::make('tanggal'),
+                Forms\Components\Select::make('angkatan_id')->relationship('angkatan', 'kode_angkatan')->preload(),
                 
                 // Select::make('soal_id')
                 // ->multiple()
