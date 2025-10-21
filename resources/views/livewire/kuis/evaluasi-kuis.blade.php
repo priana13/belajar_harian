@@ -1,4 +1,4 @@
-@section('title', 'Kuis')
+@section('title', 'Hasil Evaluasi')
 <div >
 @push('head')
 

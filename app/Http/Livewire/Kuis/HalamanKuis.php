@@ -66,7 +66,7 @@ class HalamanKuis extends Component
 
             if( $cek_ujian->status == "Selesai" ){                 
              
-                redirect()->route('evaluasi_kuis',[$materi_id , $cek_ujian->id]);
+                redirect()->route('hasil_evaluasi',[$materi_id , $cek_ujian->id]);
 
             }else{
 
@@ -175,7 +175,7 @@ class HalamanKuis extends Component
         $ujian->update_nilai_ujian($this->ujian->id);
 
         // matikan dulu
-        return redirect()->route('evaluasi_kuis', ['materi_id' => $this->materi_id,'ujian_id' => $this->ujian->id]);
+        return redirect()->route('hasil_evaluasi', ['materi_id' => $this->materi_id,'ujian_id' => $this->ujian->id]);
 
     }
 
@@ -186,7 +186,6 @@ class HalamanKuis extends Component
         $ujian->update_nilai_ujian($this->ujian_id);
 
         // matikan dulu
-        // return redirect()->route('evaluasi_kuis', ['materi_id' => $this->materi_id,'ujian_id' => $this->ujian_id]);
 
     }
 

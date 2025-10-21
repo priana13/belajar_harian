@@ -39,7 +39,7 @@ Route::get('/',HomeNew::class)->name('home');
 Route::middleware(['auth'])->group(function(){
 
     Route::get('/evaluasi/{materi_id}/{jadwal_id}',App\Http\Livewire\Kuis\HalamanKuis::class)->name('kuis');
-    Route::get('/evaluasi-kuis/{materi_id}/{ujian_id}',App\Http\Livewire\Kuis\EvaluasiKuis::class)->name('evaluasi_kuis');
+    Route::get('/hasil-evaluasi/{materi_id}/{ujian_id}',App\Http\Livewire\Kuis\EvaluasiKuis::class)->name('hasil_evaluasi');
     Route::get('/peringkat',App\Http\Livewire\Kuis\Peringkat::class)->name('peringkat');
 
     Route::get('/materiku',App\Http\Livewire\Materi\MateriSaya::class)->name('materi_saya');

@@ -332,7 +332,7 @@
                                                     {{-- </span> --}}
                                                 </div>
                                             </div>
-                                            <a href="{{route('evaluasi_kuis',['materi_id' => $row->materi_id , 'ujian_id' => $row->id])}}" class="btn-gradient text-white px-6 py-3 rounded-xl font-semibold ml-4 hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                                            <a href="{{route('hasil_evaluasi',['materi_id' => $row->materi_id , 'ujian_id' => $row->id])}}" class="btn-gradient text-white px-6 py-3 rounded-xl font-semibold ml-4 hover:shadow-lg transform hover:scale-105 transition-all duration-300">
                                                 <i class="fas fa-eye mr-2"></i>
                                                 Lihat
                                             </a>
