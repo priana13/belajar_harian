@@ -20,6 +20,7 @@ use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 use App\Filament\Resources\UserResource\Widgets\StatsOverview;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\UserResource\RelationManagers\AngkatanUserRelationManager;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Textarea;
 
 class UserResource extends Resource
@@ -46,6 +47,7 @@ class UserResource extends Resource
                 TextInput::make('no_hp'),
                 TextInput::make('kode_user')->placeholder('kode_user')->unique(ignoreRecord:true)->default(uniqid()),
                 TextInput::make('email')->placeholder('email'),
+                Checkbox::make("valid_email"),
                 TextInput::make('password')
                             ->password()->placeholder('password')                            
                             ->dehydrateStateUsing(fn ($state) => Hash::make($state))
@@ -80,6 +82,12 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('gelombang.gel')->label('Gel'),
                 Tables\Columns\TextColumn::make('nip')->searchable(),
                 Tables\Columns\TextColumn::make('email')->searchable(),
+                Tables\Columns\BadgeColumn::make('valid_email')->formatStateUsing(function($state){
+                    return $state ? 'Validated' : 'Not Yet Valid';
+                })->colors([
+                    'success' => 1,
+                    'warning' => 0
+                ]),
                 Tables\Columns\TextColumn::make('no_hp')->searchable(),
                 Tables\Columns\TextColumn::make('jenis_kelamin')->searchable(),
                 Tables\Columns\TextColumn::make('pekerjaan')->searchable(),
