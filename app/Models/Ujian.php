@@ -136,7 +136,27 @@ class Ujian extends Model
 
         $ujian->save();
 
-        // Buat Sertifikat di Sini
+
+        // Buat Sertifikat untuk peserta
+        if($predikat !== 'Kurang'){
+
+            $materi = Materi::find($ujian->materi_id);
+
+            $sertifikat = $materi->sertifikat;
+
+            SertifikatUser::create([
+                'user_id' => $ujian->user_id,
+                'sertifikat_id' => $sertifikat->id, // Asumsikan ada sertifikat default dengan ID 1
+                'materi_id' => $ujian->materi_id,
+                'predikat' => $predikat, // Contoh predikat
+                'tanggal' => $ujian->tanggal,
+                'code' => uniqid(),
+                'ttd_image' => 'img/ttd2.png',
+                'ttd_nama' => 'Irfan Bahar Nurdin, S.Th.I, M.M.,',
+                'ttd_jabatan' => 'Manager',
+            ]);
+        }
+
         
 
     }

@@ -23,16 +23,16 @@ class SertifikatSeeder extends Seeder
         $materi = Materi::first();
 
         SertifikatUser::create([
-        'user_id' => 2,
-        'sertifikat_id' => $sertifikat->id, // Asumsikan ada sertifikat default dengan ID 1
-        'materi_id' => $materi->id,
-        'predikat' => "Cukup", // Contoh predikat
-        'tanggal' => date("Y-m-d"),
-        'code' => uniqid(),
-        'ttd_image' => 'img/ttd2.png',
+            'user_id' => 2,
+            'sertifikat_id' => $sertifikat->id, // Asumsikan ada sertifikat default dengan ID 1
+            'materi_id' => $materi->id,
+            'predikat' => "Cukup", // Contoh predikat
+            'tanggal' => date("Y-m-d"),
+            'code' => uniqid(),
+            'ttd_image' => 'img/ttd2.png',
 
-        'ttd_nama' => 'Irfan Bahar Nurdin, S.Th.I, M.M.,',
-        'ttd_jabatan' => 'Manager',
-    ]);
+            'ttd_nama' => 'Irfan Bahar Nurdin, S.Th.I, M.M.,',
+            'ttd_jabatan' => 'Manager',
+        ]);
     }
 }
