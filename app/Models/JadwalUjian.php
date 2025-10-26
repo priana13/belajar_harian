@@ -35,6 +35,10 @@ class JadwalUjian extends Model
         return $this->belongsTo(Gelombang::class, 'gelombang_id');
     }
 
+    public function materi(){
+        return $this->belongsTo(Materi::class, 'materi_id');
+    }
+
     public function scopeHarian($query){
 
         return $query->where('type', 'Harian');

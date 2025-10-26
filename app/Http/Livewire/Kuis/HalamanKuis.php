@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Livewire\Kuis;
-use App\Http\Controllers\API\UjianController;
 use App\Models\JadwalUjian;
 use App\Models\JenisUjian;
 use App\Models\Kelas;
@@ -66,7 +65,7 @@ class HalamanKuis extends Component
 
             if( $cek_ujian->status == "Selesai" ){                 
              
-                redirect()->route('evaluasi_kuis',[$materi_id , $cek_ujian->id]);
+                redirect()->route('hasil_evaluasi',[$materi_id , $cek_ujian->id]);
 
             }else{
 
@@ -170,23 +169,24 @@ class HalamanKuis extends Component
             'jawaban.3.required' => "Anda belum menentukan jawaban"
         ]);       
 
-        $ujian = new UjianController(); 
+        Ujian::hitungNilaiUjian($this->ujian_id);
 
-        $ujian->update_nilai_ujian($this->ujian->id);
+        // $ujian = new UjianController(); 
+        // $ujian->update_nilai_ujian($this->ujian->id);
 
-        // matikan dulu
-        return redirect()->route('evaluasi_kuis', ['materi_id' => $this->materi_id,'ujian_id' => $this->ujian->id]);
+
+       
+        return redirect()->route('hasil_evaluasi', ['materi_id' => $this->materi_id,'ujian_id' => $this->ujian->id]);
 
     }
 
     public function expired(){
-        // dd($soal_id);
-        $ujian = new UjianController(); 
+      
+        Ujian::hitungNilaiUjian($this->ujian_id);
 
-        $ujian->update_nilai_ujian($this->ujian_id);
-
-        // matikan dulu
-        // return redirect()->route('evaluasi_kuis', ['materi_id' => $this->materi_id,'ujian_id' => $this->ujian_id]);
+        // $ujian = new UjianController(); 
+        // $ujian->update_nilai_ujian($this->ujian_id);
+       
 
     }
 

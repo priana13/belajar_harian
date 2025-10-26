@@ -41,9 +41,10 @@ class MateriSaya extends Component
             $data['materi_detail'] = $jadwal_belajar->simplePaginate($this->paginate);
         }         
        
+        $evalusi = auth()->user()->ujian()->whereHas('jadwal_ujian')->orderBy('id', 'desc')->get();
 
         // evaluasi saya
-        $data['evaluasi'] = auth()->user()->ujian()->orderBy('id', 'desc')->get(); 
+        $data['evaluasi'] = $evalusi; 
 
         return view('livewire.materi.materi-saya',$data)->extends('layouts.app')->section('content');
     }

@@ -19,6 +19,7 @@ use App\Http\Controllers\API\UjianController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\EmailController;
 use App\Http\Livewire\Homepage\HomeNew;
 
 /*
@@ -38,7 +39,7 @@ Route::get('/',HomeNew::class)->name('home');
 Route::middleware(['auth'])->group(function(){
 
     Route::get('/evaluasi/{materi_id}/{jadwal_id}',App\Http\Livewire\Kuis\HalamanKuis::class)->name('kuis');
-    Route::get('/evaluasi-kuis/{materi_id}/{ujian_id}',App\Http\Livewire\Kuis\EvaluasiKuis::class)->name('evaluasi_kuis');
+    Route::get('/hasil-evaluasi/{materi_id}/{ujian_id}',App\Http\Livewire\Kuis\EvaluasiKuis::class)->name('hasil_evaluasi');
     Route::get('/peringkat',App\Http\Livewire\Kuis\Peringkat::class)->name('peringkat');
 
     Route::get('/materiku',App\Http\Livewire\Materi\MateriSaya::class)->name('materi_saya');
@@ -101,8 +102,16 @@ Route::get('/jadwal', [JadwalController::Class , 'index'] );
 
 require __DIR__ . '/auth.php';
 
-
 Route::get('page/{page:slug}', [PageController::class, 'show'])->name('page.show');
+
+Route::middleware(['admin'])->group(function(){
+
+    Route::get('/email/pesan' , [EmailController::class, 'pesan'])->name('email.pesan');
+    
+    Route::post('/email/kirim' , [EmailController::class, 'kirim'])->name('email.kirim');
+
+});
+
 
 
 Route::get('/redis' , function(){

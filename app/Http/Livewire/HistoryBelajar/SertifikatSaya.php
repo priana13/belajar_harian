@@ -15,7 +15,9 @@ class SertifikatSaya extends Component
         
         if(request()->trial){
 
-            $user  = User::whereHas('sertifikatUser')->first();          
+            // $user  = User::whereHas('sertifikatUser')->first();   
+            
+            $user  = User::find(4);  // Ust Jami Furqon
 
             $list_sertifikat = ($user) ? SertifikatUser::where('user_id', $user->id)->take(3)->get() : [];
 
