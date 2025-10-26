@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- <x-FrontTopNav /> --}}
+<x-front-top-nav />
+
+<br>
+<br>
 
 <div class="px-3 py-12">
     {{-- <a href="{{ route('home') }}">
