@@ -8,21 +8,43 @@
         <img class="mx-auto mt-9 w-40" src="{{ asset('storage/logo.png') }}" alt="thumbnail">
     </a>     --}}
 
-    <h2 class="text-2xl font-bold text-center text-gray-700 mt-6">Login</h2>
+    <h2 class="text-2xl font-bold text-center text-gray-700 mt-6">MASUK</h2>
 
 
     <form action="{{ route('login.store') }}" method="post" class="px-8">
         @csrf
 
-        <input name="email" placeholder="Email" class="bg-gray-100 w-full border border-gray-400 rounded-xl mt-5 p-2" type="text">
-        @error('email')
-            <span class="text-danger">{{ $message }}</span>  
-        @enderror
+         <div class="py-1">
+            <p class="text-lg py-2 font-semibold">Email</p>
+            <div class="relative text-gray-400 text-lg font-bold">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <i class="fa-solid fa-envelope"></i>
+                </span>
+                <input type="email" name="email" class="py-3  w-full text-gray-500 rounded-md pl-9 bg-gray-100 w-full border border-gray-400" placeholder="Alamat Email" autocomplete="off" />
+               
+               @error('email')
+                    <span class="text-danger">{{ $message }}</span>  
+                @enderror
+            
+            </div>
+        </div>     
 
-        <input name="password" placeholder="Password" class="bg-gray-100 w-full border border-gray-400 rounded-xl mt-5 p-2" type="password">
-        @error('password')
-            <span class="text-danger">{{ $message }}</span>  
-        @enderror
+        <div class="py-1">
+            <p class="text-lg py-2 font-semibold">Password</p>
+            <div class="relative text-gray-400 text-lg font-bold">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <i class="fa-solid fa-key"></i>
+                </span>
+                <input type="password" name="password" class="py-3  w-full text-gray-500 rounded-md pl-9 bg-gray-100 border border-gray-400" placeholder="Password" autocomplete="off" />
+               
+               @error('password')
+                <span class="text-danger">{{ $message }}</span>  
+               @enderror
+            
+            </div>
+        </div>
+
+
 
         <button type="submit" class="bg-primary-600 w-full rounded-xl p-3  text-white mt-5">Masuk</button>
         <a href="/auth/redirect" class="bg-danger-600 w-full rounded-xl p-3  text-white mt-5 flex items-center justify-center">
