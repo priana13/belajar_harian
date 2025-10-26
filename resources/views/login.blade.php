@@ -15,14 +15,14 @@
         @csrf
 
          <div class="py-1">
-            <p class="text-lg py-2 font-semibold">Email</p>
+            <p class="text-lg py-2 font-semibold">Email atau No. HP</p>
             <div class="relative text-gray-400 text-lg font-bold">
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <i class="fa-solid fa-envelope"></i>
+                    <i class="fa-solid fa-user"></i>
                 </span>
-                <input type="email" name="email" class="py-3  w-full text-gray-500 rounded-md pl-9 bg-gray-100 w-full border border-gray-400" placeholder="Alamat Email" autocomplete="off" />
+                <input type="text" name="login" class="py-3  w-full text-gray-500 rounded-md pl-9 bg-gray-100 w-full border border-gray-400" placeholder="Masukkan Email atau No. HP" autocomplete="off" />
                
-               @error('email')
+               @error('login')
                     <span class="text-danger">{{ $message }}</span>  
                 @enderror
             
