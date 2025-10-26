@@ -31,8 +31,8 @@
 
                 <img src="{{ asset('img/ttd2.png') }}" alt="" class="mx-auto">
                 
-                <p class="text-2xl font-extrabold border-t-2 border-biru w-[70%] mx-auto pt-2">Irfan Bahar Nurdin, S.Th.I, M.M.,</p>
-                <p class="text-xl">Manager</p>
+                <p class="text-2xl font-extrabold border-t-2 border-biru w-[70%] mx-auto pt-2">{{ $sertifikat->ttd_nama }}</p>
+                <p class="text-xl">{{ $sertifikat->ttd_jabatan }}</p>
             </div>
     </div> 
     <div>
