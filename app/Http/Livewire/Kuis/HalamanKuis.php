@@ -22,7 +22,7 @@ class HalamanKuis extends Component
 
     public $angkatan;
 
-    public $kelas;
+    // public $kelas;
 
     public $ujian;
 
@@ -39,11 +39,7 @@ class HalamanKuis extends Component
         if($cek_ujian && request()->trial){
             $cek_ujian->delete();
             $cek_ujian = null;
-        }
-        
-        // dd($cek_ujian);
-        
-        $this->kelas = Kelas::find(auth()->user()->angkatan_user->last()->kelas_id);     
+        }        
 
         if(!$cek_ujian){
 
@@ -102,12 +98,8 @@ class HalamanKuis extends Component
         $data['list_soal'] = $this->getListSoal();
       
 
-        $data['jawaban_user'] = $this->jawaban_user($this->ujian_id);        
+        $data['jawaban_user'] = $this->jawaban_user($this->ujian_id);       
 
-
-        // $data['ujian'] = $ujian->lihat_nilai_ujian($this->materi_id);  
-
-        // dd( $data['ujian'] );
 
         if( $this->ujian ){
 
@@ -125,10 +117,6 @@ class HalamanKuis extends Component
     }
 
     public function simpan_jawaban($soal_id,$jawaban){
-        // dd($soal_id);
-        // $ujian = new UjianController(); 
-        // $ujian->insert_jawaban($soal_id,$this->ujian_id, $jawaban);
-
 
         if ($jawaban == Soal::find($soal_id)->kunci) {
             $istrue = 1;
@@ -170,11 +158,6 @@ class HalamanKuis extends Component
         ]);       
 
         Ujian::hitungNilaiUjian($this->ujian_id);
-
-        // $ujian = new UjianController(); 
-        // $ujian->update_nilai_ujian($this->ujian->id);
-
-
        
         return redirect()->route('hasil_evaluasi', ['materi_id' => $this->materi_id,'ujian_id' => $this->ujian->id]);
 
@@ -183,18 +166,12 @@ class HalamanKuis extends Component
     public function expired(){
       
         Ujian::hitungNilaiUjian($this->ujian_id);
-
-        // $ujian = new UjianController(); 
-        // $ujian->update_nilai_ujian($this->ujian_id);
        
-
     }
 
 
     public function ikut_ujian()
     {
-        // dd($materi_id);
-
         $jadwal_ujian = JadwalUjian::find($this->jadwal_id);   
         
         $jenis_ujian_ids = [
@@ -209,7 +186,7 @@ class HalamanKuis extends Component
             'angkatan_id' => $jadwal_ujian->angkatan_id,
             'user_id' => Auth::id(),
             'materi_id' => $this->materi_id,
-            'kelas_id' => $this->kelas->id,
+            // 'kelas_id' => $this->kelas->id,
             'kode_ujian' => uniqid(),
             'jadwal_ujian_id' => $jadwal_ujian->id,
             'urutan' => $jadwal_ujian->urutan, // pekan ke n atau hari ke n
@@ -218,8 +195,6 @@ class HalamanKuis extends Component
 
         $ujian->kode_ujian = $ujian->id . $ujian->kode_ujian;
         $ujian->save();
-
-        // dd($ujian_id);
 
         return $ujian;
     }
@@ -233,8 +208,6 @@ class HalamanKuis extends Component
         $jadwal = JadwalUjian::find($this->jadwal_id);        
 
         $jenis_ujian = JenisUjian::where('nama', $jadwal->type)->first(); 
-
-        // dd($jenis_ujian);
         
         if($jenis_ujian->id == 3){
 
