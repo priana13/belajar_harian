@@ -11,12 +11,13 @@ class SertifikatSaya extends Component
 {
     public function render()
     {
+        $list_sertifikat = [];
         
         if(request()->trial){
 
             $user  = User::whereHas('sertifikatUser')->first();          
 
-            $list_sertifikat = SertifikatUser::where('user_id', $user->id)->take(3)->get();
+            $list_sertifikat = ($user) ? SertifikatUser::where('user_id', $user->id)->take(3)->get() : [];
 
         }else{
 
