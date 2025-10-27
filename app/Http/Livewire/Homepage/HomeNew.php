@@ -13,6 +13,7 @@ use App\Models\JadwalUjian;
 use App\Models\AngkatanUser;
 use App\Models\AbsensiKegiatan;
 use App\Models\JadwalRoadmap;
+use App\Models\Materi;
 use App\Models\Roadmap;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
@@ -47,9 +48,15 @@ class HomeNew extends Component
 
             // $angkatan_aktif = AngkatanUser::aktif()->where('user_id', auth()->user()->id)->first();  
 
-            if( request()->trial){                 
+            if( request()->trial){    
+                
+                // $materi_trial = Materi::whereHas('soal')->first();
+                $materi_trial = Materi::find(config('app.materi_trial_id'));
 
-                $jadwal = Belajar::whereHas('gelombang')->latest()->first();
+                $materi_trial_detail = $materi_trial->materi_detail->pluck('id');            
+              
+                $jadwal = Belajar::whereHas('gelombang')->whereIn('materi_detail_id', $materi_trial_detail)->latest()->first();
+                       
                
                 $materi = $jadwal->materi_detail->materi;
                   
