@@ -435,15 +435,20 @@
                     <div class="total-duration text-sm text-gray-600">00:00</div>
                 </div>
             </div>
+           
+              {{-- tambah tombol dengan icon gambar di sini untuk melihat screen shoot materi --}}
+            <div>            
+             
+                {{-- <p class="text-center mb-3 font-bold text-gray-800">Gambar Materi</p> --}}
+                <div class="flex flex-wrap gap-2 justify-center mb-2">
+                    {{-- gambar di sini --}}
+                    <img src="#" alt="">
+                </div>            
 
-            <!-- Volume Control -->
-            <div class="mb-6">
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-volume-down text-gray-600"></i>
-                    <input type="range" min="1" max="100" value="99" class="audio-slider flex-1 volume_slider" onchange="setVolume()">
-                    <i class="fas fa-volume-up text-gray-600"></i>
-                </div>
+
             </div>
+
+
 
             <!-- Action Button -->
             <div class="text-center" id="tombolSoal">
