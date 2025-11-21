@@ -11,6 +11,7 @@ class SertifikatSaya extends Component
 {
     public function render()
     {
+        $list_sertifikat = [];
         
         if(request()->trial){
 
@@ -18,7 +19,7 @@ class SertifikatSaya extends Component
             
             $user  = User::find(4);  // Ust Jami Furqon
 
-            $list_sertifikat = SertifikatUser::where('user_id', $user->id)->take(3)->get();
+            $list_sertifikat = ($user) ? SertifikatUser::where('user_id', $user->id)->take(3)->get() : [];
 
         }else{
 

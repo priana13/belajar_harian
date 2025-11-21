@@ -252,6 +252,8 @@
             </div>
         </div>
 
+        @if(count($list_sertifikat) > 0)
+
         <h2 class="px-5 text-xl" >Sertifikat Saya</h2>
 
         <div class="p-5 glass-effect">
@@ -264,7 +266,7 @@
                     {{-- <p class="text-sm text-gray-600">Diterbitkan pada: {{ $row->tanggal }}</p> --}}
                 </div>
                 <div>
-                    <a href="{{ route('sertifikat', ['code' => $row->code]) }}" class="btn-gradient text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg" target="_blank">
+                    <a href="{{ route('sertifikat', ['code' => $row->code]) }}" class="btn-gradient text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg">
                         <i class="fas fa-download mr-2"></i> Unduh Sertifikat
                     </a>
                 </div>
@@ -273,6 +275,15 @@
 
           
         </div>
+
+        @else 
+
+        <p class="px-5 text-xl font-bold text-center text-gray-500">Anda Belum Memiliki Sertifikat</p>
+        <p class="px-5 text-normal text-center text-gray-500 mt-2 italic">Jangan Patah semangat, Ikuti terus materi dan Ujian bisionline untuk mendapatkan sertifikat</p>
+        
+
+
+        @endif
 
 
     <x-FrontBottomNav />

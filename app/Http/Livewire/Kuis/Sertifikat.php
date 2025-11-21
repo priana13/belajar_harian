@@ -27,7 +27,7 @@ class Sertifikat extends Component
              
         // $this->ujian = Ujian::where('kode_ujian', $code)->first(); 
 
-        $this->sertifikat = SertifikatUser::where('code', $code)->first();
+        $this->sertifikat = SertifikatUser::where('code', $code)->first();  
      
         $this->user = User::find($this->sertifikat->user_id);
 

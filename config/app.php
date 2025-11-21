@@ -221,4 +221,6 @@ return [
 
      'can_logout' => env('CAN_LOGOUT', false),
 
+     'materi_trial_id' => env('MATERI_TRIAL_ID', '1'),
+
 ];

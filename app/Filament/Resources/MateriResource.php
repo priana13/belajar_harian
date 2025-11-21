@@ -61,6 +61,9 @@ class MateriResource extends Resource
                                 ->pluck('nama_kategori', 'id'))
                             ->label('Kategori Materi'),
                         TextInput::make('materi_per_pekan')->numeric()->required()->maxValue(6)->minValue(1),
+                        Forms\Components\Select::make('sertifikat_id')->relationship('sertifikat', 'nama')
+                                                ->columnSpan(2)
+                                                ->searchable()->preload()->required()->label("Template Sertifikat"),
                         RichEditor::make('sinopsis')
                             ->required()->columnSpanFull(),                        
 
@@ -78,6 +81,8 @@ class MateriResource extends Resource
                         //     ->descriptions(['multimedia' => 'Materi berupa audio atau video'])
                         
                     ]),
+
+
                 
                     Checkbox::make('is_active')->default(true)->label("Aktif"),
                     Checkbox::make('kelas_intensif')->helperText("Masukan ke dalam kelas yang berurutan dari materi 1 dst"),

@@ -42,6 +42,11 @@ class Materi extends Model
         return $this->hasMany(Angkatan::class);
     }
 
+    public function sertifikat(){
+
+        return $this->belongsTo(Sertifikat::class, 'sertifikat_id');
+    }
+
     public function scopeReady($query){
 
         return $query->where('is_active', true)->whereHas('pertemuan')->whereHas('soal');

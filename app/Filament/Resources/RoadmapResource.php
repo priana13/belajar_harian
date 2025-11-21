@@ -50,7 +50,7 @@ class RoadmapResource extends Resource
                 })->icon('heroicon-o-calendar'),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
     

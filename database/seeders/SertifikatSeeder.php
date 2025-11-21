@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Materi;
 use App\Models\Sertifikat;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\SertifikatUser;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class SertifikatSeeder extends Seeder
 {
@@ -13,9 +15,24 @@ class SertifikatSeeder extends Seeder
      */
     public function run(): void
     {
-        Sertifikat::create([
+       $sertifikat = Sertifikat::create([
             "nama" => "Sertifikat Materi 1",
             "bg" => asset('img/sertifikat.jpg')
+        ]);
+
+        $materi = Materi::first();
+
+        SertifikatUser::create([
+            'user_id' => 2,
+            'sertifikat_id' => $sertifikat->id, // Asumsikan ada sertifikat default dengan ID 1
+            'materi_id' => $materi->id,
+            'predikat' => "Cukup", // Contoh predikat
+            'tanggal' => date("Y-m-d"),
+            'code' => uniqid(),
+            'ttd_image' => 'img/ttd2.png',
+
+            'ttd_nama' => 'Irfan Bahar Nurdin, S.Th.I, M.M.,',
+            'ttd_jabatan' => 'Manager',
         ]);
     }
 }

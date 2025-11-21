@@ -50,7 +50,10 @@ class BelajarResource extends Resource
 
                 Tables\Columns\TextColumn::make('roadmap.nama_roadmap')->label("Roadmap"),
                 Tables\Columns\TextColumn::make('gelombang.gel')->label("Gelombang"),
+                Tables\Columns\TextColumn::make('materi_detail.materi.nama_materi')->label("Materi"),
                 Tables\Columns\TextColumn::make('materi_detail.pertemuan')->label("Materi Pertemuan"),
+                Tables\Columns\TextColumn::make('materi_detail.judul')->label("Judul Pertemuan"),
+
                 Tables\Columns\TextColumn::make('user.name')->label("Peserta"),
                 // Tables\Columns\TextColumn::make('menit_terakhir'),   
                 Tables\Columns\TextColumn::make('status'),             

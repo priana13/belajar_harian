@@ -15,4 +15,9 @@ class Sertifikat extends Model
 
         return $this->hasMany(Angkatan::class,'sertifikat_id');
     }
+
+    public function materi(){
+
+        return $this->hasMany(Materi::class,'sertifikat_id');
+    }
 }

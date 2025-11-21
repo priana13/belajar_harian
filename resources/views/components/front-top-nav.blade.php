@@ -16,14 +16,14 @@
                    
                     
                 </div>
-                <span class="text-sm ml-1 text-white">{{ auth()->user()->name }}</span>
+                <span class="text-sm ml-1 text-white capitalize">{{ auth()->user()->name }}</span>
                 <i class="fa-solid fa-caret-down text-gray-400 ml-0.5"></i>
             </button>
             
             <div x-show="open" class="z-40 mt-48 bg-white border rounded-md shadow-md absolute">
                 <ul class="py-2 text-primary">
                     <li class="px-4 py-2 hover:bg-green-100">
-                        <a href="{{route('materi_saya')}}" class="block"><i class="fa-solid fa-book-open mr-1"></i> Materiku</a>
+                        <a href="{{route('materi_saya')}}" class="block"><i class="fa-solid fa-book-open mr-1"></i> Materi Saya</a>
                     </li>
                     <li class="px-4 py-2 hover:bg-green-100">
                         <a href="{{route('profile')}}" class="block"><i class="fa-solid fa-user mr-1"></i> Akun</a>
