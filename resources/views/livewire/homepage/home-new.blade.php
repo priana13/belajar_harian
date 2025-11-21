@@ -262,12 +262,13 @@
             <div>
              
               @if($jadwal && $jadwal->materi_detail->images->count() > 0)
+                <p class="text-center mb-3 font-bold text-gray-800">Gambar Materi</p>
                 <div class="flex flex-wrap gap-2 justify-center mb-2">
                   @foreach($jadwal->materi_detail->images as $image)
                     {{-- <button wire:click="open_modal({{$loop->index}})" class="modern-btn bg-white text-blue-700 border border-blue-200 hover:bg-blue-50"> --}}
-                      <a href="{{ asset('storage/'.$image->image) }}" target="_blank" class="flex items-center justify-center">
-                        <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md">
-                      </a>
+                    <a href="{{ asset('storage/'.$image->image) }}" target="_blank" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden">
+                     {{ $loop->iteration }}. <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md transition-transform duration-300 hover:scale-150">
+                    </a>
                     {{-- </button> --}}
                   @endforeach
                 </div>
