@@ -21,29 +21,27 @@ class GrafikUjian extends LineChartWidget
 
    
     protected function getData(): array
-    {   
-     
-
-
+    {        
         $data = Trend::model(Ujian::class)
-        ->between(
-            start: now()->addMonth(-3),
-            end: now()->endOfMonth(),
-        )
-        ->perDay()
-        ->count();
- 
+            ->between(
+                start: now()->addMonth(-3),
+                end: now()->endOfMonth(),
+            )
+            ->perDay()
+            ->count();
+        
+        // Filter data yang tidak kosong (aggregate > 0)
+        $filteredData = $data->filter(fn (TrendValue $value) => $value->aggregate > 0);
+    
         return [
             'datasets' => [
                 [
                     'label' => 'Aktifitas Ujian',
-                    'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
+                    'data' => $filteredData->map(fn (TrendValue $value) => $value->aggregate)->values(),
                 ],
             ],
-            'labels' => $data->map(fn (TrendValue $value) => $value->date),
+            'labels' => $filteredData->map(fn (TrendValue $value) => $value->date)->values(),
         ];
-
-
     }
 
 }
