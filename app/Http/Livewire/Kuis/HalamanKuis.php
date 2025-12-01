@@ -34,7 +34,7 @@ class HalamanKuis extends Component
         $this->materi_id = $materi_id;
         $this->jadwal_id = $jadwal_id;
 
-        $cek_ujian = Ujian::where('user_id', auth()->user()->id)->where('jadwal_ujian_id', $jadwal_id)->first(); 
+        $cek_ujian = Ujian::where('user_id', auth()->user()->id)->where('jadwal_ujian_id', $jadwal_id)->whereMonth('created_at', date('m'))->first(); 
 
         if($cek_ujian && request()->trial){
             $cek_ujian->delete();
