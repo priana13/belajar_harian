@@ -82,7 +82,7 @@ class HomeNew extends Component
             }else{
 
                 $jadwal_roadmap = JadwalRoadmap::where('gelombang_id', auth()->user()->gelombang_id)->first();
-                      
+                              
                 if($jadwal_roadmap){
 
                     $jadwal = Belajar::where('gelombang_id', auth()->user()
@@ -102,7 +102,10 @@ class HomeNew extends Component
                                         // ->where('angkatan_id', $angkatan_aktif->angkatan_id)
                                         ->where('gelombang_id', auth()->user()->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
                                         ->where('urutan', $jadwal->materi_detail->pertemuan )
-                                        ->first();                    
+                                        ->where('materi_id' , $jadwal_roadmap->materi_id)
+                                        ->first();  
+                                       
+                   
 
                         $soal_harian = ($ujian_harian) ?  Soal::where('materi_id' , $materi->id)->where('jenis_ujian_id' , 1)->where('urutan' , $ujian_harian->urutan)->count() : 0;
                     
