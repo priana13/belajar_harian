@@ -1,0 +1,89 @@
+services:
+  app:
+    build:  
+      args:
+        user: www
+        uid: 1000   
+      context: .
+      dockerfile: Dockerfile
+    image: app_${COMPOSE_PROJECT_NAME:-bisionline}
+    container_name: app_${COMPOSE_PROJECT_NAME:-bisionline}
+    restart: unless-stopped
+    tty: true
+    environment:
+      APP_KEY: base64:t0i5iqQ6YvuVcRQXsfASWTrFZP5t/G9cJtL+gPcGfUA=
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+      DB_CONNECTION: mysql
+      DB_PORT: 3306
+      DB_HOST: db
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      QUEUE_CONNECTION: ${QUEUE_CONNECTION:-database}
+    volumes:
+      - sidonat-data:/var/www
+      - ./storage/app/public:/var/www/storage/app/public
+      - ./docker/php.ini:/usr/local/etc/php/conf.d/uploads.ini
+    working_dir: /var/www
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver_${COMPOSE_PROJECT_NAME:-bisionline}
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "${APP_PORT:-8001}:80"
+    networks:
+      - app-network
+    volumes:
+      - sidonat-data:/var/www
+      - ./storage/app/public:/var/www/public/storage
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+
+  db:
+    image: mariadb
+    container_name: db_${COMPOSE_PROJECT_NAME:-bisionline}
+    restart: always
+    volumes:
+      - sidonat-db-data:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
+      - MARIADB_USER=${DB_USERNAME}
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - MARIADB_DATABASE=${DB_DATABASE} 
+    networks:
+      - app-network
+
+  # phpMyAdmin Service
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_${COMPOSE_PROJECT_NAME:-bisionline}
+    restart: unless-stopped
+    ports:
+      - "${PHPMYADMIN_PORT:-8090}:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      UPLOAD_LIMIT: 50M
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  sidonat-data:
+    driver: local
+  sidonat-db-data:
+    driver: local
