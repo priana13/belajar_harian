@@ -239,8 +239,14 @@
         @livewire('materi-berikutnya')
 
         <div wire:ignore>
+          {{-- modal popup untuk pemutar audio --}}
           <x-modal.ModalPopup  id="myModal" default="close">
             <div class="modern-modal flex flex-col items-center justify-center">
+              {{-- Foto dan Nama Pemateri --}}
+              <div class="flex flex-col items-center mb-4">
+                <img src="{{ asset('img/pemateri1.png') }}" alt="Pemateri" class="w-24 h-24 rounded-full object-cover mb-3 shadow-lg border-4 border-blue-500">
+                <p class="text-lg font-bold text-blue-900">Ustadz Ahmad</p>
+              </div>
               <div class="details mb-4">
                 <div class="track-name font-semibold text-blue-900">Judul Materi</div>
                 <div class="track-artist text-blue-700">Bab</div>
