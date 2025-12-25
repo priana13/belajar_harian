@@ -91,6 +91,26 @@
     .modern-section .modern-title {
         color: #2563eb;
     }
+    
+    /* Sound Wave Animation */
+    .sound-wave {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 4px;
+        height: 40px;
+    }
+    .sound-wave .bar {
+        width: 6px;
+        height: 8px;
+        background: linear-gradient(180deg, #fbbf24 0%, #2563eb 100%);
+        border-radius: 4px;
+        transition: height 0.1s ease;
+    }
+    
+    .sound-wave.paused .bar {
+        height: 8px;
+    }
   </style>
   @endpush
 
@@ -261,9 +281,32 @@
               {{-- Foto dan Nama Pemateri --}}
               <div class="w-full border-t border-blue-200 pt-4 mb-4">             
                 <div class="flex items-center justify-center gap-3">
-                
                   <img src="{{ asset('img/pemateri1.png') }}" alt="Pemateri" class="w-10 h-10 rounded-full object-cover shadow-md border-2 border-blue-500">
-                  <p class="text-sm font-semibold text-blue-900">Ustadz Ugun Gunansyah</p>
+                  <div class="flex flex-col items-start">
+                    <p class="text-sm font-semibold text-blue-900">Ustadz Ugun Gunansyah</p>
+                    <div class="sound-wave paused" id="soundWave">
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -341,6 +384,16 @@
 
           // Create new audio element
           let curr_track = document.createElement('audio');
+          
+          // Get sound wave element
+          let soundWave = document.getElementById('soundWave');
+          let bars = soundWave ? soundWave.querySelectorAll('.bar') : [];
+          
+          // Audio context for frequency analysis
+          let audioContext = null;
+          let analyser = null;
+          let dataArray = null;
+          let animationId = null;
 
           // Define the tracks that have to be played
           let track_list = [
@@ -386,19 +439,72 @@
             else pauseTrack();
           }
 
+          function initAudioContext() {
+            if (!audioContext) {
+              audioContext = new (window.AudioContext || window.webkitAudioContext)();
+              analyser = audioContext.createAnalyser();
+              analyser.fftSize = 64;
+              const source = audioContext.createMediaElementSource(curr_track);
+              source.connect(analyser);
+              analyser.connect(audioContext.destination);
+              dataArray = new Uint8Array(analyser.frequencyBinCount);
+            }
+          }
+          
+          function visualize() {
+            if (!analyser || !isPlaying) return;
+            
+            animationId = requestAnimationFrame(visualize);
+            analyser.getByteFrequencyData(dataArray);
+            
+            // Update each bar height based on frequency data
+            bars.forEach((bar, index) => {
+              const dataIndex = Math.floor(index * dataArray.length / bars.length);
+              const value = dataArray[dataIndex];
+              const height = Math.max(8, (value / 255) * 40); // Min 8px, max 40px
+              bar.style.height = height + 'px';
+            });
+          }
+
           function playTrack() {
             console.log('playPauseIcon'+track_index)
+            
+            // Initialize audio context on first play (user interaction required)
+            if (!audioContext) {
+              initAudioContext();
+            }
+            
+            if (audioContext.state === 'suspended') {
+              audioContext.resume();
+            }
+            
             curr_track.play();
             isPlaying = true;
-            playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x text-primary"></i>';  
-
+            playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x text-primary"></i>';
+            
+            // Activate sound wave animation
+            if (soundWave) {
+              soundWave.classList.remove('paused');
+              visualize();
+            }
           }
 
           function pauseTrack() {
             curr_track.pause();
             isPlaying = false;
-            playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x text-primary"></i>';;
-    
+            playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x text-primary"></i>';
+            
+            // Pause sound wave animation
+            if (soundWave) {
+              soundWave.classList.add('paused');
+              if (animationId) {
+                cancelAnimationFrame(animationId);
+              }
+              // Reset bars to minimum height
+              bars.forEach(bar => {
+                bar.style.height = '8px';
+              });
+            }
           }
 
           function nextTrack() {
