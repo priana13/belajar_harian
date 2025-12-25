@@ -242,11 +242,6 @@
           {{-- modal popup untuk pemutar audio --}}
           <x-modal.ModalPopup  id="myModal" default="close">
             <div class="modern-modal flex flex-col items-center justify-center">
-              {{-- Foto dan Nama Pemateri --}}
-              <div class="flex flex-col items-center mb-4">
-                <img src="{{ asset('img/pemateri1.png') }}" alt="Pemateri" class="w-24 h-24 rounded-full object-cover mb-3 shadow-lg border-4 border-blue-500">
-                <p class="text-lg font-bold text-blue-900">Ustadz Ahmad</p>
-              </div>
               <div class="details mb-4">
                 <div class="track-name font-semibold text-blue-900">Judul Materi</div>
                 <div class="track-artist text-blue-700">Bab</div>
@@ -257,10 +252,19 @@
                 <div class="playpause-track" onclick="playpauseTrack()"><i class="fa fa-play-circle text-blue-700 fa-5x"></i></div>
                 <div class="next-track" onclick="nextTrack()"><i class="fa fa-step-forward fa-2x text-blue-700"></i></div>
               </div>
-              <div class="slider_container flex items-center gap-2 mb-2">
+              <div class="slider_container flex items-center gap-2 mb-4">
                 <div class="current-time text-blue-700">00:00</div>
                 <input type="range" min="1" max="100" value="0" class="seek_slider modern-slider" onchange="seekTo()">
                 <div class="total-duration text-blue-700">00:00</div>
+              </div>
+
+              {{-- Foto dan Nama Pemateri --}}
+              <div class="w-full border-t border-blue-200 pt-4 mb-4">             
+                <div class="flex items-center justify-center gap-3">
+                
+                  <img src="{{ asset('img/pemateri1.png') }}" alt="Pemateri" class="w-10 h-10 rounded-full object-cover shadow-md border-2 border-blue-500">
+                  <p class="text-sm font-semibold text-blue-900">Ustadz Ugun Gunansyah</p>
+                </div>
               </div>
             </div>
 
