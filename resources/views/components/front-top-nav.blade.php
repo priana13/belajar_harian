@@ -29,6 +29,10 @@
                         <a href="{{route('profile')}}" class="block"><i class="fa-solid fa-user mr-1"></i> Akun</a>
                     </li>
 
+                    <li class="px-4 py-2 hover:bg-green-100">
+                        <a href="https://drive.google.com/file/d/1XxrvPeybGL4kjt-M10doS9Zw1AD_fPMM/view?usp=sharing" class="block" target="_blank"><i class="fa-solid fa-download mr-1"></i> Download APK</a>
+                    </li>
+
                     {{-- tombol logout di hide --}}
                     <li class="px-4 py-2 hover:bg-green-100 {{ config('app.can_logout') ? '' : 'hidden' }}"> 
                         <form action="{{ route('logout') }}" method="POST" >
