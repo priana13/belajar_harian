@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     libzip-dev \
+    libmagickwand-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install zip \
@@ -30,7 +31,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install dom \
     && apt-get install -y libicu-dev \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install intl
+    && docker-php-ext-install intl \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick
 
 # Clear cache
 # RUN apt-get clean && rm -rf /var/lib/apt/lists/*
