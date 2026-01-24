@@ -251,7 +251,8 @@
                                         <div class="flex items-center justify-between">
                                             <div class="flex-1">
                                                 <div class="flex items-center gap-2 mb-2">
-                                                    <span class="inline-flex items-center justify-center w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full text-sm font-bold">
+                                                    {{-- // nomor --}}
+                                                    <span class="flex-shrink-0 inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full text-sm font-bold">
                                                         {{$row->materi_detail->pertemuan}}
                                                     </span>
                                                     <h3 class="font-semibold text-gray-800">
@@ -259,7 +260,7 @@
                                                     </h3>
                                                 </div>
                                                 <div class="flex items-center gap-4 text-sm text-gray-500 mb-2">
-                                                    <div class="flex items-center gap-1">
+                                                    <div class="flex items-center gap-1 ms-2">
                                                         <i class="fas fa-calendar-alt text-blue-500"></i>
                                                         <span class="text-xs">{{date('d-m-y', strtotime($row->tanggal))}}</span>
                                                     </div>
