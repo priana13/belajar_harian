@@ -258,17 +258,18 @@
 
         <div class="p-5 glass-effect">
             @foreach($list_sertifikat as $row)
-
-            {{-- {{ dd($row) }} --}}
+         
             <div class="modern-card p-4 mb-4 flex items-center justify-between">
                 <div>
                     <h3 class="text-lg font-semibold">{{ $row->materi->nama_materi }}</h3>
-                    {{-- <p class="text-sm text-gray-600">Diterbitkan pada: {{ $row->tanggal }}</p> --}}
+                    <p class="text-sm text-gray-600">trb:{{ date('d-m-Y', strtotime($row->tanggal)) }}</p>
                 </div>
                 <div>
                     <a href="{{ route('sertifikat', ['code' => $row->code]) }}" class="btn-gradient text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg">
                         <i class="fas fa-download mr-2"></i> Unduh Sertifikat
                     </a>
+
+
                 </div>
             </div>
             @endforeach

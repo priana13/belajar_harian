@@ -34,7 +34,8 @@ class HistoryBelajar extends Component
         $data['user'] = $user;
 
 
-        $ujian_akhir = Ujian::ujianAkhir()->where('user_id', $user->id)->pluck('kode_ujian' , 'angkatan_id')->toArray();   
+        // $ujian_akhir = Ujian::ujianAkhir()->where('user_id', $user->id)->pluck('kode_ujian' , 'angkatan_id')->toArray(); 
+        $ujian_akhir = Ujian::with(['sertifikat_user'])->ujianAkhir()->where('user_id', $user->id)->get();     
 
         $angkatan_user = AngkatanUser::query()->where('user_id', $user->id);
 
@@ -48,10 +49,7 @@ class HistoryBelajar extends Component
 
             $angkatan_user = $angkatan_user->whereIn('angkatan_id', Ujian::ujianAkhir()->where('user_id', $user->id)->pluck('angkatan_id'));
 
-        }
-
-
-        $data['angkatan_user'] = $angkatan_user->get();
+        }       
 
                    
         $data['ujian_akhir'] = $ujian_akhir;     

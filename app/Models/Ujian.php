@@ -40,9 +40,17 @@ class Ujian extends Model
         return $this->belongsTo(JadwalUjian::class, 'jadwal_ujian_id');
     }
 
+    public function sertifikat_user()
+    {
+        return $this->hasOne(SertifikatUser::class, 'ujian_id');
+    }
+
+    // scope methods
+    // =============================================
+
     public function scopeStatusUjian($query, $materi_id, $user_id)
     {
-        return $this->where('materi_id', $materi_id)
+        return $query->where('materi_id', $materi_id)
             ->where('user_id', $user_id);
     }
 
