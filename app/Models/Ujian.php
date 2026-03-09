@@ -158,6 +158,7 @@ class Ujian extends Model
                     'ttd_image' => 'img/ttd2.png',
                     'ttd_nama' => 'Irfan Bahar Nurdin, S.Th.I, M.M.,',
                     'ttd_jabatan' => 'Manager',
+                    'ujian_id' => $ujian->id
                 ]);
             }
 
