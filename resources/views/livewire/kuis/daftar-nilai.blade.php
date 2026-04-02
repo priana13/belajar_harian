@@ -35,7 +35,7 @@
                 <div class="ms-6">
 
                     <h2 class="" style="" >Materi: {{ $ujian->materi->nama_materi }}</h2>
-                    <h2 class="" style="" >Angkatan: {{ $angkatan->kode_angkatan }}</h2>
+                    {{-- <h2 class="" style="" >Angkatan: {{ $angkatan->kode_angkatan }}</h2> --}}
                    
 
                 </div>                    
@@ -112,7 +112,7 @@
 
                 <p class="" >Grade Nilai: <span class="font-serif  capitalize">"{{ $ujian->predikat }}"</span> </p>
                 
-                <img src="data:image/png;base64,{{ $barcodeData }}" class="mx-auto mb-3 w-16 mt-2" alt="Barcode" />
+                <img src="data:image/svg+xml;base64,{{ $barcodeData }}" class="mx-auto mb-3 w-16 mt-2" alt="Barcode" />
                 
                 <P class=" ">Semoga Ilmunya Bermanfaat Dan Menjadi Amal Soleh</P>
                 <p class="">Bogor, {{ $ujian->created_at->format('d M Y') }}</p>
@@ -149,7 +149,7 @@
                     // Create a temporary link element to initiate the download
                     const a = document.createElement('a');
                     a.href = dataURL;
-                    a.download = 'daftar-nilai-{{ $angkatan->kode_daftar }}.png'; // Change the filename and extension as needed
+                    a.download = 'daftar-nilai-{{ $ujian->kode_ujian }}.png'; // Change the filename and extension as needed
                     a.style.display = 'none';
 
                     // Append the link element to the document and trigger a click event
