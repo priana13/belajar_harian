@@ -25,7 +25,7 @@ class BuatJadwalRoadmap extends Page
 
     protected static string $view = 'filament.resources.roadmap-resource.pages.buat-jadwal-roadmap';
 
-    public $gelombang;
+    public $gelombang = 1;
 
     public $tanggal_mulai;
 
@@ -75,10 +75,13 @@ class BuatJadwalRoadmap extends Page
 
         $list_materi = $this->record->materi; // Mengambil materi dari roadmap
 
+        // dd($list_materi);    
 
         if($this->gelombang == 'semua'){
 
             $list_gelombang = \App\Models\Gelombang::all();
+
+            
 
             foreach ($list_gelombang as $gelombang) {
 
