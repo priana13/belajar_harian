@@ -111,6 +111,45 @@
     .sound-wave.paused .bar {
         height: 8px;
     }
+
+    .modern-btn.is-audio-playing {
+      background: linear-gradient(90deg, #0f766e 0%, #0891b2 100%);
+      box-shadow: 0 8px 24px rgba(8, 145, 178, 0.28);
+    }
+
+    .audio-playing-notice {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: 0.75rem;
+      padding: 0.625rem 0.875rem;
+      font-size: 0.875rem;
+      color: #0f172a;
+      background: linear-gradient(135deg, #ccfbf1 0%, #e0f2fe 100%);
+      border: 1px solid #67e8f9;
+    }
+
+    .audio-playing-notice .pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 9999px;
+      background: #0ea5e9;
+      box-shadow: 0 0 0 rgba(14, 165, 233, 0.8);
+      animation: pulse-dot 1.2s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse-dot {
+      0% {
+        box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.8);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(14, 165, 233, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(14, 165, 233, 0);
+      }
+    }
   </style>
   @endpush
 
@@ -227,7 +266,11 @@
               @if($jadwal->materi_detail->jenis_kontent == 'Video')
                 <livewire:materi.materi-video video_url="{{ $jadwal->materi_detail->video_url }}" />
               @else
-                <button class="modern-btn w-full mt-4 open-modal" data-modal-id="myModal">DENGARKAN MATERI</button>
+                <button id="listenMateriBtn" class="modern-btn w-full mt-4 open-modal" data-modal-id="myModal">DENGARKAN MATERI</button>
+                <div id="audioPlayingNotice" class="audio-playing-notice mt-3 hidden" role="status" aria-live="polite">
+                  <span class="pulse-dot" aria-hidden="true"></span>
+                  <span>Ada audio yang sedang diputar. Klik "Tampilkan Audio" untuk membuka pemutar.</span>
+                </div>
                 @if($jadwal && $ujian_harian && $soal_harian > 0)
                   <a href="{{route('kuis',['materi_id' => $materi->id,'jadwal_id'=>$ujian_harian->id ])}}?trial={{ request()->trial }}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
                 @endif
@@ -377,6 +420,8 @@
           let volume_slider = document.querySelector(".volume_slider");
           let curr_time = document.querySelector(".current-time");
           let total_duration = document.querySelector(".total-duration");
+          let listenMateriBtn = document.getElementById("listenMateriBtn");
+          let audioPlayingNotice = document.getElementById("audioPlayingNotice");
 
           let track_index = 0;
           let isPlaying = false;
@@ -407,6 +452,17 @@
              @endif
           ];
 
+          function syncAudioUiState() {
+            if (listenMateriBtn) {
+              listenMateriBtn.textContent = isPlaying ? "TAMPILKAN AUDIO" : "DENGARKAN MATERI";
+              listenMateriBtn.classList.toggle('is-audio-playing', isPlaying);
+            }
+
+            if (audioPlayingNotice) {
+              audioPlayingNotice.classList.toggle('hidden', !isPlaying);
+            }
+          }
+
           function open_modal(id){
             track_index = id
             console.log(track_list[track_index].path)
@@ -423,6 +479,7 @@
             track_artist.textContent = track_list[track_index].artist;
             updateTimer = setInterval(seekUpdate, 1000);
             curr_track.addEventListener("ended", pauseTrack);
+            syncAudioUiState();
           }
 
           function resetValues() {
@@ -487,6 +544,8 @@
               soundWave.classList.remove('paused');
               visualize();
             }
+
+            syncAudioUiState();
           }
 
           function pauseTrack() {
@@ -505,6 +564,8 @@
                 bar.style.height = '8px';
               });
             }
+
+            syncAudioUiState();
           }
 
           function nextTrack() {
@@ -555,6 +616,8 @@
 
             }
           }
+
+          syncAudioUiState();
        </script>
 
 
