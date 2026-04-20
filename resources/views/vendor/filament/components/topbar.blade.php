@@ -53,6 +53,14 @@
                 Trial
             </x-filament::button>
 
+             <x-filament::button 
+             class="ml-1"
+            x-on:click="window.open('/', '_blank')"
+            >
+                Home
+            </x-filament::button>
+
+
             @livewire('filament.core.global-search')
 
             @livewire('filament.core.notifications')
