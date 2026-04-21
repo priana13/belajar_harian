@@ -89,6 +89,7 @@ class HomeNew extends Component
                 $soal_harian = 0;
                 $materi_khusus = null;
                 $jadwal_harian_khusus = null;
+                $ujian_harian_khusus = null;
 
                 $group_user = $user->groups->pluck('id')->toArray();
                             
