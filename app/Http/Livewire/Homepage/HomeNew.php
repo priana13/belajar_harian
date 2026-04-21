@@ -43,15 +43,19 @@ class HomeNew extends Component
         $pengumuman = null;
         $jadwal = null;
         
+        $jadwal_khusus = null; 
+        $materi_khusus = null;
+        $jadwal_harian_khusus = null;
+        $ujian_harian_khusus = null;
+        
 
         if (Auth::check()) {
 
-            // $angkatan_aktif = AngkatanUser::aktif()->where('user_id', auth()->user()->id)->first();  
+             
 
             if( request()->trial){    
                 
-                // $materi_trial = Materi::whereHas('soal')->first();
-                $materi_trial = Materi::find(config('app.materi_trial_id'));
+                $materi_trial = Materi::find(config('app.materi_trial_id')) ?? Materi::whereHas('soal')->first();
 
                 $materi_trial_detail = $materi_trial->materi_detail->pluck('id');            
               
@@ -82,14 +86,6 @@ class HomeNew extends Component
             }else{
 
                 $user = auth()->user();
-
-                $jadwal = null;
-                $jadwal_khusus = null;
-                $ujian_harian = null;
-                $soal_harian = 0;
-                $materi_khusus = null;
-                $jadwal_harian_khusus = null;
-                $ujian_harian_khusus = null;
 
                 $group_user = $user->groups->pluck('id')->toArray();
                             
