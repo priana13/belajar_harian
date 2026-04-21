@@ -47,6 +47,7 @@ class HomeNew extends Component
         $materi_khusus = null;
         $jadwal_harian_khusus = null;
         $ujian_harian_khusus = null;
+        $mulai_belajar = null;
         
 
         if (Auth::check()) {
@@ -94,6 +95,8 @@ class HomeNew extends Component
                                     ->whereMonth('tanggal_mulai', $hari_ini->month)
                                     ->whereYear('tanggal_mulai', $hari_ini->year)
                                     ->first();
+
+                $mulai_belajar = JadwalRoadmap::whereIn('group_id', $group_user)->first();           
 
                 if($jadwal_roadmap_group){
 
@@ -198,7 +201,8 @@ class HomeNew extends Component
         'jadwal' , 
         'jadwal_khusus' , 
         'materi_khusus',
-        'ujian_harian_khusus'
+        'ujian_harian_khusus',
+        'mulai_belajar'
          ))->extends('layouts.app')->section('content');
     }
 

@@ -10,6 +10,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -45,6 +46,7 @@ class GroupResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Action::make('link')->url(fn ($record) => route('daftar-kelas-khusus', $record->kode_group))->openUrlInNewTab(),
             ])
             ->bulkActions([
                 // Tables\Actions\DeleteBulkAction::make(),
