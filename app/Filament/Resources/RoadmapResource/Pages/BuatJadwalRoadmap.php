@@ -214,11 +214,16 @@ class BuatJadwalRoadmap extends Page
 
     public function buatJadwalHarian($jadwal_id): void
     {
-        $jadwal = \App\Models\JadwalRoadmap::find($jadwal_id);
+        $jadwal = \App\Models\JadwalRoadmap::find($jadwal_id);    
      
         if($jadwal){          
 
-            $this->buatJadwalPeserta($jadwal , $jadwal->gelombang_id , $jadwal->materi_id);
+            $this->buatJadwalPeserta($jadwal , $jadwal->gelombang_id , $jadwal->materi_id , $jadwal->group_id);
+
+             Notification::make()
+                ->title( 'Jadwal Harian untuk Materi ' . $jadwal->materi->nama_materi . ' Berhasil Dibuat' )
+                ->success()
+                ->send();
            
 
         }
@@ -226,16 +231,8 @@ class BuatJadwalRoadmap extends Page
     }
 
 
-    public function buatJadwalPeserta(JadwalRoadmap $jadwal, int $gelombang_id , int $materi_id): void 
+    public function buatJadwalPeserta(JadwalRoadmap $jadwal, ?int $gelombang_id = null , int $materi_id, ?int $group_id = null): void 
     {
-
-        // $angkatan = Angkatan::first(); // sementara
-
-        // Kelas::create([
-        //     "angkatan_id" => $angkatan->id,
-        //     "nama_kelas" => $angkatan->kode_angkatan . '-' . "Kelas 1"           
-
-        // ]);   
         
         // Buat Jadwal Ujian Harian
         $materi = Materi::find($materi_id);  
@@ -259,7 +256,6 @@ class BuatJadwalRoadmap extends Page
             $jadwal_ujian = JadwalUjian::create([
                 "tanggal" => $tanggal,
                 "type" => "Harian",
-                // "angkatan_id" => $angkatan->id,
                 "urutan" => $hari_ke,
                 'roadmap_id' => $jadwal->roadmap_id,
                 'gelombang_id' => $jadwal->gelombang_id,   
@@ -271,10 +267,10 @@ class BuatJadwalRoadmap extends Page
                 "tanggal" => $tanggal,
                 "materi_detail_id" => $pertemuan->id,
                 "user_id" => auth()->user()->id,
-                // "angkatan_id" => $angkatan->id,
                 "code" => uniqid(),
                 'roadmap_id' => $jadwal->roadmap_id,
                 'gelombang_id' => $jadwal->gelombang_id,
+                // 'group_id' => $jadwal->group_id,
                 'jadwal_roadmap_id' => $jadwal->id,
             ]);
 
