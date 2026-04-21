@@ -87,6 +87,8 @@ class HomeNew extends Component
                 $jadwal_khusus = null;
                 $ujian_harian = null;
                 $soal_harian = 0;
+                $materi_khusus = null;
+                $jadwal_harian_khusus = null;
 
                 $group_user = $user->groups->pluck('id')->toArray();
                             
@@ -104,6 +106,11 @@ class HomeNew extends Component
 
                     if($jadwal_khusus){
                         $materi_khusus = $jadwal_khusus->materi_detail->materi;
+
+                        $ujian_harian_khusus = JadwalUjian::where('type', 'Harian')->where('roadmap_id', $jadwal_roadmap_group->roadmap_id)
+                                        ->where('urutan', $jadwal_khusus->materi_detail->pertemuan )
+                                        ->where('materi_id' , $jadwal_roadmap_group->materi_id)
+                                        ->first();
                     }
                                                                
                 }
@@ -185,7 +192,17 @@ class HomeNew extends Component
 
         $pengumuman = Setting::getValue('pengumuman');
 
-        return view('livewire.homepage.home-new',compact('materi', 'angkatan' , 'jadwal_ujian' , 'ujian_harian' , 'soal_harian' , 'pengumuman' , 'jadwal' , 'jadwal_khusus' , 'materi_khusus'))->extends('layouts.app')->section('content');
+        return view('livewire.homepage.home-new',compact('materi', 
+        'angkatan' , 
+        'jadwal_ujian' , 
+        'ujian_harian' , 
+        'soal_harian' ,
+        'pengumuman' ,
+        'jadwal' , 
+        'jadwal_khusus' , 
+        'materi_khusus',
+        'ujian_harian_khusus'
+         ))->extends('layouts.app')->section('content');
     }
 
     public function login(){

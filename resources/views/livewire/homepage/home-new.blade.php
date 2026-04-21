@@ -306,8 +306,8 @@
                   <span class="pulse-dot" aria-hidden="true"></span>
                   <span>Ada audio yang sedang diputar. Klik "Tampilkan Audio" untuk membuka pemutar.</span>
                 </div>
-                @if($jadwal_khusus && $ujian_harian && $soal_harian > 0)
-                  <a href="{{route('kuis',['materi_id' => $materi_khusus->id,'jadwal_id'=>$ujian_harian->id ])}}?trial={{ request()->trial }}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
+                @if($jadwal_khusus && $ujian_harian_khusus && $soal_harian > 0)
+                  <a href="{{route('kuis',['materi_id' => $materi_khusus->id,'jadwal_id'=>$ujian_harian_khusus->id ])}}?trial={{ request()->trial }}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
                 @endif
               @endif
             </div>
