@@ -35,10 +35,13 @@ class BuatJadwalRoadmap extends Page
 
     public $filter_materi;
 
+    public $group;
+
 
     public function mount($record): void
     {      
         $this->record = Roadmap::find($record);
+
      
     }
 
@@ -65,22 +68,54 @@ class BuatJadwalRoadmap extends Page
         return [
             'record' => $this->record,
             'list_gelombang' => \App\Models\Gelombang::all(),
+            'list_group' => \App\Models\Group::all(),
             'jadwal_roadmap'=> $jadwal_roadmap->paginate(10)
         ];
     }
 
     public function buatJadwal()
     {
+       
         // Logic untuk membuat jadwal roadmap
 
         $list_materi = $this->record->materi; // Mengambil materi dari roadmap
+        
+        if($this->gelombang == 'group'){
 
-        // dd($list_materi);    
+            $group = \App\Models\Group::find($this->group);
 
-        if($this->gelombang == 'semua'){
+            $cek = \App\Models\JadwalRoadmap::where('group_id', $group->id)->where('roadmap_id', $this->record->id)->first();
+
+            if(!$cek){
+
+                $tanggal = $this->tanggal_mulai; // reset bulan tahun ke tanggal sekarang
+              
+
+                foreach($list_materi as $materi){
+
+                    \App\Models\JadwalRoadmap::create([
+                        'group_id' => $group->id,
+                        'roadmap_id' => $this->record->id,
+                        'materi_id' => $materi->id,
+                        'judul' => $materi->nama_materi,                      
+                        'tanggal_mulai' => $this->getSeninAwalBulan($tanggal),
+                        'tanggal_ujian' => date('Y-m-t', strtotime($tanggal)),
+                        'is_aktif' => true,
+                    ]);
+
+                    // bulan di tambah 1 bulan
+                    $tanggal = date('Y-m-d', strtotime($tanggal . ' +1 month'));
+
+                }
+
+
+            }
+
+    
+
+        } else if($this->gelombang == 'semua'){
 
             $list_gelombang = \App\Models\Gelombang::all();
-
             
 
             foreach ($list_gelombang as $gelombang) {
