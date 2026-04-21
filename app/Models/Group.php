@@ -9,7 +9,7 @@ class Group extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama_group'];
+    protected $fillable = ['nama_group', 'kode_group'];
 
     public function users()
     {

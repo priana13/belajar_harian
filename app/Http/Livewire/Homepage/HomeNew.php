@@ -83,16 +83,56 @@ class HomeNew extends Component
 
                 $user = auth()->user();
 
-                $jadwal_roadmap = JadwalRoadmap::where('gelombang_id', $user->gelombang_id)->first();
-                              
+                $jadwal = null;
+                $jadwal_khusus = null;
+                $ujian_harian = null;
+                $soal_harian = 0;
+                $materi_khusus = null;
+                $jadwal_harian_khusus = null;
+                $ujian_harian_khusus = null;
+
+                $group_user = $user->groups->pluck('id')->toArray();
+                            
+
+                $jadwal_roadmap_group = JadwalRoadmap::whereIn('group_id', $group_user)
+                                    ->whereMonth('tanggal_mulai', $hari_ini->month)
+                                    ->whereYear('tanggal_mulai', $hari_ini->year)
+                                    ->first();
+
+                if($jadwal_roadmap_group){
+
+                    $jadwal_khusus = Belajar::where('jadwal_roadmap_id', $jadwal_roadmap_group->id)
+                                            ->where('tanggal', date('Y-m-d'))
+                                            ->latest()->first(); 
+
+                    if($jadwal_khusus){
+                        $materi_khusus = $jadwal_khusus->materi_detail->materi;
+
+                        $ujian_harian_khusus = JadwalUjian::where('type', 'Harian')->where('roadmap_id', $jadwal_roadmap_group->roadmap_id)
+                                        ->where('urutan', $jadwal_khusus->materi_detail->pertemuan )
+                                        ->where('materi_id' , $jadwal_roadmap_group->materi_id)
+                                        ->first();
+                    }
+                                                               
+                }
+                
+
+
+
+                $jadwal_roadmap = JadwalRoadmap::where('gelombang_id', $user->gelombang_id)
+                                    ->whereMonth('tanggal_mulai', $hari_ini->month)
+                                    ->whereYear('tanggal_mulai', $hari_ini->year)
+                                    ->first();
+
+
+
+                             
                 if($jadwal_roadmap){
 
                     $jadwal = Belajar::where('gelombang_id', $user->gelombang_id)
                                         ->where('roadmap_id', $jadwal_roadmap->roadmap_id)
                                         ->where('tanggal', date('Y-m-d'))
-                                        ->latest()->first(); 
-
-                    
+                                        ->latest()->first();                                             
                             
                             
                     if($jadwal){
@@ -153,7 +193,17 @@ class HomeNew extends Component
 
         $pengumuman = Setting::getValue('pengumuman');
 
-        return view('livewire.homepage.home-new',compact('materi', 'angkatan' , 'jadwal_ujian' , 'ujian_harian' , 'soal_harian' , 'pengumuman' , 'jadwal'))->extends('layouts.app')->section('content');
+        return view('livewire.homepage.home-new',compact('materi', 
+        'angkatan' , 
+        'jadwal_ujian' , 
+        'ujian_harian' , 
+        'soal_harian' ,
+        'pengumuman' ,
+        'jadwal' , 
+        'jadwal_khusus' , 
+        'materi_khusus',
+        'ujian_harian_khusus'
+         ))->extends('layouts.app')->section('content');
     }
 
     public function login(){
