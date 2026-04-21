@@ -81,14 +81,16 @@ class HomeNew extends Component
 
             }else{
 
-                $jadwal_roadmap = JadwalRoadmap::where('gelombang_id', auth()->user()->gelombang_id)->first();
+                $user = auth()->user();
+
+                $jadwal_roadmap = JadwalRoadmap::where('gelombang_id', $user->gelombang_id)->first();
                               
                 if($jadwal_roadmap){
 
-                    $jadwal = Belajar::where('gelombang_id', auth()->user()
-                            ->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
-                            ->where('tanggal', date('Y-m-d'))
-                            ->latest()->first(); 
+                    $jadwal = Belajar::where('gelombang_id', $user->gelombang_id)
+                                        ->where('roadmap_id', $jadwal_roadmap->roadmap_id)
+                                        ->where('tanggal', date('Y-m-d'))
+                                        ->latest()->first(); 
 
                     
                             
@@ -100,7 +102,7 @@ class HomeNew extends Component
                         
                         $ujian_harian = JadwalUjian::where('type', 'Harian')
                                         // ->where('angkatan_id', $angkatan_aktif->angkatan_id)
-                                        ->where('gelombang_id', auth()->user()->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
+                                        ->where('gelombang_id', $user->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
                                         ->where('urutan', $jadwal->materi_detail->pertemuan )
                                         ->where('materi_id' , $jadwal_roadmap->materi_id)
                                         ->first();  
@@ -115,6 +117,7 @@ class HomeNew extends Component
 
 
                 }
+             
                 
 
 
