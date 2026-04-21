@@ -34,10 +34,9 @@ class GroupResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nama_group'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                // count users
+                Tables\Columns\TextColumn::make('users_count')->counts('users')->label('Jumlah Peserta'),
+                
             ])
             ->filters([
                 //
@@ -46,14 +45,14 @@ class GroupResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
     
     public static function getRelations(): array
     {
         return [
-            //
+                RelationManagers\UsersRelationManager::class,
         ];
     }
     
