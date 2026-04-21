@@ -48,12 +48,23 @@ class DaftarNilai extends Component
     
     public function render()
     {
+        $tahun  = date('Y' , strtotime($this->ujian->created_at));
+        $bulan = date('m' , strtotime($this->ujian->created_at));
 
-        $nilai_ujian_harian = Ujian::where('angkatan_id', $this->angkatan->id)->where('user_id', $this->ujian->user_id)->harian()->sum('nilai');
+        $nilai_ujian_harian = Ujian::where('materi_id', $this->ujian->materi_id)
+                                ->whereYear('created_at', $tahun)
+                                ->whereMonth('created_at', $bulan)
+                                ->where('user_id', $this->ujian->user_id)->harian()->sum('nilai');
 
-        $nilai_ujian_pekanan = Ujian::where('angkatan_id', $this->angkatan->id)->where('user_id', $this->ujian->user_id)->pekanan()->sum("nilai");
+        $nilai_ujian_pekanan = Ujian::where('materi_id', $this->ujian->materi_id)
+                                ->whereYear('created_at', $tahun)
+                                ->whereMonth('created_at', $bulan)
+        ->where('user_id', $this->ujian->user_id)->pekanan()->sum("nilai");
 
-        $nilai_ujian_akhir = Ujian::where('angkatan_id', $this->angkatan->id)->where('user_id', $this->ujian->user_id)->ujianAkhir()->sum("nilai");
+        $nilai_ujian_akhir = Ujian::where('materi_id', $this->ujian->materi_id)
+                                ->whereYear('created_at', $tahun)
+                                ->whereMonth('created_at', $bulan)
+                                ->where('user_id', $this->ujian->user_id)->ujianAkhir()->sum("nilai");
 
         $total_nilai = ( $nilai_ujian_harian / 20 ) + ( $nilai_ujian_pekanan / 4 ) + $nilai_ujian_akhir;        
 
@@ -71,7 +82,7 @@ class DaftarNilai extends Component
      
         // dd($nilai_ujian_harian, $nilai_ujian_harian, $nilai_ujian_akhir);        
 
-        $ujian_ids = Ujian::where('angkatan_id', $this->angkatan->id)->where('user_id', $this->ujian->user_id)->pluck('id');
+        $ujian_ids = Ujian::where('materi_id', $this->ujian->materi_id)->where('user_id', $this->ujian->user_id)->pluck('id');
 
         $soal_ujian = SoalUjian::whereIn('ujian_id', $ujian_ids)->get(); 
 
@@ -81,7 +92,7 @@ class DaftarNilai extends Component
         // dd( $this->getPredikat( $this->nilai_ujian['pekanan'] ) );
 
 
-        $this->barcodeData = base64_encode(QrCode::format('png')->generate(url()->current()));
+        $this->barcodeData = base64_encode(QrCode::format('svg')->generate(url()->current()));
 
         return view('livewire.kuis.daftar-nilai')->extends('layouts.app-full')->section('content');
     }

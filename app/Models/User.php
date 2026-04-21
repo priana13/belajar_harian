@@ -80,6 +80,12 @@ class User extends Authenticatable implements FilamentUser
         return $query->where('jenis_user_id', $type);
     }
 
+    // group
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_users');
+    }
+
     public function kelompok()
     {
         // dd('masuk');

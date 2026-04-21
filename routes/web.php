@@ -1,26 +1,17 @@
 <?php
 
-use App\Models\Kota;
-use App\Models\User;
-use App\Models\Angkatan;
-use App\Models\Provinsi;
-use Livewire\Redirector;
-use App\Http\Livewire\Pendaftaran;
-use App\Http\Livewire\User\Profile;
-use App\Http\Livewire\Homepage\Home;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CobaController;
-use App\Http\Controllers\PageController;
-use Laravel\Socialite\Facades\Socialite;
-
-use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\API\UjianController;
 use App\Http\Controllers\Auth\SocialiteController;
-use App\Http\Controllers\auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DaftarKelasKhususController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\PageController;
 use App\Http\Livewire\Homepage\HomeNew;
+use App\Http\Livewire\Pendaftaran;
+use App\Http\Livewire\User\Profile;
+use App\Models\User;
+use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +52,10 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/materi-video/{kode}', App\Http\Livewire\MateriVideo\HalamanMateriVideo::class)->name('halaman-materi-video');
 
 
+    Route::post('/daftar-kelas-khusus', [DaftarKelasKhususController::class, 'postDaftar'])->name('daftar-kelas-khusus.post');
+    Route::get('/daftar-kelas-khusus/{group:kode_group}', [DaftarKelasKhususController::class, 'daftar'])->name('daftar-kelas-khusus');
+
+
 
 });
 
@@ -90,8 +85,9 @@ Route::middleware(['guest'])->group(function(){
 
     Route::get('/daftar/{kode_daftar}', Pendaftaran::class)->name('daftar_angkatan');
 
-});
-
+    
+    });
+    
 
 Route::get('/auth/redirect', [SocialiteController::class, 'redirect']);
 Route::get('/auth/callback', [SocialiteController::class, 'callback']);

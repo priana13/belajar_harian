@@ -34,4 +34,9 @@ class JadwalRoadmap extends Model
         return $this->hasMany(Belajar::class, 'jadwal_roadmap_id');
     }
 
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'group_id');
+    }
+
 }

@@ -43,15 +43,19 @@ class HomeNew extends Component
         $pengumuman = null;
         $jadwal = null;
         
+        $jadwal_khusus = null; 
+        $materi_khusus = null;
+        $jadwal_harian_khusus = null;
+        $ujian_harian_khusus = null;
+        
 
         if (Auth::check()) {
 
-            // $angkatan_aktif = AngkatanUser::aktif()->where('user_id', auth()->user()->id)->first();  
+             
 
             if( request()->trial){    
                 
-                // $materi_trial = Materi::whereHas('soal')->first();
-                $materi_trial = Materi::find(config('app.materi_trial_id'));
+                $materi_trial = Materi::find(config('app.materi_trial_id')) ?? Materi::whereHas('soal')->first();
 
                 $materi_trial_detail = $materi_trial->materi_detail->pluck('id');            
               
@@ -81,16 +85,50 @@ class HomeNew extends Component
 
             }else{
 
-                $jadwal_roadmap = JadwalRoadmap::where('gelombang_id', auth()->user()->gelombang_id)->first();
-                              
+                $user = auth()->user();
+
+                $group_user = $user->groups->pluck('id')->toArray();
+                            
+
+                $jadwal_roadmap_group = JadwalRoadmap::whereIn('group_id', $group_user)
+                                    ->whereMonth('tanggal_mulai', $hari_ini->month)
+                                    ->whereYear('tanggal_mulai', $hari_ini->year)
+                                    ->first();
+
+                if($jadwal_roadmap_group){
+
+                    $jadwal_khusus = Belajar::where('jadwal_roadmap_id', $jadwal_roadmap_group->id)
+                                            ->where('tanggal', date('Y-m-d'))
+                                            ->latest()->first(); 
+
+                    if($jadwal_khusus){
+                        $materi_khusus = $jadwal_khusus->materi_detail->materi;
+
+                        $ujian_harian_khusus = JadwalUjian::where('type', 'Harian')->where('roadmap_id', $jadwal_roadmap_group->roadmap_id)
+                                        ->where('urutan', $jadwal_khusus->materi_detail->pertemuan )
+                                        ->where('materi_id' , $jadwal_roadmap_group->materi_id)
+                                        ->first();
+                    }
+                                                               
+                }
+                
+
+
+
+                $jadwal_roadmap = JadwalRoadmap::where('gelombang_id', $user->gelombang_id)
+                                    ->whereMonth('tanggal_mulai', $hari_ini->month)
+                                    ->whereYear('tanggal_mulai', $hari_ini->year)
+                                    ->first();
+
+
+
+                             
                 if($jadwal_roadmap){
 
-                    $jadwal = Belajar::where('gelombang_id', auth()->user()
-                            ->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
-                            ->where('tanggal', date('Y-m-d'))
-                            ->latest()->first(); 
-
-                    
+                    $jadwal = Belajar::where('gelombang_id', $user->gelombang_id)
+                                        ->where('roadmap_id', $jadwal_roadmap->roadmap_id)
+                                        ->where('tanggal', date('Y-m-d'))
+                                        ->latest()->first();                                             
                             
                             
                     if($jadwal){
@@ -100,7 +138,7 @@ class HomeNew extends Component
                         
                         $ujian_harian = JadwalUjian::where('type', 'Harian')
                                         // ->where('angkatan_id', $angkatan_aktif->angkatan_id)
-                                        ->where('gelombang_id', auth()->user()->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
+                                        ->where('gelombang_id', $user->gelombang_id)->where('roadmap_id', $jadwal_roadmap->roadmap_id)
                                         ->where('urutan', $jadwal->materi_detail->pertemuan )
                                         ->where('materi_id' , $jadwal_roadmap->materi_id)
                                         ->first();  
@@ -115,6 +153,7 @@ class HomeNew extends Component
 
 
                 }
+             
                 
 
 
@@ -150,7 +189,17 @@ class HomeNew extends Component
 
         $pengumuman = Setting::getValue('pengumuman');
 
-        return view('livewire.homepage.home-new',compact('materi', 'angkatan' , 'jadwal_ujian' , 'ujian_harian' , 'soal_harian' , 'pengumuman' , 'jadwal'))->extends('layouts.app')->section('content');
+        return view('livewire.homepage.home-new',compact('materi', 
+        'angkatan' , 
+        'jadwal_ujian' , 
+        'ujian_harian' , 
+        'soal_harian' ,
+        'pengumuman' ,
+        'jadwal' , 
+        'jadwal_khusus' , 
+        'materi_khusus',
+        'ujian_harian_khusus'
+         ))->extends('layouts.app')->section('content');
     }
 
     public function login(){

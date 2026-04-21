@@ -104,7 +104,7 @@ return [
             'mov', 'avi', 'wmv', 'mp3', 'm4a',
             'jpg', 'jpeg', 'mpga', 'webp', 'wma',
         ],
-        'max_upload_time' => 5, // Max duration (in minutes) before an upload gets invalidated.
+        'max_upload_time' => env('LIVEWIRE_UPLOAD_MAX_TIME', 30), // Max duration (in minutes) before an upload gets invalidated.
         'rules' => 'file|mimes:png,jpg,pdf,mp3,mp4|max:1024000',
     ],
 

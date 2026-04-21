@@ -39,7 +39,7 @@ class Sertifikat extends Component
     
     public function render()
     {
-        $barcodeData = base64_encode(QrCode::format('png')->generate(url()->current()));
+        $barcodeData = base64_encode(QrCode::format('svg')->generate(url()->current()));
         
         return view('livewire.kuis.sertifikat',compact('barcodeData'))->extends('layouts.app-full')->section('content');
     }

@@ -16,9 +16,7 @@ class HistoryBelajar extends Component
     public $activeTab = 'history';
     
     public function render()
-    {
-
-      
+    {      
         
         if(request()->trial){
             
@@ -35,8 +33,8 @@ class HistoryBelajar extends Component
 
 
         // $ujian_akhir = Ujian::ujianAkhir()->where('user_id', $user->id)->pluck('kode_ujian' , 'angkatan_id')->toArray(); 
-        $ujian_akhir = Ujian::with(['sertifikat_user'])->ujianAkhir()->where('user_id', $user->id)->get();     
-
+        $ujian_akhir = Ujian::with(['sertifikat_user'])->ujianAkhir()->where('user_id', $user->id)->get();  
+          
         $angkatan_user = AngkatanUser::query()->where('user_id', $user->id);
 
         if($this->activeTab == 'sertifikat'){          

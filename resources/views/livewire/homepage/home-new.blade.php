@@ -111,6 +111,45 @@
     .sound-wave.paused .bar {
         height: 8px;
     }
+
+    .modern-btn.is-audio-playing {
+      background: linear-gradient(90deg, #0f766e 0%, #0891b2 100%);
+      box-shadow: 0 8px 24px rgba(8, 145, 178, 0.28);
+    }
+
+    .audio-playing-notice {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: 0.75rem;
+      padding: 0.625rem 0.875rem;
+      font-size: 0.875rem;
+      color: #0f172a;
+      background: linear-gradient(135deg, #ccfbf1 0%, #e0f2fe 100%);
+      border: 1px solid #67e8f9;
+    }
+
+    .audio-playing-notice .pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 9999px;
+      background: #0ea5e9;
+      box-shadow: 0 0 0 rgba(14, 165, 233, 0.8);
+      animation: pulse-dot 1.2s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse-dot {
+      0% {
+        box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.8);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(14, 165, 233, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(14, 165, 233, 0);
+      }
+    }
   </style>
   @endpush
 
@@ -203,11 +242,10 @@
             <div class="text-gray-500 text-sm">Ujian Akhir: <span class="font-semibold text-blue-700">{{ date('d M Y', strtotime( $angkatan->tanggal_ujian )) }}</span></div>
           </div> --}}
         @endif
+  
+        <h2 class="modern-title mt-6 mb-2">Materi Hari ini </h2>
 
-        @if($jadwal)
-
-    
-          <h2 class="modern-title mt-6 mb-2">Materi Hari ini </h2>
+        @if($jadwal)    
 
           <div class="bg-white p-4 rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
             <div class="flex flex-col gap-2">
@@ -227,7 +265,11 @@
               @if($jadwal->materi_detail->jenis_kontent == 'Video')
                 <livewire:materi.materi-video video_url="{{ $jadwal->materi_detail->video_url }}" />
               @else
-                <button class="modern-btn w-full mt-4 open-modal" data-modal-id="myModal">DENGARKAN MATERI</button>
+                <button class="modern-btn w-full mt-4 open-modal listen-materi-btn" data-modal-id="myModal" data-track-index="0">DENGARKAN MATERI</button>
+                <div class="audio-playing-notice mt-3 hidden" role="status" aria-live="polite">
+                  <span class="pulse-dot" aria-hidden="true"></span>
+                  <span>Ada audio yang sedang diputar. Klik "Tampilkan Audio" untuk membuka pemutar.</span>
+                </div>
                 @if($jadwal && $ujian_harian && $soal_harian > 0)
                   <a href="{{route('kuis',['materi_id' => $materi->id,'jadwal_id'=>$ujian_harian->id ])}}?trial={{ request()->trial }}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
                 @endif
@@ -236,6 +278,44 @@
         </div>
         
         @endif
+
+
+        @if($jadwal_khusus)
+    
+
+          <div class="bg-white p-4 rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+            <div class="flex flex-col gap-2">
+                <div class="flex justify-between items-center">
+                  <span class="modern-badge">{{ $materi_khusus->kategori->nama_kategori }}</span>
+                </div>
+                <div class="modern-title">{{ $jadwal_khusus->materi_detail->judul }}</div>
+                <div class="text-xs font-semibold text-blue-900">{{ $materi_khusus->nama_materi }}</div>
+                <div class="flex gap-2 text-xs mt-2">
+                  <div class="bg-blue-100 text-blue-700 py-1 px-2 rounded-md font-semibold flex items-center justify-center">
+                    {{ $jadwal_khusus->materi_detail->pertemuan }}
+                  </div>
+                  <div class="bg-blue-100 text-blue-700 py-1 px-2 rounded-md font-semibold">
+                    {{date('d M Y', strtotime( $jadwal_khusus->tanggal ))}}
+                  </div>
+                </div>
+              @if($jadwal_khusus->materi_detail->jenis_kontent == 'Video')
+                <livewire:materi.materi-video video_url="{{ $jadwal_khusus->materi_detail->video_url }}" />
+              @else
+                <button class="modern-btn w-full mt-4 open-modal listen-materi-btn" data-modal-id="myModal" data-track-index="{{ $jadwal ? 1 : 0 }}">DENGARKAN MATERI</button>
+                <div class="audio-playing-notice mt-3 hidden" role="status" aria-live="polite">
+                  <span class="pulse-dot" aria-hidden="true"></span>
+                  <span>Ada audio yang sedang diputar. Klik "Tampilkan Audio" untuk membuka pemutar.</span>
+                </div>
+                @if($jadwal_khusus && $ujian_harian_khusus && $soal_harian > 0)
+                  <a href="{{route('kuis',['materi_id' => $materi_khusus->id,'jadwal_id'=>$ujian_harian_khusus->id ])}}?trial={{ request()->trial }}" class="modern-btn w-full mt-3 bg-white text-white text-center border border-blue-200 hover:bg-blue-50">Kerjakan Soal</a>
+                @endif
+              @endif
+            </div>
+        </div>
+        
+        @endif
+
+
 
 
         @if(count( $jadwal_ujian ) > 0)    
@@ -377,6 +457,8 @@
           let volume_slider = document.querySelector(".volume_slider");
           let curr_time = document.querySelector(".current-time");
           let total_duration = document.querySelector(".total-duration");
+          let listenMateriBtns = document.querySelectorAll(".listen-materi-btn");
+          let audioPlayingNotices = document.querySelectorAll(".audio-playing-notice");
 
           let track_index = 0;
           let isPlaying = false;
@@ -396,25 +478,46 @@
           let animationId = null;
 
           // Define the tracks that have to be played
-          let track_list = [
-            @if($jadwal)
-              {
-                id:1,
-                name: "{{ $jadwal->materi_detail->judul }}",
-                artist: "{{$jadwal->materi_detail->materi->nama_materi}}",
-                path: "storage/{{$jadwal->materi_detail->multimedia_url}}"
-              },
-             @endif
-          ];
+          let track_list = [];
+
+          @if($jadwal && $jadwal->materi_detail->jenis_kontent != 'Video' && $jadwal->materi_detail->multimedia_url)
+          track_list.push({
+            id: 1,
+            name: "{{ $jadwal->materi_detail->judul }}",
+            artist: "{{ $jadwal->materi_detail->materi->nama_materi }}",
+            path: "storage/{{ $jadwal->materi_detail->multimedia_url }}"
+          });
+          @endif
+
+          @if($jadwal_khusus && $jadwal_khusus->materi_detail->jenis_kontent != 'Video' && $jadwal_khusus->materi_detail->multimedia_url)
+          track_list.push({
+            id: 2,
+            name: "{{ $jadwal_khusus->materi_detail->judul }}",
+            artist: "{{ $jadwal_khusus->materi_detail->materi->nama_materi }}",
+            path: "storage/{{ $jadwal_khusus->materi_detail->multimedia_url }}"
+          });
+          @endif
+
+          function syncAudioUiState() {
+            listenMateriBtns.forEach((button) => {
+              button.textContent = isPlaying ? "TAMPILKAN AUDIO" : "DENGARKAN MATERI";
+              button.classList.toggle('is-audio-playing', isPlaying);
+            });
+
+            audioPlayingNotices.forEach((notice) => {
+              notice.classList.toggle('hidden', !isPlaying);
+            });
+          }
 
           function open_modal(id){
-            track_index = id
-            console.log(track_list[track_index].path)
-            loadTrack(track_index)
-            playpauseTrack()
+            if (!track_list[id]) return;
+            track_index = id;
+            loadTrack(track_index);
+            playTrack();
           }
 
           function loadTrack(track_index) {
+            if (!track_list[track_index]) return;
             clearInterval(updateTimer);
             resetValues();
             curr_track.src = track_list[track_index].path;
@@ -423,6 +526,7 @@
             track_artist.textContent = track_list[track_index].artist;
             updateTimer = setInterval(seekUpdate, 1000);
             curr_track.addEventListener("ended", pauseTrack);
+            syncAudioUiState();
           }
 
           function resetValues() {
@@ -432,7 +536,17 @@
           }
 
           // Load the first track in the tracklist
-          loadTrack(track_index);
+          if (track_list.length > 0) {
+            loadTrack(track_index);
+          }
+
+          listenMateriBtns.forEach((button) => {
+            button.addEventListener("click", function () {
+              const selectedIndex = Number(this.dataset.trackIndex);
+              if (!Number.isInteger(selectedIndex)) return;
+              open_modal(selectedIndex);
+            });
+          });
 
           function playpauseTrack() {
             if (!isPlaying) playTrack();
@@ -487,6 +601,8 @@
               soundWave.classList.remove('paused');
               visualize();
             }
+
+            syncAudioUiState();
           }
 
           function pauseTrack() {
@@ -505,6 +621,8 @@
                 bar.style.height = '8px';
               });
             }
+
+            syncAudioUiState();
           }
 
           function nextTrack() {
@@ -518,7 +636,7 @@
           function prevTrack() {
             if (track_index > 0)
               track_index -= 1;
-            else track_index = track_list.length;
+            else track_index = track_list.length - 1;
             loadTrack(track_index);
             playTrack();
           }
@@ -555,6 +673,8 @@
 
             }
           }
+
+          syncAudioUiState();
        </script>
 
 

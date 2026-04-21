@@ -25,7 +25,7 @@ class BuatJadwalRoadmap extends Page
 
     protected static string $view = 'filament.resources.roadmap-resource.pages.buat-jadwal-roadmap';
 
-    public $gelombang;
+    public $gelombang = 1;
 
     public $tanggal_mulai;
 
@@ -35,10 +35,13 @@ class BuatJadwalRoadmap extends Page
 
     public $filter_materi;
 
+    public $group;
+
 
     public function mount($record): void
     {      
         $this->record = Roadmap::find($record);
+
      
     }
 
@@ -65,20 +68,55 @@ class BuatJadwalRoadmap extends Page
         return [
             'record' => $this->record,
             'list_gelombang' => \App\Models\Gelombang::all(),
+            'list_group' => \App\Models\Group::all(),
             'jadwal_roadmap'=> $jadwal_roadmap->paginate(10)
         ];
     }
 
     public function buatJadwal()
     {
+       
         // Logic untuk membuat jadwal roadmap
 
         $list_materi = $this->record->materi; // Mengambil materi dari roadmap
+        
+        if($this->gelombang == 'group'){
+
+            $group = \App\Models\Group::find($this->group);
+
+            $cek = \App\Models\JadwalRoadmap::where('group_id', $group->id)->where('roadmap_id', $this->record->id)->first();
+
+            if(!$cek){
+
+                $tanggal = $this->tanggal_mulai; // reset bulan tahun ke tanggal sekarang
+              
+
+                foreach($list_materi as $materi){
+
+                    \App\Models\JadwalRoadmap::create([
+                        'group_id' => $group->id,
+                        'roadmap_id' => $this->record->id,
+                        'materi_id' => $materi->id,
+                        'judul' => $materi->nama_materi,                      
+                        'tanggal_mulai' => $this->getSeninAwalBulan($tanggal),
+                        'tanggal_ujian' => date('Y-m-t', strtotime($tanggal)),
+                        'is_aktif' => true,
+                    ]);
+
+                    // bulan di tambah 1 bulan
+                    $tanggal = date('Y-m-d', strtotime($tanggal . ' +1 month'));
+
+                }
 
 
-        if($this->gelombang == 'semua'){
+            }
+
+    
+
+        } else if($this->gelombang == 'semua'){
 
             $list_gelombang = \App\Models\Gelombang::all();
+            
 
             foreach ($list_gelombang as $gelombang) {
 
@@ -176,11 +214,16 @@ class BuatJadwalRoadmap extends Page
 
     public function buatJadwalHarian($jadwal_id): void
     {
-        $jadwal = \App\Models\JadwalRoadmap::find($jadwal_id);
+        $jadwal = \App\Models\JadwalRoadmap::find($jadwal_id);    
      
         if($jadwal){          
 
-            $this->buatJadwalPeserta($jadwal , $jadwal->gelombang_id , $jadwal->materi_id);
+            $this->buatJadwalPeserta($jadwal , $jadwal->gelombang_id , $jadwal->materi_id , $jadwal->group_id);
+
+             Notification::make()
+                ->title( 'Jadwal Harian untuk Materi ' . $jadwal->materi->nama_materi . ' Berhasil Dibuat' )
+                ->success()
+                ->send();
            
 
         }
@@ -188,16 +231,8 @@ class BuatJadwalRoadmap extends Page
     }
 
 
-    public function buatJadwalPeserta(JadwalRoadmap $jadwal, int $gelombang_id , int $materi_id): void 
+    public function buatJadwalPeserta(JadwalRoadmap $jadwal, ?int $gelombang_id = null , int $materi_id, ?int $group_id = null): void 
     {
-
-        // $angkatan = Angkatan::first(); // sementara
-
-        // Kelas::create([
-        //     "angkatan_id" => $angkatan->id,
-        //     "nama_kelas" => $angkatan->kode_angkatan . '-' . "Kelas 1"           
-
-        // ]);   
         
         // Buat Jadwal Ujian Harian
         $materi = Materi::find($materi_id);  
@@ -221,7 +256,6 @@ class BuatJadwalRoadmap extends Page
             $jadwal_ujian = JadwalUjian::create([
                 "tanggal" => $tanggal,
                 "type" => "Harian",
-                // "angkatan_id" => $angkatan->id,
                 "urutan" => $hari_ke,
                 'roadmap_id' => $jadwal->roadmap_id,
                 'gelombang_id' => $jadwal->gelombang_id,   
@@ -233,10 +267,10 @@ class BuatJadwalRoadmap extends Page
                 "tanggal" => $tanggal,
                 "materi_detail_id" => $pertemuan->id,
                 "user_id" => auth()->user()->id,
-                // "angkatan_id" => $angkatan->id,
                 "code" => uniqid(),
                 'roadmap_id' => $jadwal->roadmap_id,
                 'gelombang_id' => $jadwal->gelombang_id,
+                // 'group_id' => $jadwal->group_id,
                 'jadwal_roadmap_id' => $jadwal->id,
             ]);
 
