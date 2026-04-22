@@ -9,6 +9,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
 
 class BannerResource extends Resource
 {
@@ -38,11 +39,14 @@ class BannerResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('title'),                             
                 Tables\Columns\ImageColumn::make('image'),
-                // Tables\Columns\TextColumn::make('title'),                             
-                Tables\Columns\TextColumn::make('url'),
+                Tables\Columns\TextColumn::make('url')->getStateUsing(function($record) {
+                        return "Link";
+                    })->url(fn ($record) => $record->url)
+                    ->openUrlInNewTab(),
                 Tables\Columns\ToggleColumn::make('status'),
-                Tables\Columns\TextColumn::make('updated_at')->dateTime(),
+                // Tables\Columns\TextColumn::make('updated_at')->dateTime(),
             ])
             ->filters([
                 //
@@ -69,5 +73,11 @@ class BannerResource extends Resource
             'create' => Pages\CreateBanner::route('/create'),
             'edit' => Pages\EditBanner::route('/{record}/edit'),
         ];
-    }    
+    }   
+    
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->orderBy('status', 'desc');
+    }
+
 }
