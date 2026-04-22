@@ -202,46 +202,7 @@
         </div>
 
         @endif
-
-        {{-- end pengumuman --}}
-
-        {{-- cek user sudah terdaftar di angkatan aktif atau belum --}}
-
-
-        @if(auth()->user()->angkatan_user()->aktif()->count() == 0)
-          {{-- <div class="modern-title mb-2">Materi Tersedia:</div> --}}
-          {{-- @foreach($angkatan as $row)
-          <?php 
-            $cek_mulai_pendaftaran = strtotime( $row->mulai_pendaftaran )  <= strtotime( date('Y-m-d') ); 
-            $cek_akhir_pendaftaran = strtotime( $row->akhir_pendaftaran )  >= strtotime( date('Y-m-d') );           
-          ?>
-          @if( $row->angkatan_user->count() < $row->kuota && $cek_mulai_pendaftaran )
-          <div class="modern-card">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-              <div>
-                <div class="modern-label">Materi:</div>
-                <div class="modern-title">{{ $row->kode_angkatan }} - {{ $row->materi->nama_materi }}</div>
-                <div class="text-gray-500 text-sm mb-2">Mulai Belajar: <span class="font-semibold text-blue-700">{{ date('d M Y' , strtotime($row->tanggal_mulai)) }}</span></div>
-              </div>
-              <button wire:click="mendaftar({{ $row->id }})" class="modern-btn mt-2 md:mt-0">Ikuti</button>
-            </div>
-          </div>
-          @endif
-          @endforeach --}}
-        @else
-          {{-- <div class="modern-title mb-2">Anda Terdaftar sebagai Peserta Aktif:</div>
-          <?php 
-          $angkatan = ( auth()->user()->angkatan_user()->aktif()->first() ) ?  auth()->user()->angkatan_user()->aktif()->first()->angkatan : null;
-          ?>
-          <div class="modern-card">
-            <div class="modern-label">Materi:</div>
-            <div class="modern-title">{{ $angkatan->materi->nama_materi }}</div>
-            @if($angkatan->status == 'Pendaftaran')
-              <div class="text-gray-500 text-sm">Mulai Pembelajaran: <span class="font-semibold text-blue-700">{{ date('d M Y', strtotime( $angkatan->tanggal_mulai )) }}</span></div>
-            @endif
-            <div class="text-gray-500 text-sm">Ujian Akhir: <span class="font-semibold text-blue-700">{{ date('d M Y', strtotime( $angkatan->tanggal_ujian )) }}</span></div>
-          </div> --}}
-        @endif
+     
   
         <h2 class="modern-title mt-6 mb-2">Materi Hari ini </h2>
 
@@ -279,7 +240,6 @@
         
         @endif
 
-
         @if($jadwal_khusus)
     
 
@@ -312,7 +272,19 @@
               @endif
             </div>
         </div>
-        
+
+        @else 
+
+          @if(auth()->user()->groups->count() > 0)
+
+          Anda terdaftar di Group: {{ auth()->user()->groups->pluck('nama_group')->join(', ') }}
+          <br>
+
+          Mulai Pembelajaran: {{ date("d M Y", strtotime($mulai_belajar->tanggal_mulai ?? "-")) }}
+
+          <br> 
+          @endif
+
         @endif
 
 

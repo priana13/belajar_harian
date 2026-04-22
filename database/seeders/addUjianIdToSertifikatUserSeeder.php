@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Http\Livewire\Kuis\Sertifikat as KuisSertifikat;
 use App\Models\AngkatanUser;
+use App\Models\Sertifikat;
+use App\Models\SertifikatUser;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +16,7 @@ class addUjianIdToSertifikatUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $list_sertifikat_user = \App\Models\SertifikatUser::all();
+        $list_sertifikat_user = \App\Models\SertifikatUser::take(1)->get();
 
         $total = 0;
 
@@ -63,5 +66,59 @@ class addUjianIdToSertifikatUserSeeder extends Seeder
         $this->command->info("Sertifikat User with Ujian ID: " . $list_sertifikat_user->whereNotNull('ujian_id')->count());
 
         // end for code
+
+        // cek berdasarkan ujian dengan nilai cukup atau cumloude tapi belum memiliki sertifikat 
+
+        $sertifikat_user_ids = SertifikatUser::pluck('ujian_id');
+
+        $list_ujian = \App\Models\Ujian::where('predikat', '<>', "Kurang")
+            ->where('jenis_ujian_id', 3)
+            ->whereNotIn('id', $sertifikat_user_ids)
+            ->get();
+
+       
+ 
+        $sertifikat_user = null;
+        $ujian = null;
+
+        $total = 0;
+
+        foreach($list_ujian as $ujian){        
+           
+            $sertifikat_user = \App\Models\SertifikatUser::where('user_id', $ujian->user_id)
+                ->where('materi_id', $ujian->materi_id)
+                ->first();
+
+            $sertifikat_id = ($ujian->sertifikat_id) ? $ujian->sertifikat_id : Sertifikat::first()->id;
+         
+
+            if(!$sertifikat_user){            
+                  
+
+                 $sertifikat_user = SertifikatUser::create([
+                    'user_id' => $ujian->user_id,
+                    'sertifikat_id' => $sertifikat_id, // Asumsikan ada sertifikat default dengan ID 1
+                    'materi_id' => $ujian->materi_id,
+                    'predikat' => $ujian->predikat, // Contoh predikat
+                    'tanggal' => date("Y-m-d" , strtotime($ujian->created_at)),
+                    'code' => uniqid(),
+                    'ttd_image' => 'img/ttd2.png',
+
+                    'ttd_nama' => 'Irfan Bahar Nurdin, S.Th.I, M.M.,',
+                    'ttd_jabatan' => 'Manager',
+                ]);
+
+                $total++;
+
+            }
+
+            $sertifikat_user->ujian_id = $ujian->id;
+            $sertifikat_user->save();
+
+        }
+
+        $this->command->info("Data dari Ujian: " . $list_ujian->count());
+        $this->command->info("Total Sertifikat baru: $total");
+        $this->command->info("Sertifikat User with Ujian ID: " . $list_sertifikat_user->whereNotNull('ujian_id')->count());
     }
 }
