@@ -78,7 +78,9 @@ class BuatJadwalRoadmap extends Page
        
         // Logic untuk membuat jadwal roadmap
 
-        $list_materi = $this->record->materi; // Mengambil materi dari roadmap
+        $list_materi = $this->record->materi()
+            ->orderBy('roadmap_materi.id')            
+            ->get(); // Mengambil materi dari roadmap, urut berdasarkan id pivot
         
         if($this->gelombang == 'group'){
 

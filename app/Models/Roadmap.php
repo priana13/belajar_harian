@@ -19,7 +19,8 @@ class Roadmap extends Model
      */
     public function materi()
     {
-        return $this->belongsToMany(Materi::class, 'roadmap_materi', 'roadmap_id', 'materi_id');
+        return $this->belongsToMany(Materi::class, 'roadmap_materi', 'roadmap_id', 'materi_id')
+            ->withPivot('id');
     }
 
     /**

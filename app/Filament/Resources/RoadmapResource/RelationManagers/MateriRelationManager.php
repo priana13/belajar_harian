@@ -28,7 +28,11 @@ class MateriRelationManager extends RelationManager
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('pivot.id')
+                    ->label('ID Roadmap Materi')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('id')
+                    ->label('ID Materi')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nama_materi')
                     ->searchable()
