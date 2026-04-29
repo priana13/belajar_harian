@@ -310,9 +310,44 @@ class BuatJadwalRoadmap extends Page
                     // Dari Jumat ke Senin minggu berikutnya (tambah 3 hari)
                     $penambah_hari = 3;
                 }
-            } else {
+
+
+            } elseif ($materi_per_pekan == 5) {
                 // Fallback untuk kasus lain (setiap hari)
                 $penambah_hari = 1;
+
+                //  hari sabtu dan minggu di lewat
+                $dayOfWeek = date('N', strtotime($tanggal)); // 1 = Senin, 7 = Minggu
+                if ($dayOfWeek == 5) {
+                    // Jika hari ini Jum'at, tambahkan 2 hari untuk lompat ke Senin
+                    $penambah_hari = 3;
+                } elseif ($dayOfWeek == 6) {
+                    // Jika hari ini Sabtu, tambahkan 2 hari untuk lompat ke Senin
+                    $penambah_hari = 2;
+                } elseif ($dayOfWeek == 7) {
+                    // Jika hari ini Minggu, tambahkan 1 hari untuk lompat ke Senin
+                    $penambah_hari = 1;
+                }
+
+
+            }else {
+
+                // Fallback untuk kasus lain (setiap hari)
+                $penambah_hari = 1;
+
+                //  hari sabtu dan minggu di lewat
+                $dayOfWeek = date('N', strtotime($tanggal)); // 1 = Senin, 7 = Minggu
+               
+                if ($dayOfWeek == 6) {
+                    // Jika hari ini Sabtu, tambahkan 2 hari untuk lompat ke Senin
+                    $penambah_hari = 2;
+                } elseif ($dayOfWeek == 7) {
+                    // Jika hari ini Minggu, tambahkan 1 hari untuk lompat ke Senin
+                    $penambah_hari = 1;
+                }
+
+
+
             }
 
             $tanggal = date('Y-m-d', strtotime('+' . $penambah_hari . ' day', strtotime($tanggal)));
