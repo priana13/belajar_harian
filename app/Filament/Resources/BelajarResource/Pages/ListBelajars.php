@@ -10,7 +10,7 @@ class ListBelajars extends ListRecords
 {
     protected static string $resource = BelajarResource::class;
 
-    protected static ?string $title = 'Belajar';
+    protected static ?string $title = 'Jadwal Belajar';
 
     protected function getActions(): array
     {

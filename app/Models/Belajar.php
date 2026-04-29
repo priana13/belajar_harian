@@ -35,6 +35,11 @@ class Belajar extends Model
         return $this->belongsTo(Roadmap::class, 'roadmap_id');
     }
 
+    public function jadwal_roadmap(){
+
+        return $this->belongsTo(JadwalRoadmap::class, 'jadwal_roadmap_id');
+    }
+
     public function gelombang(){
 
         return $this->belongsTo(Gelombang::class, 'gelombang_id');

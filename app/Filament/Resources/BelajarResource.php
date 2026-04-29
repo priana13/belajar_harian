@@ -49,6 +49,7 @@ class BelajarResource extends Resource
                 // Tables\Columns\TextColumn::make('angkatan.kode_angkatan')->label("Kode"),
 
                 Tables\Columns\TextColumn::make('roadmap.nama_roadmap')->label("Roadmap"),
+                Tables\Columns\TextColumn::make('jadwal_roadmap.judul')->label("Jadwal Roadmap"),
                 Tables\Columns\TextColumn::make('gelombang.gel')->label("Gelombang"),
                 Tables\Columns\TextColumn::make('materi_detail.materi.nama_materi')->label("Materi"),
                 Tables\Columns\TextColumn::make('materi_detail.pertemuan')->label("Materi Pertemuan"),
@@ -65,10 +66,10 @@ class BelajarResource extends Resource
 
                 })->searchable(),
                 SelectFilter::make('status')->options(Belajar::getOptions()),
-                SelectFilter::make('angkatan')->relationship('angkatan', 'kode_angkatan'),
+                // SelectFilter::make('angkatan')->relationship('angkatan', 'kode_angkatan'),
                 SelectFilter::make('gelombang')->relationship('gelombang', 'gel'),
-                SelectFilter::make('roadmap')->relationship('roadmap', 'nama_roadmap'),
-                // tanggal filter 
+                SelectFilter::make('roadmap')->relationship('roadmap', 'nama_roadmap'),               
+                SelectFilter::make('jadwal_roadmap')->relationship('jadwal_roadmap', 'judul')->searchable(),
                 Tables\Filters\Filter::make('tanggal')
                     ->form([
                         Forms\Components\DatePicker::make('from')->label('Dari Tanggal'),
