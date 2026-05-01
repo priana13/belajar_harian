@@ -234,12 +234,12 @@
                 <!-- Content Container -->
                 <div class="glass-effect rounded-3xl card-shadow overflow-hidden">
                     <!-- Header -->
-                    <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
+                    {{-- <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
                         <h2 class="text-xl font-bold text-white">
                             <i class="fas fa-headphones mr-2"></i>
                             Materi Tersedia
                         </h2>
-                    </div>
+                    </div> --}}
 
                     <!-- Materi Ajar Tab -->
                     <div class="px-6 py-6">
