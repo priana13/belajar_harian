@@ -150,6 +150,157 @@
         box-shadow: 0 0 0 0 rgba(14, 165, 233, 0);
       }
     }
+
+    /* Gallery Modal Styles */
+    .gallery-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .gallery-modal-overlay.active {
+      display: flex;
+    }
+
+    .gallery-modal-content {
+      background: white;
+      border-radius: 1.5rem;
+      width: 100%;
+      max-width: 800px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .gallery-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .gallery-modal-header h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1e40af;
+      margin: 0;
+    }
+
+    .gallery-modal-close {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #6b7280;
+      transition: color 0.2s;
+      padding: 0;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gallery-modal-close:hover {
+      color: #1e40af;
+    }
+
+    .gallery-swiper-container {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .gallery-swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .gallery-slide {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .gallery-slide img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 0.75rem;
+    }
+
+    .gallery-counter {
+      text-align: center;
+      padding: 1rem;
+      background: #f3f4f6;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    .gallery-thumbnails {
+      display: flex;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: #f9fafb;
+      overflow-x: auto;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .gallery-thumbnail {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      overflow: hidden;
+    }
+
+    .gallery-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-thumbnail.active {
+      border-color: #fbbf24;
+      transform: scale(1.05);
+    }
+
+    .gallery-thumbnail:hover {
+      border-color: #2563eb;
+    }
+
+    .view-all-images-btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+      width: 100%;
+    }
+
+    .view-all-images-btn:hover {
+      background: #059669;
+    }
   </style>
   @endpush
 
@@ -374,26 +525,24 @@
                 <p class="text-center mb-3 font-bold text-gray-800">Gambar Materi</p>
                 <div class="flex flex-wrap gap-2 justify-center mb-2">
                   @foreach($jadwal->materi_detail->images as $image)
-                    {{-- <button wire:click="open_modal({{$loop->index}})" class="modern-btn bg-white text-blue-700 border border-blue-200 hover:bg-blue-50"> --}}
-                    <a href="{{ asset('storage/'.$image->image) }}" target="_blank" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden">
+                    <button onclick="openGalleryModal('jadwal')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
                      {{ $loop->iteration }}. <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md transition-transform duration-300 hover:scale-150">
-                    </a>
-                    {{-- </button> --}}
+                    </button>
                   @endforeach
                 </div>
+                <button onclick="openGalleryModal('jadwal')" class="view-all-images-btn">👁️ Lihat Semua Gambar Materi</button>
               @endif
 
               @if($jadwal_khusus && $jadwal_khusus->materi_detail->images->count() > 0)
                 <p class="text-center mb-3 font-bold text-gray-800">Gambar Materi</p>
                 <div class="flex flex-wrap gap-2 justify-center mb-2">
                   @foreach($jadwal_khusus->materi_detail->images as $image)
-                    {{-- <button wire:click="open_modal({{$loop->index}})" class="modern-btn bg-white text-blue-700 border border-blue-200 hover:bg-blue-50"> --}}
-                    <a href="{{ asset('storage/'.$image->image) }}" target="_blank" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden">
+                    <button onclick="openGalleryModal('jadwal_khusus')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
                      {{ $loop->iteration }}. <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md transition-transform duration-300 hover:scale-150">
-                    </a>
-                    {{-- </button> --}}
+                    </button>
                   @endforeach
                 </div>
+                <button onclick="openGalleryModal('jadwal_khusus')" class="view-all-images-btn">👁️ Lihat Semua Gambar Materi</button>
               @endif
 
 
@@ -405,6 +554,29 @@
               @endif
             </div>
           </x-modal.ModalPopup>
+        </div>
+
+        <!-- Gallery Modal -->
+        <div id="galleryModal" class="gallery-modal-overlay">
+          <div class="gallery-modal-content">
+            <div class="gallery-modal-header">
+              <h3>Gambar Materi</h3>
+              <button class="gallery-modal-close" onclick="closeGalleryModal()">&times;</button>
+            </div>
+            <div class="gallery-swiper-container">
+              <div class="gallery-swiper swiper">
+                <div class="swiper-wrapper" id="galleryWrapper">
+                  <!-- Slides will be populated by JavaScript -->
+                </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+              </div>
+            </div>
+            <div class="gallery-counter" id="galleryCounter"></div>
+            <div class="gallery-thumbnails" id="galleryThumbnails">
+              <!-- Thumbnails will be populated by JavaScript -->
+            </div>
+          </div>
         </div>
       </div>
       @endguest
@@ -433,6 +605,115 @@
       },
   });
 
+  // Gallery Images Data
+  const galleryImages = {
+    jadwal: [
+      @if($jadwal && $jadwal->materi_detail->images->count() > 0)
+        @foreach($jadwal->materi_detail->images as $image)
+          "{{ asset('storage/'.$image->image) }}",
+        @endforeach
+      @endif
+    ],
+    jadwal_khusus: [
+      @if($jadwal_khusus && $jadwal_khusus->materi_detail->images->count() > 0)
+        @foreach($jadwal_khusus->materi_detail->images as $image)
+          "{{ asset('storage/'.$image->image) }}",
+        @endforeach
+      @endif
+    ]
+  };
+
+  let gallerySwiperInstance = null;
+  let currentGalleryType = null;
+
+  function openGalleryModal(type) {
+    if (!galleryImages[type] || galleryImages[type].length === 0) return;
+
+    currentGalleryType = type;
+    const images = galleryImages[type];
+    const modal = document.getElementById('galleryModal');
+    const wrapper = document.getElementById('galleryWrapper');
+    const thumbnails = document.getElementById('galleryThumbnails');
+
+    // Clear previous slides
+    wrapper.innerHTML = '';
+    thumbnails.innerHTML = '';
+
+    // Add slides and thumbnails
+    images.forEach((image, index) => {
+      const slide = document.createElement('div');
+      slide.className = 'swiper-slide gallery-slide';
+      slide.innerHTML = `<img src="${image}" alt="Gallery Image ${index + 1}">`;
+      wrapper.appendChild(slide);
+
+      const thumb = document.createElement('div');
+      thumb.className = 'gallery-thumbnail' + (index === 0 ? ' active' : '');
+      thumb.innerHTML = `<img src="${image}" alt="Thumbnail ${index + 1}">`;
+      thumb.onclick = () => {
+        if (gallerySwiperInstance) {
+          gallerySwiperInstance.slideTo(index);
+        }
+      };
+      thumbnails.appendChild(thumb);
+    });
+
+    // Initialize or update Swiper
+    if (!gallerySwiperInstance) {
+      gallerySwiperInstance = new Swiper(".gallery-swiper", {
+        loop: false,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        on: {
+          slideChange: updateGalleryThumbnails
+        }
+      });
+    } else {
+      gallerySwiperInstance.update();
+    }
+
+    // Show modal
+    modal.classList.add('active');
+    updateGalleryCounter();
+    updateGalleryThumbnails();
+  }
+
+  function closeGalleryModal() {
+    const modal = document.getElementById('galleryModal');
+    modal.classList.remove('active');
+  }
+
+  function updateGalleryCounter() {
+    const counter = document.getElementById('galleryCounter');
+    if (gallerySwiperInstance && currentGalleryType) {
+      const current = gallerySwiperInstance.activeIndex + 1;
+      const total = galleryImages[currentGalleryType].length;
+      counter.textContent = `${current} dari ${total}`;
+    }
+  }
+
+  function updateGalleryThumbnails() {
+    const thumbnails = document.querySelectorAll('.gallery-thumbnail');
+    thumbnails.forEach((thumb, index) => {
+      thumb.classList.toggle('active', index === gallerySwiperInstance.activeIndex);
+    });
+    updateGalleryCounter();
+  }
+
+  // Close modal when clicking outside
+  document.getElementById('galleryModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeGalleryModal();
+    }
+  });
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeGalleryModal();
+    }
+  });
 </script>
 
 <script wire:ignore>
