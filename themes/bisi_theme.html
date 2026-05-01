@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bisi Online – Admin Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sky-50:  #f0f9ff;
+      --sky-100: #e0f2fe;
+      --sky-200: #bae6fd;
+      --sky-300: #7dd3fc;
+      --sky-400: #38bdf8;
+      --sky-500: #0ea5e9;
+      --sky-600: #0284c7;
+      --sky-700: #0369a1;
+      --sky-800: #075985;
+      --sky-900: #0c4a6e;
+      --slate-50:  #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --white: #ffffff;
+      --sidebar-w: 260px;
+      --header-h: 68px;
+      --radius: 14px;
+      --shadow-sm: 0 1px 3px rgba(14,165,233,.08), 0 1px 2px rgba(14,165,233,.04);
+      --shadow-md: 0 4px 16px rgba(14,165,233,.12), 0 2px 6px rgba(14,165,233,.06);
+      --shadow-lg: 0 12px 40px rgba(14,165,233,.16), 0 4px 12px rgba(14,165,233,.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--slate-100);
+      color: var(--slate-800);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ───── SIDEBAR ───── */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--sky-800) 0%, var(--sky-900) 60%, #061f34 100%);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 100;
+      transition: transform .3s cubic-bezier(.4,0,.2,1);
+      box-shadow: 4px 0 24px rgba(0,0,0,.18);
+    }
+
+    .sidebar-logo {
+      padding: 24px 22px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.09);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--sky-400), var(--sky-300));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700; font-size: 15px; color: var(--sky-900);
+      box-shadow: 0 4px 12px rgba(56,189,248,.35);
+      flex-shrink: 0;
+    }
+    .logo-text { display: flex; flex-direction: column; }
+    .logo-name { font-size: 16px; font-weight: 800; color: #fff; letter-spacing: -.2px; line-height: 1.2; }
+    .logo-sub { font-size: 10px; font-weight: 500; color: var(--sky-300); letter-spacing: 1.5px; text-transform: uppercase; }
+
+    .sidebar-nav { flex: 1; padding: 16px 12px; overflow-y: auto; }
+    .nav-section-label {
+      font-size: 9.5px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase;
+      color: var(--sky-400); padding: 10px 10px 6px; margin-top: 8px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 11px;
+      padding: 10px 12px; border-radius: 10px; cursor: pointer;
+      transition: all .2s; margin-bottom: 2px; position: relative;
+      color: rgba(255,255,255,.65); font-size: 13.5px; font-weight: 500;
+      text-decoration: none;
+    }
+    .nav-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+    .nav-item.active {
+      background: linear-gradient(90deg, rgba(56,189,248,.22), rgba(56,189,248,.08));
+      color: #fff;
+    }
+    .nav-item.active::before {
+      content: ''; position: absolute; left: 0; top: 20%; height: 60%;
+      width: 3px; background: var(--sky-400); border-radius: 0 3px 3px 0;
+    }
+    .nav-icon { width: 18px; text-align: center; font-size: 15px; flex-shrink: 0; }
+    .nav-badge {
+      margin-left: auto; background: var(--sky-500); color: #fff;
+      font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
+    }
+
+    .sidebar-footer {
+      padding: 16px 12px;
+      border-top: 1px solid rgba(255,255,255,.09);
+    }
+    .user-card {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 10px;
+      background: rgba(255,255,255,.07); cursor: pointer;
+      transition: background .2s;
+    }
+    .user-card:hover { background: rgba(255,255,255,.12); }
+    .user-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--sky-400), #60a5fa);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px; color: #fff; flex-shrink: 0;
+    }
+    .user-info { flex: 1; min-width: 0; }
+    .user-name { font-size: 12.5px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-role { font-size: 10.5px; color: var(--sky-300); }
+
+    /* ───── MAIN ───── */
+    .main-wrap {
+      margin-left: var(--sidebar-w);
+      flex: 1; display: flex; flex-direction: column; min-height: 100vh;
+    }
+
+    /* ───── HEADER ───── */
+    header {
+      height: var(--header-h);
+      background: #fff;
+      border-bottom: 1px solid var(--slate-200);
+      display: flex; align-items: center; padding: 0 28px;
+      position: sticky; top: 0; z-index: 50;
+      box-shadow: var(--shadow-sm);
+      gap: 16px;
+    }
+    .header-title { font-size: 18px; font-weight: 700; color: var(--slate-800); flex: 1; }
+    .header-title span { color: var(--sky-500); }
+    .header-search {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--slate-100); border: 1.5px solid var(--slate-200);
+      border-radius: 10px; padding: 8px 14px; width: 260px; transition: border .2s;
+    }
+    .header-search:focus-within { border-color: var(--sky-400); background: var(--sky-50); }
+    .header-search input { border: none; background: none; font-size: 13px; font-family: inherit; outline: none; flex: 1; color: var(--slate-700); }
+    .header-search input::placeholder { color: var(--slate-400); }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: 10px;
+      border: 1.5px solid var(--slate-200); background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all .2s; font-size: 16px; color: var(--slate-500);
+      position: relative;
+    }
+    .icon-btn:hover { border-color: var(--sky-400); color: var(--sky-600); background: var(--sky-50); }
+    .notif-dot {
+      position: absolute; top: 7px; right: 7px;
+      width: 7px; height: 7px; background: #f43f5e; border-radius: 50%;
+      border: 1.5px solid #fff;
+    }
+
+    /* ───── CONTENT ───── */
+    .content { padding: 28px; flex: 1; }
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ───── PAGE HEADER ───── */
+    .page-header { margin-bottom: 24px; }
+    .page-header h2 { font-size: 22px; font-weight: 800; color: var(--slate-800); }
+    .page-header p { font-size: 13px; color: var(--slate-500); margin-top: 3px; }
+    .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--slate-400); margin-bottom: 6px; }
+    .breadcrumb .sep { color: var(--slate-300); }
+    .breadcrumb .current { color: var(--sky-600); font-weight: 600; }
+
+    /* ───── STAT CARDS ───── */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .stat-card {
+      background: #fff; border-radius: var(--radius); padding: 20px 22px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--slate-100);
+      display: flex; flex-direction: column; gap: 12px;
+      transition: box-shadow .2s, transform .2s; position: relative; overflow: hidden;
+    }
+    .stat-card::after {
+      content: ''; position: absolute; top: -30px; right: -30px;
+      width: 90px; height: 90px; border-radius: 50%;
+      background: var(--card-color, var(--sky-50)); opacity: .55;
+    }
+    .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .stat-top { display: flex; align-items: center; justify-content: space-between; }
+    .stat-label { font-size: 12px; font-weight: 600; color: var(--slate-500); text-transform: uppercase; letter-spacing: .5px; }
+    .stat-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+    }
+    .stat-value { font-size: 28px; font-weight: 800; color: var(--slate-800); font-family: 'Space Mono', monospace; line-height: 1; }
+    .stat-change { font-size: 11.5px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+    .stat-change.up { color: #10b981; }
+    .stat-change.down { color: #f43f5e; }
+
+    /* ───── CHARTS ROW ───── */
+    .charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .card {
+      background: #fff; border-radius: var(--radius); padding: 22px 24px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--slate-100);
+    }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .card-title { font-size: 14px; font-weight: 700; color: var(--slate-800); }
+    .card-sub { font-size: 11.5px; color: var(--slate-400); margin-top: 2px; }
+    .badge-pill {
+      font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+      background: var(--sky-50); color: var(--sky-700); border: 1px solid var(--sky-200);
+    }
+
+    /* ───── TABLE SECTION ───── */
+    .table-toolbar {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .toolbar-left { display: flex; align-items: center; gap: 10px; flex: 1; flex-wrap: wrap; }
+    .toolbar-right { display: flex; align-items: center; gap: 10px; }
+
+    .search-box {
+      display: flex; align-items: center; gap: 8px;
+      background: #fff; border: 1.5px solid var(--slate-200); border-radius: 10px;
+      padding: 8px 14px; width: 240px; transition: border .2s;
+    }
+    .search-box:focus-within { border-color: var(--sky-400); background: var(--sky-50); }
+    .search-box input { border: none; background: none; font-family: inherit; font-size: 13px; outline: none; flex: 1; color: var(--slate-700); }
+    .search-box input::placeholder { color: var(--slate-400); }
+
+    .filter-select {
+      appearance: none; border: 1.5px solid var(--slate-200); border-radius: 10px;
+      padding: 8px 32px 8px 14px; font-size: 13px; font-family: inherit;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;
+      color: var(--slate-600); cursor: pointer; outline: none; transition: border .2s;
+    }
+    .filter-select:focus { border-color: var(--sky-400); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 600;
+      font-family: inherit; cursor: pointer; border: none; transition: all .2s;
+    }
+    .btn-primary { background: linear-gradient(135deg, var(--sky-500), var(--sky-600)); color: #fff; box-shadow: 0 3px 10px rgba(14,165,233,.3); }
+    .btn-primary:hover { background: linear-gradient(135deg, var(--sky-600), var(--sky-700)); box-shadow: 0 4px 14px rgba(14,165,233,.4); transform: translateY(-1px); }
+    .btn-outline { background: #fff; color: var(--slate-600); border: 1.5px solid var(--slate-200); }
+    .btn-outline:hover { border-color: var(--sky-400); color: var(--sky-600); background: var(--sky-50); }
+    .btn-danger { background: #fff; color: #f43f5e; border: 1.5px solid #fecdd3; }
+    .btn-danger:hover { background: #fff1f2; }
+    .btn-sm { padding: 5px 12px; font-size: 12px; border-radius: 8px; }
+
+    .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--slate-200); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead { background: var(--slate-50); }
+    th {
+      padding: 12px 16px; text-align: left; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .6px; color: var(--slate-500);
+      border-bottom: 1px solid var(--slate-200); white-space: nowrap; cursor: pointer; user-select: none;
+    }
+    th:hover { color: var(--sky-600); }
+    th .sort-icon { margin-left: 5px; opacity: .5; font-style: normal; }
+    th.sort-asc .sort-icon, th.sort-desc .sort-icon { opacity: 1; color: var(--sky-500); }
+    td { padding: 13px 16px; border-bottom: 1px solid var(--slate-100); color: var(--slate-700); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--sky-50); }
+
+    .avatar-sm {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .cell-user { display: flex; align-items: center; gap: 10px; }
+    .cell-name { font-weight: 600; color: var(--slate-800); }
+    .cell-email { font-size: 11.5px; color: var(--slate-400); }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700;
+    }
+    .badge-green  { background: #dcfce7; color: #166534; }
+    .badge-yellow { background: #fef9c3; color: #854d0e; }
+    .badge-red    { background: #fee2e2; color: #991b1b; }
+    .badge-blue   { background: var(--sky-100); color: var(--sky-800); }
+    .badge-gray   { background: var(--slate-100); color: var(--slate-600); }
+
+    .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+    .dot-green  { background: #22c55e; }
+    .dot-yellow { background: #eab308; }
+    .dot-red    { background: #f43f5e; }
+    .dot-blue   { background: var(--sky-500); }
+
+    .actions-cell { display: flex; gap: 6px; }
+
+    /* ───── PAGINATION ───── */
+    .pagination-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px; border-top: 1px solid var(--slate-100);
+      font-size: 12.5px; color: var(--slate-500);
+    }
+    .pag-btns { display: flex; gap: 4px; }
+    .pag-btn {
+      width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid var(--slate-200);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12.5px; font-weight: 600; cursor: pointer; background: #fff;
+      transition: all .15s; color: var(--slate-600);
+    }
+    .pag-btn:hover { border-color: var(--sky-400); color: var(--sky-600); background: var(--sky-50); }
+    .pag-btn.active { background: var(--sky-500); border-color: var(--sky-500); color: #fff; }
+    .pag-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+    /* ───── QUICK STATS ROW ───── */
+    .quick-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+    /* ───── PROGRESS ───── */
+    .progress-bar { height: 6px; background: var(--slate-200); border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--sky-400), var(--sky-500)); transition: width .5s; }
+
+    /* ───── ACTIVITY LIST ───── */
+    .activity-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--slate-100); }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 13px;
+    }
+    .activity-info { flex: 1; }
+    .activity-text { font-size: 13px; color: var(--slate-700); font-weight: 500; }
+    .activity-text b { color: var(--slate-900); }
+    .activity-time { font-size: 11px; color: var(--slate-400); margin-top: 2px; }
+
+    /* ───── EMPTY STATE ───── */
+    .empty-state { text-align: center; padding: 40px 20px; color: var(--slate-400); }
+    .empty-state .icon { font-size: 36px; margin-bottom: 10px; }
+    .empty-state p { font-size: 13px; }
+
+    /* ───── RESPONSIVE ───── */
+    @media (max-width: 1100px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .charts-row { grid-template-columns: 1fr; }
+      .quick-row { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-wrap { margin-left: 0; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .quick-row { grid-template-columns: 1fr; }
+      .content { padding: 18px; }
+    }
+
+    /* ───── SCROLLBAR ───── */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--slate-300); border-radius: 99px; }
+
+    /* ───── FADE IN ───── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .page.active { animation: fadeUp .28s ease; }
+
+    /* ───── MOBILE OVERLAY ───── */
+    .sidebar-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4);
+      z-index: 99; backdrop-filter: blur(2px);
+    }
+    .sidebar-overlay.show { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar Overlay (mobile) -->
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ─── SIDEBAR ─── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">BO</div>
+    <div class="logo-text">
+      <span class="logo-name">Bisi Online</span>
+      <span class="logo-sub">Admin Panel</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <a class="nav-item active" onclick="showPage('dashboard',this)">
+      <span class="nav-icon">📊</span> Dashboard
+    </a>
+    <a class="nav-item" onclick="showPage('peserta',this)">
+      <span class="nav-icon">👥</span> Peserta
+      <span class="nav-badge">248</span>
+    </a>
+
+    <div class="nav-section-label">Konten</div>
+    <a class="nav-item" onclick="showPage('materi',this)">
+      <span class="nav-icon">📚</span> Materi
+    </a>
+    <a class="nav-item" onclick="showPage('roadmap',this)">
+      <span class="nav-icon">🗺️</span> Roadmap
+    </a>
+
+    <div class="nav-section-label">Jadwal</div>
+    <a class="nav-item" onclick="showPage('jadwal-belajar',this)">
+      <span class="nav-icon">📅</span> Jadwal Belajar
+    </a>
+    <a class="nav-item" onclick="showPage('jadwal-ujian',this)">
+      <span class="nav-icon">📝</span> Jadwal Ujian
+      <span class="nav-badge" style="background:#f43f5e">3</span>
+    </a>
+
+    <div class="nav-section-label">Sistem</div>
+    <a class="nav-item" onclick="showPage('setting',this)">
+      <span class="nav-icon">⚙️</span> Setting
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="user-avatar">AD</div>
+      <div class="user-info">
+        <div class="user-name">Admin Utama</div>
+        <div class="user-role">Super Administrator</div>
+      </div>
+      <span style="font-size:13px;color:rgba(255,255,255,.5)">⋮</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ─── MAIN ─── -->
+<div class="main-wrap">
+  <!-- HEADER -->
+  <header>
+    <button class="icon-btn" onclick="toggleSidebar()" style="display:none;border:none" id="menu-btn">☰</button>
+    <div class="header-title" id="headerTitle">Dashboard <span>Overview</span></div>
+    <div class="header-search">
+      <span style="color:var(--slate-400);font-size:14px">🔍</span>
+      <input type="text" placeholder="Cari sesuatu...">
+    </div>
+    <div class="header-actions">
+      <div class="icon-btn">
+        🔔
+        <span class="notif-dot"></span>
+      </div>
+      <div class="icon-btn">💬</div>
+      <div class="user-avatar" style="width:36px;height:36px;font-size:12px;cursor:pointer;background:linear-gradient(135deg,var(--sky-500),#60a5fa)">AD</div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+        <div class="breadcrumb"><span>Home</span><span class="sep">›</span><span class="current">Dashboard</span></div>
+        <h2>Selamat Datang, Admin! 👋</h2>
+        <p>Berikut ringkasan aktivitas platform Bisi Online hari ini.</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card" style="--card-color:var(--sky-100)">
+          <div class="stat-top">
+            <div class="stat-label">Total Peserta</div>
+            <div class="stat-icon" style="background:var(--sky-50)">👥</div>
+          </div>
+          <div class="stat-value">248</div>
+          <div class="stat-change up">▲ 12% dari bulan lalu</div>
+        </div>
+        <div class="stat-card" style="--card-color:#dcfce7">
+          <div class="stat-top">
+            <div class="stat-label">Materi Aktif</div>
+            <div class="stat-icon" style="background:#f0fdf4">📚</div>
+          </div>
+          <div class="stat-value">36</div>
+          <div class="stat-change up">▲ 4 materi baru</div>
+        </div>
+        <div class="stat-card" style="--card-color:#fef9c3">
+          <div class="stat-top">
+            <div class="stat-label">Ujian Mendatang</div>
+            <div class="stat-icon" style="background:#fefce8">📝</div>
+          </div>
+          <div class="stat-value">3</div>
+          <div class="stat-change down">▼ dalam 7 hari</div>
+        </div>
+        <div class="stat-card" style="--card-color:#fce7f3">
+          <div class="stat-top">
+            <div class="stat-label">Tingkat Kelulusan</div>
+            <div class="stat-icon" style="background:#fdf4ff">🏆</div>
+          </div>
+          <div class="stat-value">89%</div>
+          <div class="stat-change up">▲ 3% dari kuartal lalu</div>
+        </div>
+      </div>
+
+      <!-- Charts + Activity -->
+      <div class="charts-row">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Perkembangan Peserta</div>
+              <div class="card-sub">Pendaftar baru per bulan</div>
+            </div>
+            <span class="badge-pill">2025</span>
+          </div>
+          <canvas id="chartLine" height="90"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Status Peserta</div>
+              <div class="card-sub">Distribusi keaktifan</div>
+            </div>
+          </div>
+          <canvas id="chartDoughnut" height="180"></canvas>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;font-size:12px">
+              <span><span class="dot dot-blue" style="margin-right:6px"></span>Aktif</span><b>182</b>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:12px">
+              <span><span class="dot dot-yellow" style="margin-right:6px"></span>Tidak Aktif</span><b>44</b>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:12px">
+              <span><span class="dot dot-green" style="margin-right:6px"></span>Lulus</span><b>22</b>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom row -->
+      <div class="quick-row">
+        <!-- Progress Materi -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Progress Materi</div>
+            <span class="badge-pill">Top 5</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div id="matProgressList"></div>
+          </div>
+        </div>
+
+        <!-- Ujian Mendatang -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Ujian Mendatang</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="padding:10px 12px;border-radius:10px;background:var(--sky-50);border:1px solid var(--sky-200)">
+              <div style="font-size:12.5px;font-weight:700;color:var(--sky-800)">UTS Modul 3 – Administrasi</div>
+              <div style="font-size:11.5px;color:var(--slate-500);margin-top:2px">Senin, 5 Mei 2025 • 08:00 WIB</div>
+              <span class="badge badge-blue" style="margin-top:6px">47 Peserta</span>
+            </div>
+            <div style="padding:10px 12px;border-radius:10px;background:#fef9c3;border:1px solid #fde68a">
+              <div style="font-size:12.5px;font-weight:700;color:#92400e">Quiz Materi 7 – Keuangan</div>
+              <div style="font-size:11.5px;color:var(--slate-500);margin-top:2px">Rabu, 7 Mei 2025 • 10:00 WIB</div>
+              <span class="badge badge-yellow" style="margin-top:6px">32 Peserta</span>
+            </div>
+            <div style="padding:10px 12px;border-radius:10px;background:#fee2e2;border:1px solid #fecaca">
+              <div style="font-size:12.5px;font-weight:700;color:#991b1b">Ujian Akhir – Batch 6</div>
+              <div style="font-size:11.5px;color:var(--slate-500);margin-top:2px">Jumat, 9 Mei 2025 • 09:00 WIB</div>
+              <span class="badge badge-red" style="margin-top:6px">61 Peserta</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aktivitas -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Aktivitas Terbaru</div>
+          </div>
+          <div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--sky-100)">📝</div>
+              <div class="activity-info">
+                <div class="activity-text"><b>Rina Dewi</b> mendaftar sebagai peserta baru</div>
+                <div class="activity-time">2 menit yang lalu</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:#dcfce7">✅</div>
+              <div class="activity-info">
+                <div class="activity-text"><b>Materi 8</b> berhasil diunggah oleh admin</div>
+                <div class="activity-time">15 menit yang lalu</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:#fef9c3">📅</div>
+              <div class="activity-info">
+                <div class="activity-text">Jadwal ujian <b>Batch 6</b> diperbarui</div>
+                <div class="activity-time">1 jam yang lalu</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:#fce7f3">🏆</div>
+              <div class="activity-info">
+                <div class="activity-text"><b>Budi Santoso</b> menyelesaikan Roadmap Level 2</div>
+                <div class="activity-time">3 jam yang lalu</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PESERTA ═══ -->
+    <div class="page" id="page-peserta">
+      <div class="page-header">
+        <div class="breadcrumb"><span>Home</span><span class="sep">›</span><span class="current">Peserta</span></div>
+        <h2>Manajemen Peserta</h2>
+        <p>Kelola data seluruh peserta yang terdaftar di platform.</p>
+      </div>
+      <div class="card">
+        <div class="table-toolbar">
+          <div class="toolbar-left">
+            <div class="search-box">
+              <span style="color:var(--slate-400)">🔍</span>
+              <input type="text" id="pesertaSearch" placeholder="Cari nama / email..." oninput="filterTable('peserta')">
+            </div>
+            <select class="filter-select" id="pesertaFilterStatus" onchange="filterTable('peserta')">
+              <option value="">Semua Status</option>
+              <option value="Aktif">Aktif</option>
+              <option value="Tidak Aktif">Tidak Aktif</option>
+              <option value="Lulus">Lulus</option>
+            </select>
+            <select class="filter-select" id="pesertaFilterBatch" onchange="filterTable('peserta')">
+              <option value="">Semua Batch</option>
+              <option value="Batch 5">Batch 5</option>
+              <option value="Batch 6">Batch 6</option>
+              <option value="Batch 7">Batch 7</option>
+            </select>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-outline btn-sm" onclick="exportDummy()">⬇ Export</button>
+            <button class="btn btn-primary btn-sm">＋ Tambah Peserta</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th onclick="sortTable('peserta',0)">No <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('peserta',1)">Nama Peserta <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('peserta',2)">Email <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('peserta',3)">Batch <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('peserta',4)">Progress <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('peserta',5)">Status <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('peserta',6)">Bergabung <i class="sort-icon">↕</i></th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="pesertaBody"></tbody>
+          </table>
+          <div id="pesertaEmpty" class="empty-state" style="display:none">
+            <div class="icon">🔍</div>
+            <p>Tidak ada data yang cocok.</p>
+          </div>
+        </div>
+        <div class="pagination-bar">
+          <span id="pesertaInfo"></span>
+          <div class="pag-btns" id="pesertaPag"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ MATERI ═══ -->
+    <div class="page" id="page-materi">
+      <div class="page-header">
+        <div class="breadcrumb"><span>Home</span><span class="sep">›</span><span class="current">Materi</span></div>
+        <h2>Manajemen Materi</h2>
+        <p>Upload, edit, dan kelola konten pembelajaran.</p>
+      </div>
+      <div class="card">
+        <div class="table-toolbar">
+          <div class="toolbar-left">
+            <div class="search-box">
+              <span style="color:var(--slate-400)">🔍</span>
+              <input type="text" id="materiSearch" placeholder="Cari judul materi..." oninput="filterTable('materi')">
+            </div>
+            <select class="filter-select" id="materiFilterKategori" onchange="filterTable('materi')">
+              <option value="">Semua Kategori</option>
+              <option value="Administrasi">Administrasi</option>
+              <option value="Keuangan">Keuangan</option>
+              <option value="Teknologi">Teknologi</option>
+              <option value="Soft Skill">Soft Skill</option>
+            </select>
+            <select class="filter-select" id="materiFilterTipe" onchange="filterTable('materi')">
+              <option value="">Semua Tipe</option>
+              <option value="Video">Video</option>
+              <option value="PDF">PDF</option>
+              <option value="Kuis">Kuis</option>
+            </select>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-primary btn-sm">＋ Upload Materi</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th onclick="sortTable('materi',0)">No <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('materi',1)">Judul Materi <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('materi',2)">Kategori <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('materi',3)">Tipe <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('materi',4)">Durasi <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('materi',5)">Ditonton <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('materi',6)">Status <i class="sort-icon">↕</i></th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="materiBody"></tbody>
+          </table>
+          <div id="materiEmpty" class="empty-state" style="display:none">
+            <div class="icon">🔍</div><p>Tidak ada materi yang cocok.</p>
+          </div>
+        </div>
+        <div class="pagination-bar">
+          <span id="materiInfo"></span>
+          <div class="pag-btns" id="materiPag"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ROADMAP ═══ -->
+    <div class="page" id="page-roadmap">
+      <div class="page-header">
+        <div class="breadcrumb"><span>Home</span><span class="sep">›</span><span class="current">Roadmap</span></div>
+        <h2>Roadmap Pembelajaran</h2>
+        <p>Kelola alur dan tahapan pembelajaran peserta.</p>
+      </div>
+      <div class="card">
+        <div class="table-toolbar">
+          <div class="toolbar-left">
+            <div class="search-box">
+              <span style="color:var(--slate-400)">🔍</span>
+              <input type="text" id="roadmapSearch" placeholder="Cari roadmap..." oninput="filterTable('roadmap')">
+            </div>
+            <select class="filter-select" id="roadmapFilterLevel" onchange="filterTable('roadmap')">
+              <option value="">Semua Level</option>
+              <option value="Level 1">Level 1</option>
+              <option value="Level 2">Level 2</option>
+              <option value="Level 3">Level 3</option>
+            </select>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-primary btn-sm">＋ Tambah Roadmap</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th onclick="sortTable('roadmap',0)">No <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('roadmap',1)">Nama Roadmap <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('roadmap',2)">Level <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('roadmap',3)">Jumlah Materi <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('roadmap',4)">Peserta <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('roadmap',5)">Status <i class="sort-icon">↕</i></th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="roadmapBody"></tbody>
+          </table>
+          <div id="roadmapEmpty" class="empty-state" style="display:none">
+            <div class="icon">🔍</div><p>Tidak ada roadmap yang cocok.</p>
+          </div>
+        </div>
+        <div class="pagination-bar">
+          <span id="roadmapInfo"></span>
+          <div class="pag-btns" id="roadmapPag"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ JADWAL BELAJAR ═══ -->
+    <div class="page" id="page-jadwal-belajar">
+      <div class="page-header">
+        <div class="breadcrumb"><span>Home</span><span class="sep">›</span><span class="current">Jadwal Belajar</span></div>
+        <h2>Jadwal Belajar</h2>
+        <p>Atur dan pantau jadwal kegiatan belajar peserta.</p>
+      </div>
+      <div class="card">
+        <div class="table-toolbar">
+          <div class="toolbar-left">
+            <div class="search-box">
+              <span style="color:var(--slate-400)">🔍</span>
+              <input type="text" id="jbSearch" placeholder="Cari jadwal..." oninput="filterTable('jb')">
+            </div>
+            <select class="filter-select" id="jbFilterHari" onchange="filterTable('jb')">
+              <option value="">Semua Hari</option>
+              <option>Senin</option><option>Selasa</option><option>Rabu</option>
+              <option>Kamis</option><option>Jumat</option><option>Sabtu</option>
+            </select>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-primary btn-sm">＋ Tambah Jadwal</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th onclick="sortTable('jb',1)">Kegiatan <i class="sort-icon">↕</i></th>
+                <th onclick="sortTable('jb',2)">Hari <i class="sort-icon">↕</i></th>
+                <th>Waktu</th>
+                <th>Pengajar</th>
+                <th onclick="sortTable('jb',5)">Batch <i class="sort-icon">↕</i></th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="jbBody"></tbody>
+          </table>
+          <div id="jbEmpty" class="empty-state" style="display:none">
+            <div class="icon">📅</div><p>Tidak ada jadwal yang cocok.</p>
+          </div>
+        </div>
+        <div class="pagination-bar">
+          <span id="jbInfo"></span>
+          <div class="pag-btns" id="jbPag"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ JADWAL UJIAN ═══ -->
+    <div class="page" id="page-jadwal-ujian">
+      <div class="page-header">
+        <div class="breadcrumb"><span>Home</span><span class="sep">›</span><span class="current">Jadwal Ujian</span></div>
+        <h2>Jadwal Ujian</h2>
+        <p>Kelola semua jadwal ujian dan kuis peserta.</p>
+      </div>
+      <div class="card">
+        <div class="table-toolbar">
+          <div class="toolbar-left">
+            <div class="search-box">
+              <span style="color:var(--slate-400)">🔍</span>
+              <input type="text" id="juSearch" placeholder="Cari ujian..." oninput="filterTable('ju')">
+            </div>
+            <select class="filter-select" id="juFilterTipe" onchange="filterTable('ju')">
+              <option value="">Semua Tipe</option>
+              <option value="UTS">UTS</option>
+              <option value="UAS">UAS</option>
+              <option value="Quiz">Quiz</option>
+            </select>
+            <select class="filter-select" id="juFilterStatus" onchange="filterTable('ju')">
+              <option value="">Semua Status</option>
+              <option value="Terjadwal">Terjadwal</option>
+              <option value="Berlangsung">Berlangsung</option>
+              <option value="Selesai">Selesai</option>
+            </select>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-primary btn-sm">＋ Tambah Ujian</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th onclick="sortTable('ju',1)">Nama Ujian <i class="sort-icon">↕</i></th>
+                <th>Tipe</th>
+                <th onclick="sortTable('ju',3)">Tanggal <i class="sort-icon">↕</i></th>
+                <th>Waktu</th>
+                <th>Durasi</th>
+                <th onclick="sortTable('ju',6)">Peserta <i class="sort-icon">↕</i></th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="juBody"></tbody>
+          </table>
+          <div id="juEmpty" class="empty-state" style="display:none">
+            <div class="icon">📝</div><p>Tidak ada ujian yang cocok.</p>
+          </div>
+        </div>
+        <div class="pagination-bar">
+          <span id="juInfo"></span>
+          <div class="pag-btns" id="juPag"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SETTING ═══ -->
+    <div class="page" id="page-setting">
+      <div class="page-header">
+        <div class="breadcrumb"><span>Home</span><span class="sep">›</span><span class="current">Setting</span></div>
+        <h2>Pengaturan Sistem</h2>
+        <p>Konfigurasi umum platform Bisi Online.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Informasi Aplikasi</div></div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div>
+              <label style="font-size:12px;font-weight:600;color:var(--slate-500);display:block;margin-bottom:5px">Nama Aplikasi</label>
+              <input type="text" value="Bisi Online" style="width:100%;padding:9px 13px;border:1.5px solid var(--slate-200);border-radius:9px;font-family:inherit;font-size:13px;color:var(--slate-700);outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--sky-400)'" onblur="this.style.borderColor='var(--slate-200)'">
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:600;color:var(--slate-500);display:block;margin-bottom:5px">Deskripsi</label>
+              <textarea rows="3" style="width:100%;padding:9px 13px;border:1.5px solid var(--slate-200);border-radius:9px;font-family:inherit;font-size:13px;color:var(--slate-700);outline:none;resize:vertical;transition:border .2s" onfocus="this.style.borderColor='var(--sky-400)'" onblur="this.style.borderColor='var(--slate-200)'">Platform pembelajaran online untuk peserta program Bisi.</textarea>
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:600;color:var(--slate-500);display:block;margin-bottom:5px">Email Admin</label>
+              <input type="email" value="admin@bisionline.id" style="width:100%;padding:9px 13px;border:1.5px solid var(--slate-200);border-radius:9px;font-family:inherit;font-size:13px;color:var(--slate-700);outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--sky-400)'" onblur="this.style.borderColor='var(--slate-200)'">
+            </div>
+            <button class="btn btn-primary" style="align-self:flex-start">💾 Simpan Perubahan</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Notifikasi & Keamanan</div></div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--slate-700)">Notifikasi Email</div>
+                <div style="font-size:11.5px;color:var(--slate-400)">Kirim email ke peserta saat ada update</div>
+              </div>
+              <label style="position:relative;display:inline-block;width:42px;height:24px">
+                <input type="checkbox" checked style="opacity:0;width:0;height:0">
+                <span style="position:absolute;inset:0;background:var(--sky-500);border-radius:34px;cursor:pointer;transition:.3s"></span>
+              </label>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--slate-700)">Dua Faktor Auth</div>
+                <div style="font-size:11.5px;color:var(--slate-400)">Aktifkan 2FA untuk admin</div>
+              </div>
+              <label style="position:relative;display:inline-block;width:42px;height:24px">
+                <input type="checkbox" style="opacity:0;width:0;height:0">
+                <span style="position:absolute;inset:0;background:var(--slate-300);border-radius:34px;cursor:pointer;transition:.3s"></span>
+              </label>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--slate-700)">Mode Maintenance</div>
+                <div style="font-size:11.5px;color:var(--slate-400)">Nonaktifkan akses peserta sementara</div>
+              </div>
+              <label style="position:relative;display:inline-block;width:42px;height:24px">
+                <input type="checkbox" style="opacity:0;width:0;height:0">
+                <span style="position:absolute;inset:0;background:var(--slate-300);border-radius:34px;cursor:pointer;transition:.3s"></span>
+              </label>
+            </div>
+            <hr style="border:none;border-top:1px solid var(--slate-100)">
+            <div>
+              <label style="font-size:12px;font-weight:600;color:var(--slate-500);display:block;margin-bottom:5px">Versi Sistem</label>
+              <div style="font-size:13px;font-weight:700;color:var(--sky-600);font-family:'Space Mono',monospace">v2.4.1 – Stable</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main-wrap -->
+
+<script>
+// ─── DATA ───
+const COLORS = ['#0ea5e9','#38bdf8','#7dd3fc','#0369a1','#60a5fa','#93c5fd','#22d3ee','#a78bfa'];
+const avatarColor = i => COLORS[i % COLORS.length];
+const initials = name => name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+
+// PESERTA DATA
+const pesertaData = [
+  ['Rina Dewi Lestari','rina.dewi@email.com','Batch 6',78,'Aktif','12 Jan 2025'],
+  ['Budi Santoso','budi.s@email.com','Batch 5',100,'Lulus','3 Mar 2024'],
+  ['Siti Nurhaliza','siti.n@email.com','Batch 6',45,'Aktif','12 Jan 2025'],
+  ['Ahmad Fauzi','ahmad.f@email.com','Batch 7',22,'Aktif','1 Apr 2025'],
+  ['Dewi Rahayu','dewi.r@email.com','Batch 5',95,'Lulus','3 Mar 2024'],
+  ['Hendra Wijaya','hendra.w@email.com','Batch 6',60,'Tidak Aktif','12 Jan 2025'],
+  ['Maya Kusuma','maya.k@email.com','Batch 7',30,'Aktif','1 Apr 2025'],
+  ['Rizki Pratama','rizki.p@email.com','Batch 5',88,'Aktif','3 Mar 2024'],
+  ['Lina Marlina','lina.m@email.com','Batch 6',55,'Aktif','12 Jan 2025'],
+  ['Doni Setiawan','doni.s@email.com','Batch 7',10,'Tidak Aktif','1 Apr 2025'],
+  ['Putri Anggraini','putri.a@email.com','Batch 5',100,'Lulus','3 Mar 2024'],
+  ['Yoga Pratama','yoga.p@email.com','Batch 6',72,'Aktif','12 Jan 2025'],
+];
+
+// MATERI DATA
+const materiData = [
+  ['Pengantar Administrasi Bisnis','Administrasi','Video','45 mnt',312,'Aktif'],
+  ['Manajemen Keuangan Dasar','Keuangan','PDF','–',248,'Aktif'],
+  ['Microsoft Excel untuk Bisnis','Teknologi','Video','60 mnt',198,'Aktif'],
+  ['Komunikasi Efektif di Tempat Kerja','Soft Skill','Video','30 mnt',176,'Aktif'],
+  ['Dasar Akuntansi','Keuangan','PDF','–',155,'Draft'],
+  ['Public Speaking','Soft Skill','Kuis','20 mnt',134,'Aktif'],
+  ['Manajemen Waktu','Soft Skill','Video','25 mnt',120,'Aktif'],
+  ['Perpajakan Dasar','Keuangan','PDF','–',98,'Aktif'],
+  ['Google Workspace','Teknologi','Video','50 mnt',87,'Draft'],
+  ['Etika Bisnis','Administrasi','Kuis','15 mnt',76,'Aktif'],
+];
+
+// ROADMAP DATA
+const roadmapData = [
+  ['Fondasi Bisnis','Level 1',8,182,'Aktif'],
+  ['Keuangan & Akuntansi','Level 2',10,144,'Aktif'],
+  ['Teknologi & Digital','Level 2',6,98,'Aktif'],
+  ['Soft Skill Profesional','Level 1',5,220,'Aktif'],
+  ['Manajemen Lanjutan','Level 3',12,44,'Draft'],
+  ['Komunikasi Bisnis','Level 2',7,112,'Aktif'],
+];
+
+// JADWAL BELAJAR DATA
+const jbData = [
+  ['Sesi Orientasi Batch 7','Senin','08:00–10:00','Dr. Andika','Batch 7','Aktif'],
+  ['Materi Administrasi 1','Selasa','09:00–11:00','Ibu Sari','Batch 6','Aktif'],
+  ['Workshop Keuangan','Rabu','13:00–15:00','Bpk. Hasan','Batch 5','Selesai'],
+  ['Kelas Excel Lanjutan','Kamis','10:00–12:00','Ibu Rina','Batch 7','Aktif'],
+  ['Diskusi Kelompok','Jumat','14:00–16:00','Dr. Andika','Batch 6','Aktif'],
+  ['Sesi Review Materi','Sabtu','09:00–11:00','Ibu Sari','Batch 5','Dibatalkan'],
+  ['Pelatihan Komunikasi','Senin','13:00–15:00','Bpk. Hasan','Batch 7','Aktif'],
+];
+
+// JADWAL UJIAN DATA
+const juData = [
+  ['UTS Modul 3 – Administrasi','UTS','5 Mei 2025','08:00','90 mnt',47,'Terjadwal'],
+  ['Quiz Materi 7 – Keuangan','Quiz','7 Mei 2025','10:00','30 mnt',32,'Terjadwal'],
+  ['Ujian Akhir Batch 6','UAS','9 Mei 2025','09:00','120 mnt',61,'Terjadwal'],
+  ['UTS Modul 2 – Keuangan','UTS','20 Apr 2025','08:00','90 mnt',58,'Selesai'],
+  ['Quiz Materi 5','Quiz','15 Apr 2025','10:00','30 mnt',44,'Selesai'],
+  ['Ujian Akhir Batch 5','UAS','10 Apr 2025','09:00','120 mnt',72,'Selesai'],
+  ['Quiz Teknologi Dasar','Quiz','12 Mei 2025','13:00','30 mnt',29,'Terjadwal'],
+];
+
+// ─── TABLE STATE ───
+const state = {};
+function initState(key, data) {
+  state[key] = { data, filtered: [...data], sort: { col: -1, dir: 1 }, page: 1, perPage: 7 };
+}
+initState('peserta', pesertaData);
+initState('materi', materiData);
+initState('roadmap', roadmapData);
+initState('jb', jbData);
+initState('ju', juData);
+
+// ─── RENDER ───
+function renderTable(key) {
+  const s = state[key];
+  const start = (s.page - 1) * s.perPage;
+  const rows = s.filtered.slice(start, start + s.perPage);
+  const body = document.getElementById(key + 'Body');
+  const empty = document.getElementById(key + 'Empty');
+
+  if (!rows.length) {
+    body.innerHTML = '';
+    if (empty) empty.style.display = 'block';
+  } else {
+    if (empty) empty.style.display = 'none';
+    body.innerHTML = rows.map((r, i) => renderRow(key, r, start + i)).join('');
+  }
+
+  const info = document.getElementById(key + 'Info');
+  if (info) info.textContent = `Menampilkan ${Math.min(start+1, s.filtered.length)}–${Math.min(start+s.perPage, s.filtered.length)} dari ${s.filtered.length} data`;
+  renderPag(key);
+}
+
+function renderRow(key, r, idx) {
+  const n = idx + 1;
+  if (key === 'peserta') {
+    const color = avatarColor(idx);
+    const statusBadge = r[4] === 'Aktif' ? 'badge-green' : r[4] === 'Lulus' ? 'badge-blue' : 'badge-gray';
+    return `<tr>
+      <td><span style="font-size:11px;color:var(--slate-400);font-family:'Space Mono',monospace">${String(n).padStart(2,'0')}</span></td>
+      <td><div class="cell-user">
+        <div class="avatar-sm" style="background:${color}">${initials(r[0])}</div>
+        <div><div class="cell-name">${r[0]}</div><div class="cell-email">${r[1]}</div></div>
+      </div></td>
+      <td>${r[1]}</td>
+      <td><span class="badge badge-blue">${r[2]}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;min-width:100px">
+          <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:${r[3]}%"></div></div>
+          <span style="font-size:11px;font-weight:700;color:var(--sky-700);font-family:'Space Mono',monospace">${r[3]}%</span>
+        </div>
+      </td>
+      <td><span class="badge ${statusBadge}"><span class="dot dot-${r[4]==='Aktif'?'green':r[4]==='Lulus'?'blue':'gray'}"></span>${r[4]}</span></td>
+      <td style="color:var(--slate-400);font-size:12px">${r[5]}</td>
+      <td><div class="actions-cell">
+        <button class="btn btn-outline btn-sm">✏️</button>
+        <button class="btn btn-danger btn-sm">🗑️</button>
+      </div></td>
+    </tr>`;
+  }
+  if (key === 'materi') {
+    const tipe = r[2] === 'Video' ? 'badge-blue' : r[2] === 'PDF' ? 'badge-gray' : 'badge-yellow';
+    const katColor = r[1]==='Administrasi'?'badge-blue':r[1]==='Keuangan'?'badge-green':r[1]==='Teknologi'?'badge-yellow':'badge-gray';
+    const stBadge = r[5]==='Aktif'?'badge-green':'badge-gray';
+    return `<tr>
+      <td><span style="font-size:11px;color:var(--slate-400);font-family:'Space Mono',monospace">${String(n).padStart(2,'0')}</span></td>
+      <td><div style="font-weight:600;color:var(--slate-800)">${r[0]}</div></td>
+      <td><span class="badge ${katColor}">${r[1]}</span></td>
+      <td><span class="badge ${tipe}">${r[2]}</span></td>
+      <td style="color:var(--slate-500);font-size:12px">${r[3]}</td>
+      <td><span style="font-weight:700;font-family:'Space Mono',monospace;color:var(--sky-600)">${r[4]}</span></td>
+      <td><span class="badge ${stBadge}">${r[5]}</span></td>
+      <td><div class="actions-cell">
+        <button class="btn btn-outline btn-sm">✏️</button>
+        <button class="btn btn-danger btn-sm">🗑️</button>
+      </div></td>
+    </tr>`;
+  }
+  if (key === 'roadmap') {
+    const lvl = r[1]==='Level 1'?'badge-green':r[1]==='Level 2'?'badge-blue':'badge-yellow';
+    const st = r[4]==='Aktif'?'badge-green':'badge-gray';
+    return `<tr>
+      <td><span style="font-size:11px;color:var(--slate-400);font-family:'Space Mono',monospace">${String(n).padStart(2,'0')}</span></td>
+      <td><div style="font-weight:600;color:var(--slate-800)">${r[0]}</div></td>
+      <td><span class="badge ${lvl}">${r[1]}</span></td>
+      <td style="font-weight:700;font-family:'Space Mono',monospace;text-align:center">${r[2]}</td>
+      <td style="font-weight:700;font-family:'Space Mono',monospace;color:var(--sky-600)">${r[3]}</td>
+      <td><span class="badge ${st}">${r[4]}</span></td>
+      <td><div class="actions-cell">
+        <button class="btn btn-outline btn-sm">✏️</button>
+        <button class="btn btn-danger btn-sm">🗑️</button>
+      </div></td>
+    </tr>`;
+  }
+  if (key === 'jb') {
+    const hari = r[1];
+    const hariColor = ['Senin','Rabu','Jumat'].includes(hari)?'badge-blue':['Selasa','Kamis'].includes(hari)?'badge-green':'badge-yellow';
+    const st = r[5]==='Aktif'?'badge-green':r[5]==='Selesai'?'badge-blue':'badge-red';
+    return `<tr>
+      <td><span style="font-size:11px;color:var(--slate-400);font-family:'Space Mono',monospace">${String(n).padStart(2,'0')}</span></td>
+      <td><div style="font-weight:600">${r[0]}</div></td>
+      <td><span class="badge ${hariColor}">${hari}</span></td>
+      <td style="font-size:12px;color:var(--slate-500);font-family:'Space Mono',monospace">${r[2]}</td>
+      <td style="font-size:13px">${r[3]}</td>
+      <td><span class="badge badge-blue">${r[4]}</span></td>
+      <td><span class="badge ${st}">${r[5]}</span></td>
+      <td><div class="actions-cell">
+        <button class="btn btn-outline btn-sm">✏️</button>
+        <button class="btn btn-danger btn-sm">🗑️</button>
+      </div></td>
+    </tr>`;
+  }
+  if (key === 'ju') {
+    const tipe = r[1]==='UTS'?'badge-blue':r[1]==='UAS'?'badge-yellow':'badge-gray';
+    const st = r[6]==='Terjadwal'?'badge-blue':r[6]==='Berlangsung'?'badge-green':'badge-gray';
+    return `<tr>
+      <td><span style="font-size:11px;color:var(--slate-400);font-family:'Space Mono',monospace">${String(n).padStart(2,'0')}</span></td>
+      <td><div style="font-weight:600">${r[0]}</div></td>
+      <td><span class="badge ${tipe}">${r[1]}</span></td>
+      <td style="font-size:12px;color:var(--slate-500)">${r[2]}</td>
+      <td style="font-size:12px;font-family:'Space Mono',monospace">${r[3]}</td>
+      <td style="font-size:12px;color:var(--slate-500)">${r[4]}</td>
+      <td style="font-weight:700;font-family:'Space Mono',monospace;color:var(--sky-600)">${r[5]}</td>
+      <td><span class="badge ${st}">${r[6]}</span></td>
+      <td><div class="actions-cell">
+        <button class="btn btn-outline btn-sm">✏️</button>
+        <button class="btn btn-danger btn-sm">🗑️</button>
+      </div></td>
+    </tr>`;
+  }
+  return '';
+}
+
+function renderPag(key) {
+  const s = state[key];
+  const total = Math.ceil(s.filtered.length / s.perPage);
+  const pag = document.getElementById(key + 'Pag');
+  if (!pag) return;
+  let html = `<button class="pag-btn" onclick="goPage('${key}',${s.page-1})" ${s.page<=1?'disabled':''}>‹</button>`;
+  for (let i = 1; i <= total; i++) {
+    html += `<button class="pag-btn${s.page===i?' active':''}" onclick="goPage('${key}',${i})">${i}</button>`;
+  }
+  html += `<button class="pag-btn" onclick="goPage('${key}',${s.page+1})" ${s.page>=total?'disabled':''}>›</button>`;
+  pag.innerHTML = html;
+}
+
+function goPage(key, p) {
+  const s = state[key];
+  const total = Math.ceil(s.filtered.length / s.perPage);
+  s.page = Math.max(1, Math.min(p, total));
+  renderTable(key);
+}
+
+// ─── FILTER ───
+function filterTable(key) {
+  const s = state[key];
+  const search = (document.getElementById(key + 'Search')?.value || '').toLowerCase();
+
+  s.filtered = s.data.filter(r => {
+    const rowStr = r.join(' ').toLowerCase();
+    if (search && !rowStr.includes(search)) return false;
+
+    if (key === 'peserta') {
+      const status = document.getElementById('pesertaFilterStatus').value;
+      const batch = document.getElementById('pesertaFilterBatch').value;
+      if (status && r[4] !== status) return false;
+      if (batch && r[2] !== batch) return false;
+    }
+    if (key === 'materi') {
+      const kat = document.getElementById('materiFilterKategori').value;
+      const tipe = document.getElementById('materiFilterTipe').value;
+      if (kat && r[1] !== kat) return false;
+      if (tipe && r[2] !== tipe) return false;
+    }
+    if (key === 'roadmap') {
+      const level = document.getElementById('roadmapFilterLevel').value;
+      if (level && r[1] !== level) return false;
+    }
+    if (key === 'jb') {
+      const hari = document.getElementById('jbFilterHari').value;
+      if (hari && r[1] !== hari) return false;
+    }
+    if (key === 'ju') {
+      const tipe = document.getElementById('juFilterTipe').value;
+      const status = document.getElementById('juFilterStatus').value;
+      if (tipe && r[1] !== tipe) return false;
+      if (status && r[6] !== status) return false;
+    }
+    return true;
+  });
+
+  s.page = 1;
+  renderTable(key);
+}
+
+// ─── SORT ───
+function sortTable(key, col) {
+  const s = state[key];
+  if (s.sort.col === col) s.sort.dir *= -1;
+  else { s.sort.col = col; s.sort.dir = 1; }
+  s.filtered.sort((a, b) => {
+    const av = a[col], bv = b[col];
+    if (typeof av === 'number') return (av - bv) * s.sort.dir;
+    return String(av).localeCompare(String(bv)) * s.sort.dir;
+  });
+  renderTable(key);
+}
+
+// ─── NAV ───
+const pageTitles = {
+  dashboard: 'Dashboard <span>Overview</span>',
+  peserta: 'Peserta <span>Management</span>',
+  materi: 'Materi <span>Konten</span>',
+  roadmap: 'Roadmap <span>Pembelajaran</span>',
+  'jadwal-belajar': 'Jadwal <span>Belajar</span>',
+  'jadwal-ujian': 'Jadwal <span>Ujian</span>',
+  setting: 'Pengaturan <span>Sistem</span>',
+};
+
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  el.classList.add('active');
+  document.getElementById('headerTitle').innerHTML = pageTitles[id] || id;
+  closeSidebar();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ─── INIT CHARTS ───
+function initCharts() {
+  // Line chart
+  new Chart(document.getElementById('chartLine'), {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'],
+      datasets: [{
+        label: 'Peserta Baru',
+        data: [12,19,15,28,22,35,18,42,30,25,38,44],
+        borderColor: '#0ea5e9',
+        backgroundColor: 'rgba(14,165,233,.08)',
+        borderWidth: 2.5,
+        fill: true,
+        tension: .4,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: '#0ea5e9',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#94a3b8' } },
+        y: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 11 }, color: '#94a3b8' } }
+      }
+    }
+  });
+
+  // Doughnut
+  new Chart(document.getElementById('chartDoughnut'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Aktif','Tidak Aktif','Lulus'],
+      datasets: [{ data: [182,44,22], backgroundColor: ['#0ea5e9','#fbbf24','#22c55e'], borderWidth: 0, hoverOffset: 6 }]
+    },
+    options: {
+      responsive: true, cutout: '70%',
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+// ─── MATERI PROGRESS ───
+const matProgress = [
+  { name: 'Pengantar Administrasi', pct: 89 },
+  { name: 'Manajemen Keuangan', pct: 74 },
+  { name: 'Excel untuk Bisnis', pct: 68 },
+  { name: 'Komunikasi Efektif', pct: 55 },
+  { name: 'Dasar Akuntansi', pct: 42 },
+];
+document.getElementById('matProgressList').innerHTML = matProgress.map(m => `
+  <div style="margin-bottom:12px">
+    <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px">
+      <span style="font-weight:600;color:var(--slate-700)">${m.name}</span>
+      <span style="font-weight:700;color:var(--sky-600);font-family:'Space Mono',monospace">${m.pct}%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${m.pct}%"></div></div>
+  </div>
+`).join('');
+
+// ─── DUMMY EXPORT ───
+function exportDummy() { alert('Export CSV sedang diproses... (fitur demo)'); }
+
+// ─── START ───
+['peserta','materi','roadmap','jb','ju'].forEach(k => renderTable(k));
+initCharts();
+
+// Responsive menu button
+if (window.innerWidth <= 768) {
+  document.getElementById('menu-btn').style.display = 'flex';
+}
+window.addEventListener('resize', () => {
+  document.getElementById('menu-btn').style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+});
+</script>
+</body>
+</html>
