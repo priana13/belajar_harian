@@ -17,12 +17,9 @@ class StatsOverview extends BaseWidget
     protected function getCards(): array
     {
         return [
-            // Card::make('DPU', JenisKelompok::count())
-            //         ->description('Total'),                    
-            Card::make('Peserta',User::count()),
-            Card::make('Materi',Materi::count()),
-            Card::make('Angkatan',Angkatan::count()),
-            
+            Card::make('Peserta', number_format(User::count() , 0, ',', '.'))->color('success'),
+            Card::make('Materi', number_format(Materi::count(), 0, ',', '.')),
+            Card::make('Angkatan', number_format(Angkatan::count(), 0, ',', '.')),
         ];
     }
 }
