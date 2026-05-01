@@ -11,9 +11,9 @@ class StatsOverview extends BaseWidget
     protected function getCards(): array
     {
         return [
-            Card::make('Total Pengguna', User::all()->count())->color('success'),
-            Card::make('Peserta', User::type(2)->count()),
-            Card::make('Admin', User::type(1)->count()),  
+            Card::make('Total Pengguna', number_format(User::all()->count(), 0, ',', '.'))->color('success'),
+            Card::make('Peserta', number_format(User::type(2)->count(), 0, ',', '.')),
+            Card::make('Admin', number_format(User::type(1)->count(), 0, ',', '.')),  
                      
         ];
     }
