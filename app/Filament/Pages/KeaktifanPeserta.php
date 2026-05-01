@@ -4,18 +4,9 @@ namespace App\Filament\Pages;
 
 use App\Exports\ExportPesertaTidakAktif;
 use App\Models\Angkatan;
-use App\Models\AngkatanUser;
 use App\Models\Ujian;
 use App\Models\User;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
-use Filament\Tables\Columns\Concerns\HasRecord;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -27,6 +18,8 @@ class KeaktifanPeserta extends Page
     protected static string $view = 'filament.pages.keaktifan-peserta';
 
     protected static ?int $navigationSort = 5;
+
+    protected static bool $shouldRegisterNavigation = false;
 
     public $start;
 
