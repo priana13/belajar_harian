@@ -51,30 +51,53 @@ class HomeNew extends Component
         return compact('jadwal', 'materi', 'ujian_harian', 'soal_harian');
     }
 
-    private function getUserData()
+    private function getStartDate()
+    {
+        $user = auth()->user();
+        $group_user = $user->groups->pluck('id')->toArray();
+        return JadwalRoadmap::whereIn('group_id', $group_user)->first();
+    }
+
+    /**
+     * Roadmap Jalur Khusus (Group-based)
+     * Logika: Group user -> JadwalRoadmap bulan ini -> Belajar hari ini -> Materi & Ujian Harian
+     */
+    private function getJadwalKhusus()
     {
         $user = auth()->user();
         $group_user = $user->groups->pluck('id')->toArray();
         $hari_ini = Carbon::today();
 
+        // Step 1: Cari JadwalRoadmap untuk group bulan ini
         $jadwal_roadmap_group = JadwalRoadmap::whereIn('group_id', $group_user)
             ->whereMonth('tanggal_mulai', $hari_ini->month)
             ->whereYear('tanggal_mulai', $hari_ini->year)
             ->first();
-
-        $mulai_belajar = JadwalRoadmap::whereIn('group_id', $group_user)->first();
+        
+        // dd($jadwal_roadmap_group);
 
         $jadwal_khusus = null;
         $materi_khusus = null;
         $ujian_harian_khusus = null;
+        $roadmap_khusus = null;
 
         if ($jadwal_roadmap_group) {
+            // Step 2: Dapatkan roadmap untuk jalur khusus
+            $roadmap_khusus = $jadwal_roadmap_group->roadmap;
+
+            // Step 3: Cari jadwal belajar untuk hari ini
             $jadwal_khusus = Belajar::where('jadwal_roadmap_id', $jadwal_roadmap_group->id)
                 ->where('tanggal', date('Y-m-d'))
                 ->latest()->first();
+                
+            // dd($jadwal_khusus->materi);
 
             if ($jadwal_khusus) {
+                // Step 4: Ambil informasi materi
                 $materi_khusus = $jadwal_khusus->materi_detail->materi;
+                    // dd( $jadwal_khusus->materi_detail );
+
+                // Step 5: Ambil ujian harian jika ada
                 $ujian_harian_khusus = JadwalUjian::where('type', 'Harian')
                     ->where('roadmap_id', $jadwal_roadmap_group->roadmap_id)
                     ->where('urutan', $jadwal_khusus->materi_detail->pertemuan)
@@ -83,6 +106,19 @@ class HomeNew extends Component
             }
         }
 
+        return compact('jadwal_khusus', 'materi_khusus', 'ujian_harian_khusus', 'roadmap_khusus');
+    }
+
+    /**
+     * Roadmap Jalur Standar (Gelombang-based)
+     * Logika: Gelombang user -> JadwalRoadmap bulan ini -> Belajar hari ini -> Materi & Ujian Harian
+     */
+    private function getJadwalUtama()
+    {
+        $user = auth()->user();
+        $hari_ini = Carbon::today();
+
+        // Step 1: Cari JadwalRoadmap untuk gelombang bulan ini
         $jadwal_roadmap = JadwalRoadmap::where('gelombang_id', $user->gelombang_id)
             ->whereMonth('tanggal_mulai', $hari_ini->month)
             ->whereYear('tanggal_mulai', $hari_ini->year)
@@ -92,15 +128,23 @@ class HomeNew extends Component
         $materi = null;
         $ujian_harian = null;
         $soal_harian = 0;
+        $roadmap_standar = null;
 
         if ($jadwal_roadmap) {
+            // Step 2: Dapatkan roadmap untuk jalur standar
+            $roadmap_standar = $jadwal_roadmap->roadmap;
+
+            // Step 3: Cari jadwal belajar untuk hari ini
             $jadwal = Belajar::where('gelombang_id', $user->gelombang_id)
                 ->where('roadmap_id', $jadwal_roadmap->roadmap_id)
                 ->where('tanggal', date('Y-m-d'))
                 ->latest()->first();
 
             if ($jadwal) {
+                // Step 4: Ambil informasi materi
                 $materi = $jadwal->materi_detail->materi;
+
+                // Step 5: Ambil ujian harian jika ada
                 $ujian_harian = JadwalUjian::where('type', 'Harian')
                     ->where('gelombang_id', $user->gelombang_id)
                     ->where('roadmap_id', $jadwal_roadmap->roadmap_id)
@@ -108,15 +152,33 @@ class HomeNew extends Component
                     ->where('materi_id', $jadwal_roadmap->materi_id)
                     ->first();
 
-                $soal_harian = ($ujian_harian) ? Soal::where('materi_id', $materi->id)->where('jenis_ujian_id', 1)->where('urutan', $ujian_harian->urutan)->count() : 0;
+                // Step 6: Hitung jumlah soal harian
+                $soal_harian = ($ujian_harian) ? Soal::where('materi_id', $materi->id)
+                    ->where('jenis_ujian_id', 1)
+                    ->where('urutan', $ujian_harian->urutan)
+                    ->count() : 0;
+
+                // Step 7: Set status absensi
+                $this->status_absen = AbsensiKegiatan::where('user_id', auth()->id())
+                    ->where('materi_detail_id', $jadwal->materi_detail->id)
+                    ->first();
             }
         }
 
-        if ($jadwal) {
-            $this->status_absen = AbsensiKegiatan::where('user_id', auth()->id())->where('materi_detail_id', $jadwal->materi_detail->id)->first();
-        }
+        return compact('jadwal', 'materi', 'ujian_harian', 'soal_harian', 'jadwal_roadmap', 'roadmap_standar');
+    }
 
-        return compact('jadwal', 'materi', 'ujian_harian', 'soal_harian', 'jadwal_khusus', 'materi_khusus', 'ujian_harian_khusus', 'mulai_belajar', 'jadwal_roadmap');
+    private function getUserData()
+    {
+        $mulai_belajar = $this->getStartDate();
+        $khususData = $this->getJadwalKhusus();
+        $jadwalUtama = $this->getJadwalUtama();
+
+        return array_merge(
+            $khususData,
+            $jadwalUtama,
+            compact('mulai_belajar')
+        );
     }
 
     private function getJadwalUjian($jadwal_roadmap)
