@@ -48,8 +48,8 @@ class BelajarResource extends Resource
                 // Tables\Columns\TextColumn::make('angkatan.tanggal_mulai')->date(),
                 // Tables\Columns\TextColumn::make('angkatan.kode_angkatan')->label("Kode"),
 
-                Tables\Columns\TextColumn::make('roadmap.nama_roadmap')->label("Roadmap"),
-                Tables\Columns\TextColumn::make('jadwal_roadmap.judul')->label("Jadwal Roadmap"),
+                // Tables\Columns\TextColumn::make('roadmap.nama_roadmap')->label("Roadmap"),
+                // Tables\Columns\TextColumn::make('jadwal_roadmap.judul')->label("Jadwal Roadmap"),
                 Tables\Columns\TextColumn::make('gelombang.gel')->label("Gelombang"),
                 Tables\Columns\TextColumn::make('materi_detail.materi.nama_materi')->label("Materi"),
                 Tables\Columns\TextColumn::make('materi_detail.pertemuan')->label("Materi Pertemuan"),
@@ -110,6 +110,8 @@ class BelajarResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
+
+        $query = $query->tahunIni();
 
         return $query->orderByDesc('id');
     }

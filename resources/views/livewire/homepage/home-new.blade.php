@@ -204,9 +204,10 @@
         @endif
      
   
-        <h2 class="modern-title mt-6 mb-2">Materi Hari ini </h2>
+        
+        @if($jadwal) 
 
-        @if($jadwal)    
+        <h2 class="modern-title mt-6 mb-2">Materi Hari ini </h2>
 
           <div class="bg-white p-4 rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
             <div class="flex flex-col gap-2">
@@ -275,19 +276,22 @@
 
         @else 
 
-          @if(auth()->user()->groups->count() > 0)
+          @if(auth()->user()->groups->count() > 0 && $mulai_belajar->tanggal_mulai > date('Y-m-d') && $mulai_belajar->tanggal_mulai != null)
 
-          Anda terdaftar di Group: {{ auth()->user()->groups->pluck('nama_group')->join(', ') }}
-          <br>
+          <div class="mt-5 text-center text-gray-700 bg-white p-4 rounded-lg shadow-md">
 
-          Mulai Pembelajaran: {{ date("d M Y", strtotime($mulai_belajar->tanggal_mulai ?? "-")) }}
+              Anda terdaftar di Group: {{ auth()->user()->groups->pluck('nama_group')->join(', ') }}
+              <br>
+    
+              Mulai Pembelajaran: <strong>{{ date("d M Y", strtotime($mulai_belajar->tanggal_mulai ?? "-")) }}</strong>
+    
+              <br> 
 
-          <br> 
+          </div>
+
           @endif
 
         @endif
-
-
 
 
         @if(count( $jadwal_ujian ) > 0)    

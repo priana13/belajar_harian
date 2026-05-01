@@ -56,6 +56,12 @@ class Belajar extends Model
         return $query->whereDate('tanggal' , date('Y-m-d'));
     }
 
+    public function scopeTahunini($query){
+        
+
+        return $query->whereYear('tanggal' , date('Y'));
+    }   
+
     public function scopeTanggal($query , $tanggal){
         
 
