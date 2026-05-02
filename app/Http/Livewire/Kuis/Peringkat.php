@@ -62,17 +62,21 @@ class Peringkat extends Component
     }
 
     public function getPeringkat($type = "Umum"){
-        $nilai_harian = Ujian::setahunTerakhir()->harian()
+
+        $jumlah_tahun = 1;
+
+
+        $nilai_harian = Ujian::filterTahunSebelumnya($jumlah_tahun)->harian()
             ->select('user_id', DB::raw('AVG(nilai) as nilai_harian'))
             ->groupBy('user_id')
             ->pluck('nilai_harian', 'user_id');
 
-        $nilai_pekanan = Ujian::setahunTerakhir()->pekanan()
+        $nilai_pekanan = Ujian::filterTahunSebelumnya($jumlah_tahun)->pekanan()
             ->select('user_id', DB::raw('AVG(nilai) as nilai_pekanan'))
             ->groupBy('user_id')
             ->pluck('nilai_pekanan', 'user_id');
 
-        $nilai_akhir = Ujian::setahunTerakhir()->ujianAkhir()
+        $nilai_akhir = Ujian::filterTahunSebelumnya($jumlah_tahun)->ujianAkhir()
             ->select('user_id', DB::raw('AVG(nilai) as nilai_akhir'))
             ->groupBy('user_id')
             ->pluck('nilai_akhir', 'user_id');
@@ -82,8 +86,8 @@ class Peringkat extends Component
                 DB::raw('COUNT(*) as total_soal'),
                 DB::raw('SUM(CASE WHEN istrue = 1 THEN 1 ELSE 0 END) as jawaban_benar')
             )
-            ->whereHas('ujian', function($query){
-                $query->setahunTerakhir();
+            ->whereHas('ujian', function($query) use ($jumlah_tahun) {
+                $query->filterTahunSebelumnya($jumlah_tahun);
             })
             ->groupBy('user_id')
             ->get()
