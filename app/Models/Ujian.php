@@ -79,6 +79,17 @@ class Ujian extends Model
         return $query->where('keterangan', 'Tidak Lulus');
     }
 
+    // setahun terakhir
+    public function scopeSetahunTerakhir($query){
+
+        return $query->where('created_at', '>=', now()->subYear());
+    }
+
+    public function scopeFilterTahunSebelumnya($query, $qty = 1){
+
+        return $query->where('created_at', '>=', now()->subYear($qty));
+    }
+
     public static function hitungNilaiUjian($ujian_id){
 
         $ujian = Ujian::find($ujian_id);            
