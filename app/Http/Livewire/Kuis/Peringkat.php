@@ -67,17 +67,17 @@ class Peringkat extends Component
 
 
         $nilai_harian = Ujian::filterTahunSebelumnya($jumlah_tahun)->harian()
-            ->select('user_id', DB::raw('AVG(nilai) as nilai_harian'))
+            ->select('user_id', DB::raw('SUM(nilai) as nilai_harian'))
             ->groupBy('user_id')
             ->pluck('nilai_harian', 'user_id');
 
         $nilai_pekanan = Ujian::filterTahunSebelumnya($jumlah_tahun)->pekanan()
-            ->select('user_id', DB::raw('AVG(nilai) as nilai_pekanan'))
+            ->select('user_id', DB::raw('SUM(nilai) as nilai_pekanan'))
             ->groupBy('user_id')
             ->pluck('nilai_pekanan', 'user_id');
 
         $nilai_akhir = Ujian::filterTahunSebelumnya($jumlah_tahun)->ujianAkhir()
-            ->select('user_id', DB::raw('AVG(nilai) as nilai_akhir'))
+            ->select('user_id', DB::raw('SUM(nilai) as nilai_akhir'))
             ->groupBy('user_id')
             ->pluck('nilai_akhir', 'user_id');
 
@@ -99,15 +99,15 @@ class Peringkat extends Component
             $harian = floatval($nilai_harian->get($user->id, 0));
             $pekanan = floatval($nilai_pekanan->get($user->id, 0));
             $akhir = floatval($nilai_akhir->get($user->id, 0));
-            $total_nilai = $harian + $pekanan + $akhir;
+            $total_nilai = ($harian / 8) + ($pekanan / 4) + $akhir;
 
             $soal = $soal_ujian_agg->get($user->id);
           
             return [
                 'user_id' => $user->id,
                 'nama' => $user->name,
-                'nilai_harian' => $harian,
-                'nilai_pekanan' => $pekanan,
+                'nilai_harian' => $harian / 8,
+                'nilai_pekanan' => $pekanan / 4,
                 'nilai_akhir' => $akhir,
                 'total_nilai' => intval($total_nilai),
                 'total_soal' => $soal->total_soal ?? 0,
