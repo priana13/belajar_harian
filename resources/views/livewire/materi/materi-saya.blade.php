@@ -355,14 +355,14 @@
                         <!-- Lainnya Tab -->
                         <div x-show="activeTab == 'lainnya'">
                             <div class="space-y-4">
-                                <div class="modern-card p-4 cursor-pointer hover:shadow-lg transition-all duration-300">
+                                <div onClick="window.location.href='{{ route('peringkat') }}'" class="modern-card p-4 cursor-pointer hover:shadow-lg transition-all duration-300">
                                     <div class="flex items-center gap-4">
                                         <div class="feature-icon">
                                             <i class="fas fa-archive"></i>
                                         </div>
                                         <div class="flex-1">
-                                            <h3 class="font-semibold text-gray-800">Arsip</h3>
-                                            <p class="text-sm text-gray-500">Lihat materi yang sudah selesai</p>
+                                            <h3 class="font-semibold text-gray-800">Peringkat</h3>
+                                            <p class="text-sm text-gray-500">Lihat peringkat Anda</p>
                                         </div>
                                         <i class="fas fa-chevron-right text-gray-400"></i>
                                     </div>
