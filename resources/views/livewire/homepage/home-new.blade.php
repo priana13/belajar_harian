@@ -219,33 +219,8 @@
             </div>
 
             {{-- tambah tombol dengan icon gambar di sini untuk melihat screen shoot materi --}}
-            <div>
-             
-              @if($jadwal && $jadwal->materi_detail->images->count() > 0)
-                <p class="text-center mb-3 font-bold text-gray-800">Gambar Materi</p>
-                <div class="flex flex-wrap gap-2 justify-center mb-2">
-                  @foreach($jadwal->materi_detail->images as $image)
-                    <button onclick="openGalleryModal('jadwal')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
-                     {{ $loop->iteration }}. <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md transition-transform duration-300 hover:scale-150">
-                    </button>
-                  @endforeach
-                </div>
-                <button onclick="openGalleryModal('jadwal')" class="view-all-images-btn">👁️ Lihat Semua Gambar Materi</button>
-              @endif
-
-              @if($jadwal_khusus && $jadwal_khusus->materi_detail->images->count() > 0)
-                <p class="text-center mb-3 font-bold text-gray-800">Gambar Materi</p>
-                <div class="flex flex-wrap gap-2 justify-center mb-2">
-                  @foreach($jadwal_khusus->materi_detail->images as $image)
-                    <button onclick="openGalleryModal('jadwal_khusus')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
-                     {{ $loop->iteration }}. <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md transition-transform duration-300 hover:scale-150">
-                    </button>
-                  @endforeach
-                </div>
-                <button onclick="openGalleryModal('jadwal_khusus')" class="view-all-images-btn">👁️ Lihat Semua Gambar Materi</button>
-              @endif
-
-
+            <div id="materiImageContainer">
+              {{-- Images will be loaded dynamically by JavaScript --}}
             </div>
 
             <div class="text-center mt-5">
@@ -469,6 +444,76 @@
           });
           @endif
 
+          // Store materi images data
+          const materiImagesData = {
+            jadwal: {
+              images: [
+                @if($jadwal && $jadwal->materi_detail->images->count() > 0)
+                  @foreach($jadwal->materi_detail->images as $image)
+                    "{{ asset('storage/'.$image->image) }}",
+                  @endforeach
+                @endif
+              ],
+              count: {{ $jadwal && $jadwal->materi_detail->images->count() > 0 ? '1' : '0' }}
+            },
+            jadwal_khusus: {
+              images: [
+                @if($jadwal_khusus && $jadwal_khusus->materi_detail->images->count() > 0)
+                  @foreach($jadwal_khusus->materi_detail->images as $image)
+                    "{{ asset('storage/'.$image->image) }}",
+                  @endforeach
+                @endif
+              ],
+              count: {{ $jadwal_khusus && $jadwal_khusus->materi_detail->images->count() > 0 ? '1' : '0' }}
+            }
+          };
+
+          // Function to render materi images in popup
+          function renderMateriImages(type) {
+            console.log('renderMateriImages called with type:', type);
+            const container = document.getElementById('materiImageContainer');
+            
+            // Clear previous content
+            container.innerHTML = '';
+
+            if (!materiImagesData[type]) {
+              console.log('No data for type:', type);
+              return;
+            }
+
+            const imageData = materiImagesData[type];
+            console.log('Image data:', imageData);
+            
+            if (!imageData.images || imageData.images.length === 0) {
+              console.log('No images for type:', type);
+              return;
+            }
+
+            const images = imageData.images;
+            console.log('Rendering images:', images);
+            
+            let html = `
+              <p class="text-center mb-3 font-bold text-gray-800">Gambar Materi</p>
+              <div class="flex flex-wrap gap-2 justify-center mb-2">
+            `;
+            
+            images.forEach((image, index) => {
+              html += `
+                <button onclick="openGalleryModal('${type}')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
+                  ${index + 1}. <img src="${image}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md transition-transform duration-300 hover:scale-150">
+                </button>
+              `;
+            });
+            
+            html += `
+              </div>
+              <button onclick="openGalleryModal('${type}')" class="view-all-images-btn">Lihat Semua Gambar Materi</button>
+            `;
+            
+            container.innerHTML = html;
+            console.log('Images rendered for type:', type);
+          }
+
           function syncAudioUiState() {
             listenMateriBtns.forEach((button) => {
               button.textContent = isPlaying ? "TAMPILKAN AUDIO" : "DENGARKAN MATERI";
@@ -481,9 +526,27 @@
           }
 
           function open_modal(id){
-            if (!track_list[id]) return;
+            console.log('open_modal called with id:', id);
+            if (!track_list[id]) {
+              console.log('No track for id:', id);
+              return;
+            }
             track_index = id;
             loadTrack(track_index);
+            
+            // Render the appropriate materi images based on track index
+            console.log('materiImagesData:', materiImagesData);
+            if (id === 0) {
+              console.log('Rendering jadwal images, count:', materiImagesData.jadwal.count);
+              renderMateriImages('jadwal');
+            } else if (id === 1) {
+              console.log('Rendering jadwal_khusus images, count:', materiImagesData.jadwal_khusus.count);
+              renderMateriImages('jadwal_khusus');
+            } else {
+              console.log('No images to render for id:', id);
+              document.getElementById('materiImageContainer').innerHTML = '';
+            }
+            
             playTrack();
           }
 
@@ -601,6 +664,16 @@
               track_index += 1;
             else track_index = 0;
             loadTrack(track_index);
+            
+            // Render the appropriate materi images
+            if (track_index === 0 && materiImagesData.jadwal.count) {
+              renderMateriImages('jadwal');
+            } else if (track_index === 1 && materiImagesData.jadwal_khusus.count) {
+              renderMateriImages('jadwal_khusus');
+            } else {
+              document.getElementById('materiImageContainer').innerHTML = '';
+            }
+            
             playTrack();
           }
 
@@ -609,6 +682,16 @@
               track_index -= 1;
             else track_index = track_list.length - 1;
             loadTrack(track_index);
+            
+            // Render the appropriate materi images
+            if (track_index === 0 && materiImagesData.jadwal.count) {
+              renderMateriImages('jadwal');
+            } else if (track_index === 1 && materiImagesData.jadwal_khusus.count) {
+              renderMateriImages('jadwal_khusus');
+            } else {
+              document.getElementById('materiImageContainer').innerHTML = '';
+            }
+            
             playTrack();
           }
 
