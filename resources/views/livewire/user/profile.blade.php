@@ -15,7 +15,8 @@
             <p class="text-xl font-bold mt-5">Profile</p>
             
             @if($foto_profil)
-                <img class="h-16 w-16 rounded-full object-cover" src="{{ asset('storage/' .$foto_profil) }}" alt="Profile Picture">
+                <img class="h-16 w-16 rounded-full object-cover" src="{{ asset('storage/' .$foto_profil) }}" alt="Profile Picture"
+                onerror="this.onerror=null; this.src='{{ asset('/img/user.jpeg') }}'">
             @else
                 <div class="bg-gray-500 flex items-center justify-center rounded-full text-white text-3xl w-16 h-16">
                     <i class="fa-solid fa-user"></i>

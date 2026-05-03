@@ -9,7 +9,7 @@
             <button @click="open = !open"  class="flex items-center justify-center">
                 <div class="text-3xl text-gray-400">
                     @if(auth()->user()->foto_profil)
-                        <img class="h-6 w-6 rounded-full" src="{{ asset('storage/' . auth()->user()->foto_profil) }}" alt="">
+                        <img class="h-6 w-6 rounded-full" src="{{ asset('storage/' . auth()->user()->foto_profil) }}" alt="" onerror="this.onerror=null; this.src='{{ asset('/img/user.jpeg') }}'">
                     @else
                         <i class="fa-solid fa-circle-user"></i>
                     @endif

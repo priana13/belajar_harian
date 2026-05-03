@@ -32,16 +32,18 @@ class Profile extends Component
 
     public function mount($userId = null)
     {
-        $this->name= auth()->user()->name;
-        $this->email=auth()->user()->email;
-        $this->temp_lahir=auth()->user()->temp_lahir;
-        $this->tgl_lahir=auth()->user()->tgl_lahir;
-        $this->kota=auth()->user()->kota;
-        $this->no_hp=auth()->user()->no_hp;
-        $this->status=auth()->user()->status;
-        $this->foto_profil=auth()->user()->foto_profil;
-        $this->jenis_kelamin = auth()->user()->jenis_kelamin;
-        $this->umur = date('Y') - auth()->user()->tahun_lahir;
+        $user = auth()->user();
+        
+        $this->name= $user->name;
+        $this->email=$user->email;
+        $this->temp_lahir=$user->temp_lahir;
+        $this->tgl_lahir=$user->tgl_lahir;
+        $this->kota=$user->kota;
+        $this->no_hp=$user->no_hp;
+        $this->status=$user->status;
+        $this->foto_profil=$user->foto_profil;
+        $this->jenis_kelamin = $user->jenis_kelamin;
+        $this->umur = date('Y') - $user->tahun_lahir;
 
     }
 
