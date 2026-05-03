@@ -32,22 +32,21 @@
 
            
         @foreach($peringkat_user->where('total_nilai', '>', 0) as $row)   
-
-
+                 
                 <div class="grid grid-cols-[10%_90%] border-b pb-2 my-2">
                     <p class="text-center font-bold text-sm">{{ $nomor_urut }}.</p>
                     <div>
                         <div class="flex items-center gap-1 font-bold">
-                            <p class="capitalize">{{$row['nama']}}</p>
+                            <p class="capitalize">{{$row['nama']}} <span class="text-gray-500 text-sm capitalize">({{ strtolower($row['kota']) }})</span> </p>
+
                         </div>
                    
 
                         <div class="flex items-center gap-1 font-bold ">
-                            {{-- <p class="text-primary text-sm">{{ $row['total_soal'] }}/{{ $row['jawaban_benar'] }} </p>
-                            <p class="text-primary">·</p> --}}
+                            {{-- <p class="text-primary text-sm"> {{ $row['kota'] }} </p> --}}
+                            {{-- <p class="text-primary">·</p> --}}
                             <p class="text-primary text-sm">Score: {{ $row['total_nilai'] }}</p>
-                            <p class="text-primary hidden">·</p>
-                            {{-- <p class="text-primary text-sm hidden">1312s</p> --}}
+                          
                         </div>
                     </div>
                 </div>

@@ -93,7 +93,7 @@ class Peringkat extends Component
             ->get()
             ->keyBy('user_id');
 
-        $users = User::select('id', 'name')->get();
+        $users = User::select('id', 'name' , 'kota')->get();
 
         $list = $users->map(function ($user) use ($nilai_harian, $nilai_pekanan, $nilai_akhir, $soal_ujian_agg) {
             $harian = floatval($nilai_harian->get($user->id, 0));
@@ -106,6 +106,7 @@ class Peringkat extends Component
             return [
                 'user_id' => $user->id,
                 'nama' => $user->name,
+                'kota' => $user->kota,
                 'nilai_harian' => $harian / 8,
                 'nilai_pekanan' => $pekanan / 4,
                 'nilai_akhir' => $akhir,

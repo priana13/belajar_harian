@@ -59,6 +59,7 @@ class UserResource extends Resource
                     "P" => "Perempuan"
                 ]),
                 TextInput::make('pekerjaan'),
+                TextInput::make('kota'),
                 // Toggle::make('status')->label("Sudah Menikah"),
                 Select::make('kategori')->options([
                     "Aktif" => "Aktif",
