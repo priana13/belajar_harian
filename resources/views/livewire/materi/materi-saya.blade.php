@@ -368,7 +368,7 @@
                                     </div>
                                 </div>
 
-                                <div class="modern-card p-4 cursor-pointer hover:shadow-lg transition-all duration-300">
+                                {{-- <div class="modern-card p-4 cursor-pointer hover:shadow-lg transition-all duration-300">
                                     <div class="flex items-center gap-4">
                                         <div class="feature-icon">
                                             <i class="fas fa-book"></i>
@@ -392,7 +392,7 @@
                                         </div>
                                         <i class="fas fa-chevron-right text-gray-400"></i>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
