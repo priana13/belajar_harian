@@ -263,7 +263,7 @@
         <div wire:ignore>
           {{-- modal popup untuk pemutar audio --}}
           <x-modal.ModalPopup  id="myModal" default="close">
-            <div class="modern-modal flex flex-col items-center justify-center">
+            <div class="modern-modal flex flex-col items-center justify-center overflow-auto">
               <div class="details mb-4">
                 <div class="track-name font-semibold text-blue-900">Judul Materi</div>
                 <div class="track-artist text-blue-700">Bab</div>
