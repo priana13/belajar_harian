@@ -686,6 +686,8 @@
           }
 
           function loadTrack(track_index) {
+            conslole.log('Loading track index:', track_index);
+
             if (!track_list[track_index]) return;
             clearInterval(updateTimer);
             resetValues();
