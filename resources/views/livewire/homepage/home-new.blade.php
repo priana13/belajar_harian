@@ -316,29 +316,29 @@
             {{-- tambah tombol dengan icon gambar di sini untuk melihat screen shoot materi --}}
             <div>
 
-              @if($jadwal && $jadwal->materi_detail->images->count() > 0)
-                <p class="text-center mb-3 font-bold text-gray-800">Gambar {{ $materi->nama_materi }}</p>
+              {{-- @if($jadwal && $jadwal->materi_detail->images->count() > 0)
+                <p class="text-center mb-3 font-bold text-gray-800 hidden">Gambar {{ $materi->nama_materi }}</p>
                 <div class="flex flex-wrap gap-2 justify-center mb-2">
                   @foreach($jadwal->materi_detail->images as $image)
                     <button onclick="openGalleryModal('jadwal')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
                      {{ $loop->iteration }}. <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md transition-transform duration-300 hover:scale-150">
                     </button>
                   @endforeach
-                </div>
+                </div> --}}
                 {{-- <button onclick="openGalleryModal('jadwal')" class="view-all-images-btn">Lihat Semua Gambar Materi</button> --}}
-              @endif
+              {{-- @endif --}}
 
-              @if($jadwal_khusus && $jadwal_khusus->materi_detail->images->count() > 0)
-                <p class="text-center mb-3 font-bold text-gray-800">Gambar {{ $materi_khusus->nama_materi }}</p>
+              {{-- @if($jadwal_khusus && $jadwal_khusus->materi_detail->images->count() > 0)
+                <p class="text-center mb-3 font-bold text-gray-800 hidden">Gambar {{ $materi_khusus->nama_materi }}</p>
                 <div class="flex flex-wrap gap-2 justify-center mb-2">
                   @foreach($jadwal_khusus->materi_detail->images as $image)
                     <button onclick="openGalleryModal('jadwal_khusus')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
                      {{ $loop->iteration }}. <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md transition-transform duration-300 hover:scale-150">
                     </button>
                   @endforeach
-                </div>
+                </div> --}}
                 {{-- <button onclick="openGalleryModal('jadwal_khusus')" class="view-all-images-btn">Lihat Semua Gambar Materi</button> --}}
-              @endif
+              {{-- @endif --}}
 
 
             </div>
