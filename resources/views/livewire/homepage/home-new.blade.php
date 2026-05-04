@@ -2,6 +2,101 @@
   @push('head')
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
   <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+  <style>
+    .gallery-zoom-container {
+      position: relative;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 400px;
+      touch-action: none;
+    }
+    @media (max-width: 768px) {
+      .gallery-zoom-container {
+        height: 300px;
+      }
+    }
+    .gallery-zoom-container img {
+      max-width: 100%;
+      max-height: 100%;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+    }
+    .gallery-zoom-container img:active {
+      cursor: grabbing;
+    }
+    .gallery-zoom-controls {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 8px;
+      border-radius: 4px;
+      z-index: 10;
+    }
+    @media (max-width: 768px) {
+      .gallery-zoom-controls {
+        display: none;
+      }
+    }
+    .gallery-zoom-btn {
+      background: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+      transition: background 0.3s;
+    }
+    .gallery-zoom-btn:hover {
+      background: #f0f0f0;
+    }
+    .gallery-zoom-btn:active {
+      background: #e0e0e0;
+    }
+    .gallery-zoom-level {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      z-index: 10;
+    }
+    @media (max-width: 768px) {
+      .gallery-zoom-level {
+        font-size: 10px;
+        padding: 4px 8px;
+      }
+    }
+    .gallery-swiper {
+      width: 100%;
+      height: 100%;
+    }
+    .gallery-swiper .swiper-wrapper {
+      height: 100%;
+    }
+    .gallery-swiper .swiper-slide {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Hapus tombol navigasi */
+    .gallery-swiper .swiper-button-prev,
+    .gallery-swiper .swiper-button-next {
+      display: none !important;
+    }
+  </style>
   @endpush
 
  @auth
@@ -263,13 +358,19 @@
               <h3>Gambar Materi</h3>
               <button class="gallery-modal-close" onclick="closeGalleryModal()">&times;</button>
             </div>
+            <div class="gallery-zoom-controls" id="desktopZoomControls">
+              <button class="gallery-zoom-btn" onclick="zoomGalleryIn()" title="Zoom In">+</button>
+              <button class="gallery-zoom-btn" onclick="zoomGalleryReset()" title="Reset Zoom">Reset</button>
+              <button class="gallery-zoom-btn" onclick="zoomGalleryOut()" title="Zoom Out">−</button>
+            </div>
+            <div class="gallery-zoom-level" id="galleryZoomLevel">100%</div>
             <div class="gallery-swiper-container">
-              <div class="gallery-swiper swiper">
-                <div class="swiper-wrapper" id="galleryWrapper">
-                  <!-- Slides will be populated by JavaScript -->
+              <div class="gallery-zoom-container" id="galleryZoomContainer">
+                <div class="gallery-swiper swiper">
+                  <div class="swiper-wrapper" id="galleryWrapper">
+                    <!-- Slides will be populated by JavaScript -->
+                  </div>
                 </div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
               </div>
             </div>
             <div class="gallery-counter" id="galleryCounter"></div>
@@ -287,6 +388,9 @@
 
     <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+<!-- Panzoom Library -->
+<script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
 
 <!-- Initialize Swiper -->
 <script>
@@ -325,6 +429,79 @@
 
   let gallerySwiperInstance = null;
   let currentGalleryType = null;
+  let galleryPanzoomInstance = null;
+  let galleryZoomLevel = 1;
+
+  function initGalleryZoom() {
+    const container = document.getElementById('galleryZoomContainer');
+    const activeSlide = container.querySelector('.swiper-slide-active');
+    if (!activeSlide) return;
+    
+    const img = activeSlide.querySelector('img');
+    if (!img) return;
+    
+    // Dispose old instance
+    if (galleryPanzoomInstance) {
+      try {
+        galleryPanzoomInstance.dispose();
+      } catch (e) {}
+    }
+    
+    // Create new Panzoom instance with pinch zoom support
+    galleryPanzoomInstance = Panzoom(img, {
+      maxScale: 5,
+      minScale: 1,
+      step: 0.1,
+      animate: true,
+      disableXAxis: false,
+      disableYAxis: false,
+      disableZoom: false,
+      containment: container,
+      overflow: 'hidden',
+      canvas: true,
+      touch: true
+    });
+    
+    // Wheel zoom untuk desktop
+    img.addEventListener('wheel', function (event) {
+      event.preventDefault();
+      galleryPanzoomInstance.zoomWithWheel(event);
+      updateGalleryZoomLevel();
+    }, { passive: false });
+    
+    galleryZoomLevel = 1;
+    updateGalleryZoomLevel();
+  }
+
+  function zoomGalleryIn() {
+    if (galleryPanzoomInstance) {
+      galleryPanzoomInstance.zoom(galleryPanzoomInstance.getScale() * 1.2);
+      updateGalleryZoomLevel();
+    }
+  }
+
+  function zoomGalleryOut() {
+    if (galleryPanzoomInstance) {
+      galleryPanzoomInstance.zoom(galleryPanzoomInstance.getScale() / 1.2);
+      updateGalleryZoomLevel();
+    }
+  }
+
+  function zoomGalleryReset() {
+    if (galleryPanzoomInstance) {
+      galleryPanzoomInstance.reset();
+      galleryZoomLevel = 1;
+      updateGalleryZoomLevel();
+    }
+  }
+
+  function updateGalleryZoomLevel() {
+    if (galleryPanzoomInstance) {
+      const scale = galleryPanzoomInstance.getScale();
+      galleryZoomLevel = Math.round(scale * 100);
+      document.getElementById('galleryZoomLevel').textContent = galleryZoomLevel + '%';
+    }
+  }
 
   function openGalleryModal(type) {
     if (!galleryImages[type] || galleryImages[type].length === 0) return;
@@ -361,17 +538,32 @@
     if (!gallerySwiperInstance) {
       gallerySwiperInstance = new Swiper(".gallery-swiper", {
         loop: false,
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
+        slidesPerView: 1,
+        spaceBetween: 0,
+        speed: 300,
+        grabCursor: true,
+        touchRatio: 1,
+        touchAngle: 45,
+        simulateTouch: true,
         on: {
-          slideChange: updateGalleryThumbnails
+          slideChange: function() {
+            updateGalleryThumbnails();
+            zoomGalleryReset();
+            // Reinitialize zoom untuk slide baru
+            setTimeout(() => {
+              initGalleryZoom();
+            }, 50);
+          }
         }
       });
     } else {
       gallerySwiperInstance.update();
     }
+    
+    // Initialize zoom for gallery images
+    setTimeout(() => {
+      initGalleryZoom();
+    }, 100);
 
     // Show modal
     modal.classList.add('active');
