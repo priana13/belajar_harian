@@ -220,9 +220,9 @@
 
             {{-- tambah tombol dengan icon gambar di sini untuk melihat screen shoot materi --}}
             <div>
-             
+
               @if($jadwal && $jadwal->materi_detail->images->count() > 0)
-                <p class="text-center mb-3 font-bold text-gray-800">Gambar Materi</p>
+                <p class="text-center mb-3 font-bold text-gray-800">Gambar {{ $materi->nama_materi }}</p>
                 <div class="flex flex-wrap gap-2 justify-center mb-2">
                   @foreach($jadwal->materi_detail->images as $image)
                     <button onclick="openGalleryModal('jadwal')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
@@ -230,11 +230,11 @@
                     </button>
                   @endforeach
                 </div>
-                <button onclick="openGalleryModal('jadwal')" class="view-all-images-btn">👁️ Lihat Semua Gambar Materi</button>
+                {{-- <button onclick="openGalleryModal('jadwal')" class="view-all-images-btn">Lihat Semua Gambar Materi</button> --}}
               @endif
 
               @if($jadwal_khusus && $jadwal_khusus->materi_detail->images->count() > 0)
-                <p class="text-center mb-3 font-bold text-gray-800">Gambar Materi</p>
+                <p class="text-center mb-3 font-bold text-gray-800">Gambar {{ $materi_khusus->nama_materi }}</p>
                 <div class="flex flex-wrap gap-2 justify-center mb-2">
                   @foreach($jadwal_khusus->materi_detail->images as $image)
                     <button onclick="openGalleryModal('jadwal_khusus')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
@@ -242,7 +242,7 @@
                     </button>
                   @endforeach
                 </div>
-                <button onclick="openGalleryModal('jadwal_khusus')" class="view-all-images-btn">👁️ Lihat Semua Gambar Materi</button>
+                {{-- <button onclick="openGalleryModal('jadwal_khusus')" class="view-all-images-btn">Lihat Semua Gambar Materi</button> --}}
               @endif
 
 
@@ -250,7 +250,7 @@
 
             <div class="text-center mt-5">
               @if($jadwal && $ujian_harian && $soal_harian > 0)
-                <a href="{{route('kuis',['materi_id' => $jadwal->materi_detail->materi_id ,'jadwal_id'=> $ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white border border-blue-200 hover:bg-blue-50">KERJAKAN SOAL</a>
+                {{-- <a href="{{route('kuis',['materi_id' => $jadwal->materi_detail->materi_id ,'jadwal_id'=> $ujian_harian->id ])}}" class="modern-btn w-full mt-3 bg-white text-white border border-blue-200 hover:bg-blue-50">KERJAKAN SOAL</a> --}}
               @endif
             </div>
           </x-modal.ModalPopup>
