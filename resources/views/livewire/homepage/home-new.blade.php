@@ -390,7 +390,7 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
 <!-- Panzoom Library -->
-<script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.4/dist/panzoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom/dist/panzoom.min.js"></script>
 
 <!-- Initialize Swiper -->
 <script>
@@ -434,11 +434,18 @@
 
   function initGalleryZoom() {
     const container = document.getElementById('galleryZoomContainer');
+    if (!container) return;
     const activeSlide = container.querySelector('.swiper-slide-active');
     if (!activeSlide) return;
     
     const img = activeSlide.querySelector('img');
     if (!img) return;
+    
+    const PanzoomClass = window.Panzoom || window.panzoom || window.PanZoom || window.panZoom || (window.Panzoom && window.Panzoom.default) || null;
+    if (!PanzoomClass) {
+      console.error('Panzoom library tidak ditemukan. Pastikan script Panzoom dimuat sebelum inisialisasi.');
+      return;
+    }
     
     // Dispose old instance
     if (galleryPanzoomInstance) {
@@ -448,7 +455,7 @@
     }
     
     // Create new Panzoom instance with pinch zoom support
-    galleryPanzoomInstance = Panzoom(img, {
+    galleryPanzoomInstance = PanzoomClass(img, {
       maxScale: 5,
       minScale: 1,
       step: 0.1,
@@ -458,7 +465,6 @@
       disableZoom: false,
       containment: container,
       overflow: 'hidden',
-      canvas: true,
       touch: true
     });
     
