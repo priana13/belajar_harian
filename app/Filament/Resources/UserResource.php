@@ -105,6 +105,8 @@ class UserResource extends Resource
             ])
             ->filters([ 
                 SelectFilter::make('gelombang_id')->relationship('gelombang' , 'gel')->label("Gelombang"), 
+                //  filter groups
+                SelectFilter::make('groups')->relationship('groups', 'nama_group')->label("Group"),
                 Filter::make('User Tanpa Angkatan')->query(function(Builder $query, $data){
                    
                     if($data['isActive']){
@@ -174,7 +176,7 @@ class UserResource extends Resource
                 Impersonate::make(), 
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
                 FilamentExportBulkAction::make('export')
 
             ]);
