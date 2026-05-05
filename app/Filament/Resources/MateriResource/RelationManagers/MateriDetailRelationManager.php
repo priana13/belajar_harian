@@ -2,30 +2,20 @@
 
 namespace App\Filament\Resources\MateriResource\RelationManagers;
 
-use Closure;
-use Exception;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Table;
 use Filament\Tables;
-use Filament\Tables\Actions\CreateAction;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasRelationshipTable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use PhpParser\Node\Expr\FuncCall;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class MateriDetailRelationManager extends RelationManager
 {
@@ -114,14 +104,8 @@ class MateriDetailRelationManager extends RelationManager
 
 
 
-    protected function getTableQuery(): Builder | Relation
+    public function getTableQuery(): Builder | Relation
     {
-        if (! $this instanceof HasRelationshipTable) {
-            $livewireClass = static::class;
-
-            throw new Exception("Class [{$livewireClass}] must define a [getTableQuery()] method.");
-        }
-
         $relationship = $this->getRelationship();
 
         $query = $relationship->getQuery();
