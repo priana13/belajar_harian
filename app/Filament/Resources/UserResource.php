@@ -54,6 +54,17 @@ class UserResource extends Resource
                             ->dehydrated(fn ($state) => filled($state)),
 
                 Select::make('jenis_user_id')->relationship('jenis_user', 'nama_jenis'),
+                Select::make('struktur_id')->relationship('struktur', 'nama_struktur')->placeholder('Pilih Struktur')
+                ->createOptionForm([
+                    TextInput::make('nama_struktur')->label('Nama Struktur')->required(),
+                ])->afterStateUpdated(function (callable $set, ?string $state) {
+                    if ($state) {
+                        $struktur = \App\Models\Struktur::find($state);
+                        if ($struktur) {
+                            $set('struktur_id', $struktur->id);
+                        }
+                    }
+                }),
                 Select::make('jenis_kelamin')->options([
                     "L" => "Laki-laki",
                     "P" => "Perempuan"
@@ -83,16 +94,17 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('gelombang.gel')->label('Gel'),
                 Tables\Columns\TextColumn::make('nip')->searchable(),
                 Tables\Columns\TextColumn::make('email')->searchable(),
-                Tables\Columns\BadgeColumn::make('valid_email')->formatStateUsing(function($state){
-                    return $state ? 'Validated' : 'Not Yet Valid';
-                })->colors([
-                    'success' => 1,
-                    'warning' => 0
-                ]),
+                // Tables\Columns\BadgeColumn::make('valid_email')->formatStateUsing(function($state){
+                //     return $state ? 'Validated' : 'Not Yet Valid';
+                // })->colors([
+                //     'success' => 1,
+                //     'warning' => 0
+                // ]),
                 Tables\Columns\TextColumn::make('no_hp')->searchable(),
                 Tables\Columns\TextColumn::make('jenis_kelamin')->searchable(),
                 Tables\Columns\TextColumn::make('pekerjaan')->searchable(),
                 Tables\Columns\TextColumn::make('jenis_user.nama_jenis')->searchable(),
+                Tables\Columns\TextColumn::make('struktur.nama_struktur')->searchable(),
                 Tables\Columns\TextColumn::make('kota')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->label("Daftar")->date(),
                 Tables\Columns\TextColumn::make('angkatan_user_count')->counts("angkatan_user")->label("Kelas"),

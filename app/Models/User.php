@@ -86,6 +86,12 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsToMany(Group::class, 'group_users');
     }
 
+    // struktur
+    public function struktur()
+    {
+        return $this->belongsTo(Struktur::class, 'struktur_id');
+    }
+
     public function kelompok()
     {
         // dd('masuk');
