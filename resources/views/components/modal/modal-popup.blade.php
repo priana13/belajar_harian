@@ -3,7 +3,7 @@
 <div id="{{ $id }}" class="@if($default == 'close') hidden @endif modal-content " >
 <div  class="fixed inset-x-0 bottom-0 h-full w-full  bg-black opacity-70 z-10 @if($default == 'close')  @endif close_modal">
 </div>
-    <div  class="fixed inset-x-3  bottom-[100px] z-10 bg-white shadow-top rounded-xl p-5 max-w-[30rem] mx-auto ">
+    <div  class="fixed inset-x-3  bottom-[100px] z-10 bg-white shadow-top rounded-xl p-5 max-w-[30rem] mx-auto max-h-[calc(100vh-140px)] overflow-y-auto">
     <div class="">
         {{ $slot }}
     </div>

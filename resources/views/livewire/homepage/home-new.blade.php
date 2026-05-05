@@ -263,7 +263,7 @@
         <div wire:ignore>
           {{-- modal popup untuk pemutar audio --}}
           <x-modal.ModalPopup  id="myModal" default="close">
-            <div class="modern-modal flex flex-col items-center justify-center">
+            <div class="modern-modal flex flex-col items-center justify-center overflow-auto">
               <div class="details mb-4">
                 <div class="track-name font-semibold text-blue-900">Judul Materi</div>
                 <div class="track-artist text-blue-700">Bab</div>
@@ -316,29 +316,29 @@
             {{-- tambah tombol dengan icon gambar di sini untuk melihat screen shoot materi --}}
             <div>
 
-              @if($jadwal && $jadwal->materi_detail->images->count() > 0)
-                <p class="text-center mb-3 font-bold text-gray-800">Gambar {{ $materi->nama_materi }}</p>
+              {{-- @if($jadwal && $jadwal->materi_detail->images->count() > 0)
+                <p class="text-center mb-3 font-bold text-gray-800 hidden">Gambar {{ $materi->nama_materi }}</p>
                 <div class="flex flex-wrap gap-2 justify-center mb-2">
                   @foreach($jadwal->materi_detail->images as $image)
                     <button onclick="openGalleryModal('jadwal')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
                      {{ $loop->iteration }}. <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md transition-transform duration-300 hover:scale-150">
                     </button>
                   @endforeach
-                </div>
+                </div> --}}
                 {{-- <button onclick="openGalleryModal('jadwal')" class="view-all-images-btn">Lihat Semua Gambar Materi</button> --}}
-              @endif
+              {{-- @endif --}}
 
-              @if($jadwal_khusus && $jadwal_khusus->materi_detail->images->count() > 0)
-                <p class="text-center mb-3 font-bold text-gray-800">Gambar {{ $materi_khusus->nama_materi }}</p>
+              {{-- @if($jadwal_khusus && $jadwal_khusus->materi_detail->images->count() > 0)
+                <p class="text-center mb-3 font-bold text-gray-800 hidden">Gambar {{ $materi_khusus->nama_materi }}</p>
                 <div class="flex flex-wrap gap-2 justify-center mb-2">
                   @foreach($jadwal_khusus->materi_detail->images as $image)
                     <button onclick="openGalleryModal('jadwal_khusus')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
                      {{ $loop->iteration }}. <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md transition-transform duration-300 hover:scale-150">
                     </button>
                   @endforeach
-                </div>
+                </div> --}}
                 {{-- <button onclick="openGalleryModal('jadwal_khusus')" class="view-all-images-btn">Lihat Semua Gambar Materi</button> --}}
-              @endif
+              {{-- @endif --}}
 
 
             </div>
@@ -679,20 +679,49 @@
           }
 
           function open_modal(id){
-            if (!track_list[id]) return;
+            console.log('open_modal called with id:', id);
+            if (!track_list[id]) {
+              console.log('No track for id:', id);
+              return;
+            }
             track_index = id;
             loadTrack(track_index);
+            
+            // Render the appropriate materi images based on track index
+            console.log('materiImagesData:', materiImagesData);
+            if (id === 0) {
+              console.log('Rendering jadwal images');
+              renderMateriImages('jadwal');
+            } else if (id === 1) {
+              console.log('Rendering jadwal_khusus images');
+              renderMateriImages('jadwal_khusus');
+            } else {
+              console.log('No images to render for id:', id);
+              document.getElementById('materiImageContainer').innerHTML = '';
+            }
+            
             playTrack();
           }
 
           function loadTrack(track_index) {
-            conslole.log('Loading track index:', track_index);
+            console.log('Loading track index:', track_index);
+            console.log('Track list:', track_list);
 
-            if (!track_list[track_index]) return;
+            if (!track_list[track_index]) {
+              console.error('Track not found for index:', track_index);
+              return;
+            }
+            
             clearInterval(updateTimer);
             resetValues();
-            curr_track.src = track_list[track_index].path;
+            
+            const trackPath = track_list[track_index].path;
+            console.log('Setting audio source to:', trackPath);
+            
+            curr_track.src = trackPath;
             curr_track.load();
+            
+            console.log('Track loaded:', track_list[track_index].name);
             track_name.textContent = track_list[track_index].name;
             track_artist.textContent = track_list[track_index].artist;
             updateTimer = setInterval(seekUpdate, 1000);
@@ -707,8 +736,11 @@
           }
 
           // Load the first track in the tracklist
+          console.log('Track list on init:', track_list);
           if (track_list.length > 0) {
             loadTrack(track_index);
+          } else {
+            console.warn('No tracks available');
           }
 
           listenMateriBtns.forEach((button) => {
@@ -726,13 +758,18 @@
 
           function initAudioContext() {
             if (!audioContext) {
-              audioContext = new (window.AudioContext || window.webkitAudioContext)();
-              analyser = audioContext.createAnalyser();
-              analyser.fftSize = 64;
-              const source = audioContext.createMediaElementSource(curr_track);
-              source.connect(analyser);
-              analyser.connect(audioContext.destination);
-              dataArray = new Uint8Array(analyser.frequencyBinCount);
+              try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 64;
+                const source = audioContext.createMediaElementSource(curr_track);
+                source.connect(analyser);
+                analyser.connect(audioContext.destination);
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+                console.log('Audio context initialized successfully');
+              } catch(e) {
+                console.error('Error initializing audio context:', e);
+              }
             }
           }
           
@@ -752,18 +789,29 @@
           }
 
           function playTrack() {
-            console.log('playPauseIcon'+track_index)
+            console.log('playTrack called, track_index:', track_index);
+            console.log('current track src:', curr_track.src);
             
             // Initialize audio context on first play (user interaction required)
             if (!audioContext) {
               initAudioContext();
             }
             
-            if (audioContext.state === 'suspended') {
+            if (audioContext && audioContext.state === 'suspended') {
               audioContext.resume();
             }
             
-            curr_track.play();
+            const playPromise = curr_track.play();
+            if (playPromise !== undefined) {
+              playPromise
+                .then(() => {
+                  console.log('Audio playing successfully');
+                })
+                .catch((error) => {
+                  console.error('Error playing audio:', error);
+                });
+            }
+            
             isPlaying = true;
             playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x text-primary"></i>';
             
@@ -801,6 +849,16 @@
               track_index += 1;
             else track_index = 0;
             loadTrack(track_index);
+            
+            // Render the appropriate materi images
+            if (track_index === 0) {
+              renderMateriImages('jadwal');
+            } else if (track_index === 1) {
+              renderMateriImages('jadwal_khusus');
+            } else {
+              document.getElementById('materiImageContainer').innerHTML = '';
+            }
+            
             playTrack();
           }
 
@@ -809,6 +867,16 @@
               track_index -= 1;
             else track_index = track_list.length - 1;
             loadTrack(track_index);
+            
+            // Render the appropriate materi images
+            if (track_index === 0) {
+              renderMateriImages('jadwal');
+            } else if (track_index === 1) {
+              renderMateriImages('jadwal_khusus');
+            } else {
+              document.getElementById('materiImageContainer').innerHTML = '';
+            }
+            
             playTrack();
           }
 
