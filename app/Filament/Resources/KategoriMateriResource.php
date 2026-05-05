@@ -5,15 +5,15 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\KategoriMateriResource\Pages;
 use App\Models\KategoriMateri;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 class KategoriMateriResource extends Resource
 {
     protected static ?string $model = KategoriMateri::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
     protected static ?string $navigationGroup = 'Konfigurasi';
 

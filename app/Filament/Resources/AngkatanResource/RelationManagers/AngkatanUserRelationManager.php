@@ -8,8 +8,8 @@ use Filament\Tables;
 use Livewire\Livewire;
 use App\Models\Belajar;
 use App\Models\Angkatan;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,7 +30,7 @@ class AngkatanUserRelationManager extends RelationManager
 
     protected static ?string $title = 'Peserta';
 
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([                
@@ -40,9 +40,9 @@ class AngkatanUserRelationManager extends RelationManager
 
                 // })->searchable()->required()->preload(),
 
-                 Forms\Components\Select::make('user_id')->options(function(RelationManager $livewire){
+                 Forms\Components\Select::make('user_id')->options(function(){
 
-                    $user_terdaftar = $livewire->ownerRecord->angkatan_user()->pluck('user_id');
+                    $user_terdaftar = $this->ownerRecord->angkatan_user()->pluck('user_id');
 
                     $users = User::whereNotIn('id', $user_terdaftar)->pluck('name', 'id');
 
@@ -52,9 +52,9 @@ class AngkatanUserRelationManager extends RelationManager
 
                 // Forms\Components\Select::make('kelas_id')->relationship('kelas', 'nama_kelas')->searchable()->required()->preload(),
 
-                Forms\Components\Select::make('kelas_id')->options(function(RelationManager $livewire){
+                Forms\Components\Select::make('kelas_id')->options(function(){
 
-                    $kelas = $livewire->ownerRecord->kelas()->pluck('nama_kelas', 'id');
+                    $kelas = $this->ownerRecord->kelas()->pluck('nama_kelas', 'id');
 
                     return $kelas;
 
@@ -68,7 +68,7 @@ class AngkatanUserRelationManager extends RelationManager
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
@@ -201,9 +201,4 @@ class AngkatanUserRelationManager extends RelationManager
     }    
 
 
-    public static function getTitle(): string
-    {      
-
-        return static::$title ?? Str::headline(static::getPluralModelLabel());
-    }
 }

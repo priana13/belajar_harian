@@ -6,9 +6,9 @@ use App\Filament\Resources\SoalResource\Pages;
 use App\Models\Soal;
 use Closure;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
 
@@ -16,7 +16,7 @@ class SoalResource extends Resource
 {
     protected static ?string $model = Soal::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    // protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     protected static ?string $navigationGroup = 'Soal';
 

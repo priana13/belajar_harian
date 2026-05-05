@@ -5,15 +5,15 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\JenisUjianResource\Pages;
 use App\Models\JenisUjian;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 class JenisUjianResource extends Resource
 {
     protected static ?string $model = JenisUjian::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
     protected static ?string $navigationGroup = 'Konfigurasi';
 

@@ -7,9 +7,9 @@ use App\Filament\Resources\GelombangResource\RelationManagers;
 use App\Filament\Resources\GelombangResource\RelationManagers\RoadmapsRelationManager;
 use App\Models\Gelombang;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -18,7 +18,7 @@ class GelombangResource extends Resource
 {
     protected static ?string $model = Gelombang::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     public static function form(Form $form): Form
     {

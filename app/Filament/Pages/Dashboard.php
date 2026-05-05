@@ -16,7 +16,7 @@ class Dashboard extends BasePage
        }
     }
     
-    protected function getColumns(): int | array
+    public function getColumns(): int | array
     {
         return 2;
     }
