@@ -28,7 +28,7 @@ class AngkatanResource extends Resource
 
     protected static ?string $model = Angkatan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-trending-up';
+    // protected static ?string $navigationIcon = 'heroicon-o-trending-up';
 
     protected static ?string $navigationLabel = 'Kelas - Angkatan';
 

@@ -21,7 +21,7 @@ class SoalUjianResource extends Resource
 {
     protected static ?string $model = SoalUjian::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-pencil-alt';
+    // protected static ?string $navigationIcon = 'heroicon-o-pencil-alt';
 
     protected static ?string $navigationLabel  = 'Soal Ujian';
 

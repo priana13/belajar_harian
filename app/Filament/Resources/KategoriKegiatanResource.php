@@ -14,7 +14,7 @@ class KategoriKegiatanResource extends Resource
 {
     protected static ?string $model = KategoriKegiatan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
     protected static ?string $navigationGroup = 'Konfigurasi';
 

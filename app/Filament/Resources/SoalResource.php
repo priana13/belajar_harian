@@ -16,7 +16,7 @@ class SoalResource extends Resource
 {
     protected static ?string $model = Soal::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    // protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     protected static ?string $navigationGroup = 'Soal';
 

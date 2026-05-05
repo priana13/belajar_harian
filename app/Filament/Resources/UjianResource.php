@@ -19,7 +19,7 @@ class UjianResource extends Resource
 {
     protected static ?string $model = Ujian::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
+    // protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
 
     // protected static ?string $navigationGroup = 'Aktivasi';
 

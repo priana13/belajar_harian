@@ -32,7 +32,7 @@ class MateriResource extends Resource
 {
     protected static ?string $model = Materi::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-list';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     protected static ?string $navigationLabel  = 'Materi';
 
