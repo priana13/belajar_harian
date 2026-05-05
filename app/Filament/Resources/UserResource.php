@@ -2,26 +2,28 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use App\Models\User;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Tables\Filters\Filter;
-use Illuminate\Support\Facades\Hash;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\UserResource\Pages;
-use STS\FilamentImpersonate\Tables\Actions\Impersonate;
-use App\Filament\Resources\UserResource\Widgets\StatsOverview;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers\AngkatanUserRelationManager;
+use App\Filament\Resources\UserResource\Widgets\StatsOverview;
+use App\Models\User;
+use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Hash;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use STS\FilamentImpersonate\Tables\Actions\Impersonate;
+
 
 class UserResource extends Resource
 {
@@ -187,8 +189,7 @@ class UserResource extends Resource
                 Impersonate::make(), 
             ])
             ->bulkActions([
-                // Tables\Actions\DeleteBulkAction::make(),
-                // FilamentExportBulkAction::make('export')
+                ExportBulkAction::make('export')->label("Export Data"),
 
             ]);
     }
