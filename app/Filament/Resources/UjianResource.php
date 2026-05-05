@@ -12,8 +12,8 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UjianResource\Pages;
-use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\UjianResource\RelationManagers\SoalUjianRelationManager;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class UjianResource extends Resource
 {
@@ -132,8 +132,8 @@ class UjianResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                // FilamentExportBulkAction::make('export')
+                ExportBulkAction::make('export')
+                    ->label('Export ke Excel'),
             ]);
     }
     
