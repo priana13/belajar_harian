@@ -6,9 +6,9 @@ use App\Filament\Resources\SoalUjianResource\Pages;
 use App\Filament\Resources\SoalUjianResource\RelationManagers;
 use App\Filament\Resources\SoalUjianResource\Widgets\SoalUjianOverview;
 use App\Models\SoalUjian;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -21,7 +21,7 @@ class SoalUjianResource extends Resource
 {
     protected static ?string $model = SoalUjian::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-pencil-alt';
+    // protected static ?string $navigationIcon = 'heroicon-o-pencil-alt';
 
     protected static ?string $navigationLabel  = 'Soal Ujian';
 

@@ -5,8 +5,8 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Roadmap;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\RoadmapResource\Pages;
@@ -18,7 +18,7 @@ class RoadmapResource extends Resource
 {
     protected static ?string $model = Roadmap::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
     public static function form(Form $form): Form
     {
@@ -46,7 +46,7 @@ class RoadmapResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make("Jadwal")->url(function($record){
-                    return route('filament.resources.roadmaps.buat-jadwal', $record);
+                    // return route('filament.resources.roadmaps.buat-jadwal', $record);
                 })->icon('heroicon-o-calendar'),
             ])
             ->bulkActions([

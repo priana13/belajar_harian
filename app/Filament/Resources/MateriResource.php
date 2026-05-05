@@ -5,8 +5,8 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Materi;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use App\Models\KategoriMateri;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
@@ -32,7 +32,7 @@ class MateriResource extends Resource
 {
     protected static ?string $model = Materi::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-list';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     protected static ?string $navigationLabel  = 'Materi';
 

@@ -8,8 +8,8 @@ use Livewire\Livewire;
 use App\Models\Belajar;
 use App\Models\MateriDetail;
 use Closure;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -21,15 +21,15 @@ class JadwalBelajarRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'tanggal';
 
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {      
 
         return $form
             ->schema([
                 Forms\Components\DatePicker::make('tanggal')->required(),
-                Forms\Components\Select::make('materi_detail_id')->options(function(RelationManager $livewire){
-                    $materi_id = $livewire->getOwnerRecord()->materi_id;
-                    //   return ["data" => $livewire->getOwnerRecord() ];
+                Forms\Components\Select::make('materi_detail_id')->options(function(){
+                    $materi_id = $this->getOwnerRecord()->materi_id;
+                    //   return ["data" => $this->getOwnerRecord() ];
 
                     $materiDetail = MateriDetail::where('materi_id', $materi_id)->pluck('pertemuan' , 'id');
 
@@ -42,7 +42,7 @@ class JadwalBelajarRelationManager extends RelationManager
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
