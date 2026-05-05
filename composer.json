@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.7",
         "maatwebsite/excel": "^3.1",
         "predis/predis": "^2.0",
-        "simplesoftwareio/simple-qrcode": "^4.2"
+        "simplesoftwareio/simple-qrcode": "^4.2",
+        "stechstudio/filament-impersonate": "^3.16"
     },
     "require-dev": {
         "doctrine/dbal": "^3.5",

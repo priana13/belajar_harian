@@ -15,7 +15,7 @@ class BannerResource extends Resource
 {
     protected static ?string $model = Banner::class;
 
-    // protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     protected static ?string $navigationGroup = 'Konfigurasi';
 

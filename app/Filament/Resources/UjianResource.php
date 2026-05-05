@@ -19,7 +19,7 @@ class UjianResource extends Resource
 {
     protected static ?string $model = Ujian::class;
 
-    // protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     // protected static ?string $navigationGroup = 'Aktivasi';
 
@@ -133,7 +133,7 @@ class UjianResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-                FilamentExportBulkAction::make('export')
+                // FilamentExportBulkAction::make('export')
             ]);
     }
     
