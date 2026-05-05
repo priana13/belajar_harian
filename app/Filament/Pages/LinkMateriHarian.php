@@ -25,7 +25,7 @@ class LinkMateriHarian extends Page
         $this->tanggal = date("Y-m-d");
     }
 
-    protected function getViewData(): array
+    public function getViewData(): array
     {
                 
         $materi_hari_ini = Belajar::tanggal( $this->tanggal )->get();

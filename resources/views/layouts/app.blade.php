@@ -14,7 +14,7 @@
     <div  class="mx-auto max-w-lg bg-white min-h-screen shadow-md">
       <div class="">
 
-        <x-impersonate::banner style='light'/>
+        {{-- <x-impersonate::banner style='light'/> --}}
 
       </div>
 
