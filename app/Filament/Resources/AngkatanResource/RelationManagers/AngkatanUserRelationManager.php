@@ -18,7 +18,6 @@ use Filament\Resources\RelationManagers\RelationManager;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Models\Ujian;
 use App\Models\User;
-use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\LivewireManager;
 

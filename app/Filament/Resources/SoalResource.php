@@ -4,9 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SoalResource\Pages;
 use App\Models\Soal;
-use Closure;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
@@ -30,7 +30,7 @@ class SoalResource extends Resource
             ->schema([
                 Forms\Components\Select::make('materi_id')->relationship('materi', 'nama_materi')->columnSpanFull()->searchable()->preload(),
                 Forms\Components\Select::make('jenis_ujian_id')->relationship('jenis_ujian', 'nama')->required()->columnSpan(2)->reactive(),                  
-                Forms\Components\TextInput::make('pekan')->numeric()->visible(function(Closure $set , callable $get){
+                Forms\Components\TextInput::make('pekan')->numeric()->visible(function(Set $set , callable $get){
 
                    if( $get('jenis_ujian_id') == 2){
 
