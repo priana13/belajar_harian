@@ -6,6 +6,7 @@ use App\Filament\Resources\SertifikatResource\Pages;
 use App\Filament\Resources\SertifikatResource\RelationManagers;
 use App\Models\Sertifikat;
 use Filament\Forms;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
@@ -29,7 +30,41 @@ class SertifikatResource extends Resource
                     ->required()
                     ->maxLength(100),
                 Forms\Components\FileUpload::make('bg')
-                    ->required(),
+                    ->required(),   
+                Fieldset::make('Tanda Tangan 1')
+                    ->schema([
+
+                        Forms\Components\TextInput::make('ttd_nama')
+                            ->label('Nama TTD 1')
+                            ->maxLength(100),
+                        Forms\Components\TextInput::make('ttd_jabatan')
+                            ->label('Jabatan TTD 1')
+                            ->maxLength(100),
+                        Forms\Components\FileUpload::make('ttd_image')
+                            ->label('Gambar TTD 1'),
+
+                    ]),       
+                    
+                    Fieldset::make('Tanda Tangan 2')
+                    ->schema([
+
+                        Forms\Components\TextInput::make('ttd_nama2')
+                            ->label('Nama TTD 2')
+                            ->maxLength(100),
+                        Forms\Components\TextInput::make('ttd_jabatan2')
+                            ->label('Jabatan TTD 2')
+                            ->maxLength(100),
+                        Forms\Components\FileUpload::make('ttd_image2')
+                            ->label('Gambar TTD 2'),
+                    ]),
+                
+                    Forms\Components\Select::make('status')
+                        ->options([
+                            'Aktif' => 'Aktif',
+                            'Tidak Aktif' => 'Tidak Aktif',
+                        ])
+                        ->default('Aktif')
+                        ->required(),
             ]);
     }
 
@@ -38,7 +73,8 @@ class SertifikatResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nama'),
-                Tables\Columns\ImageColumn::make('bg'),               
+                Tables\Columns\ImageColumn::make('bg'),   
+                Tables\Columns\TextColumn::make('status'),            
             ])
             ->filters([
                 //
