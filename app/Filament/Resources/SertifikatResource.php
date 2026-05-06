@@ -72,12 +72,16 @@ class SertifikatResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama'),
+                Tables\Columns\TextColumn::make('nama')->searchable()->sortable(),
                 Tables\Columns\ImageColumn::make('bg'),   
-                Tables\Columns\TextColumn::make('status'),            
+                Tables\Columns\TextColumn::make('status')->searchable()->sortable(),            
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'Aktif' => 'Aktif',
+                        'Tidak Aktif' => 'Tidak Aktif',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
