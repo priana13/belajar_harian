@@ -1,20 +1,14 @@
 
-<div class="mt-12 mx-auto shadow-lg" >
+<div class="mt-12 mx-auto shadow-lg" >  
 
     <link href="https://fonts.cdnfonts.com/css/certificate" rel="stylesheet">
 
     <div id="capture-me" class="mx-auto flex justify-center items-center relative" style="width:1200px; height:850px;">
             <img src="{{ asset('storage/' . $sertifikat->sertifikat->bg ) }}" alt="" class=" shadow-lg"> 
             <div class="absolute z-30 mt-5 text-center max-w-3xl font-serif ">
-                <div class="flex justify-end">
-                    {{-- <img class="h-16 w-auto self-end" src="{{ url('storage/') }}/icon/logo.jpg" alt=""> --}}
-                </div>              
+                       
 
-                {{-- <h2 style="font-size:70px" >𝕊𝕖𝕣𝕥𝕚𝕗𝕚𝕜𝕒𝕥</h2>
-
-                <h2 style="font-size:60px" >Pernghargaan</h2> --}}
-
-                <h2 class="mt-40" style="font-size:30px;padding-top:38px;" >Penghargaan ini diberikan kepada:</h2>
+                <h2 class="mt-32" style="font-size:30px;padding-top:38px;" >Penghargaan ini diberikan kepada:</h2>
                
                 <p style="font-size:40px" class="capitalize border-b-2 border-biru mb-2 text-biru">{{$user->name}}</p>
 
@@ -24,18 +18,37 @@
 
                 <p class="text-2xl" >Dengan Nilai: <span class="text-3xl font-serif font-extrabold my-2 uppercase">"{{ $sertifikat->predikat }}"</span> </p>
                 
-                <img src="data:image/svg+xml;base64,{{ $barcodeData }}" class="mx-auto mb-3 mt-6 absolute bottom-20 -right-5" alt="Barcode" />
+                <img src="data:image/svg+xml;base64,{{ $barcodeData }}" class="mx-auto mb-3 mt-6 absolute bottom-20 -right-16" alt="Barcode" />
                 
                 <P class=" text-2xl">Semoga Ilmunya Bermanfaat Dan Menjadi Amal Soleh</P>
                 <p class="text-xl mt-1">Bogor, {{ date('d M Y' , strtotime( $sertifikat->tanggal)) }}</p>
+           
 
-                <img src="{{ asset('img/ttd2.png') }}" alt="" class="mx-auto">
+                <div class="flex">
+                    
+                    @if($sertifikat->ttd_image2)
+                    <div class="w-1/2">
+                        <img src="{{ asset( "storage/" . $sertifikat->ttd_image2) }}" alt="" class="mx-auto">
+                        <p class="text-2xl font-extrabold border-t-2 border-biru w-[70%] mx-auto pt-2">{{ $sertifikat->ttd_nama2 }}</p>
+                        <p class="text-xl">{{ $sertifikat->ttd_jabatan2 }}</p>
+                    </div>
+                    @endif
+
+                    <div class="{{ ($sertifikat->ttd_image2) ? 'w-1/2' : 'w-full' }}">
+                         <img src="{{ asset( "storage/" . $sertifikat->ttd_image) }}" alt="" class="mx-auto">
                 
-                <p class="text-2xl font-extrabold border-t-2 border-biru w-[70%] mx-auto pt-2">{{ $sertifikat->ttd_nama }}</p>
-                <p class="text-xl">{{ $sertifikat->ttd_jabatan }}</p>
+                        <p class="text-2xl font-extrabold border-t-2 border-biru w-[70%] mx-auto pt-2">{{ $sertifikat->ttd_nama }}</p>
+                        <p class="text-xl">{{ $sertifikat->ttd_jabatan }}</p>
+
+                    </div>
+                </div>
+               
+
+
+
             </div>
     </div> 
-    <div>
+    <div>     
 
     </div>
     <button class="bg-blue-400 text-white p-4 lg:text-xl text-4xl fixed top-5 ml-3 font-bold rounded-lg" id="download-button"><i class="fa-solid fa-download"></i> Unduh Srtifikat</button>
