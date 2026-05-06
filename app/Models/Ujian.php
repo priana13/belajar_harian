@@ -142,6 +142,7 @@ class Ujian extends Model
         $ujian->waktu_mengerjakan = $waktu_mengerjakan;
 
   
+        // jika ujian Akhir
         if( $ujian->jenis_ujian_id == 3 ){
 
             // buat predikat dan IPK untuk ujian akhir
@@ -158,6 +159,26 @@ class Ujian extends Model
 
                 $sertifikat = $materi->sertifikat;
 
+                // default
+                $ttd_image = 'img/ttd1.png';
+                $ttd_nama = 'Irfan Bahar Nurdin, S.Th.I, M.M.,';
+                $ttd_jabatan = 'Manager';
+
+
+                if($sertifikat->ttd_image){
+
+                    $ttd_image = $sertifikat->ttd_image;
+                    $ttd_nama = $sertifikat->ttd_nama;
+                    $ttd_jabatan = $sertifikat->ttd_jabatan;
+                }
+
+                if($sertifikat->ttd_image2){
+
+                    $ttd_image = $sertifikat->ttd_image2;
+                    $ttd_nama = $sertifikat->ttd_nama2;
+                    $ttd_jabatan = $sertifikat->ttd_jabatan2;
+                }
+
            
                 SertifikatUser::create([
                     'user_id' => $ujian->user_id,
@@ -166,9 +187,12 @@ class Ujian extends Model
                     'predikat' => $predikat, // Contoh predikat
                     'tanggal' => date('Y-m-d'),
                     'code' => uniqid(),
-                    'ttd_image' => 'img/ttd2.png',
-                    'ttd_nama' => 'Irfan Bahar Nurdin, S.Th.I, M.M.,',
-                    'ttd_jabatan' => 'Manager',
+                    'ttd_image' =>  $ttd_image,
+                    'ttd_nama' => $ttd_nama,
+                    'ttd_jabatan' => $ttd_jabatan,
+                    'ttd_image2' => $sertifikat->ttd_image2 ?? null,
+                    'ttd_nama2' => $sertifikat->ttd_nama2 ?? null,
+                    'ttd_jabatan2' => $sertifikat->ttd_jabatan2 ?? null,
                     'ujian_id' => $ujian->id
                 ]);
             }
