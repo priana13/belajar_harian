@@ -7,6 +7,7 @@ use App\Models\MateriDetail;
 use Closure;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Table;
 use Filament\Tables;
@@ -34,7 +35,7 @@ class SoalRelationManager extends RelationManager
                     "5" => "Pekan ke-5",
                     "6" => "Pekan ke-6",
         
-                ])->label(function(callable $get , Closure $set){
+                ])->label(function(callable $get , Set $set){
 
                     if($get('jenis_ujian_id')){
                         $jenis = JenisUjian::find($get('jenis_ujian_id'));
