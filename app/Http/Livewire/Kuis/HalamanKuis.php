@@ -155,7 +155,8 @@ class HalamanKuis extends Component
             'jawaban.1.required' => "Anda belum menentukan jawaban",
             'jawaban.2.required' => "Anda belum menentukan jawaban",
             'jawaban.3.required' => "Anda belum menentukan jawaban"
-        ]);       
+        ]);    
+             
 
         Ujian::hitungNilaiUjian($this->ujian_id);
        
