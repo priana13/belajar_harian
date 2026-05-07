@@ -46,7 +46,8 @@ class RoadmapResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make("Jadwal")->url(function($record){
-                    // return route('filament.resources.roadmaps.buat-jadwal', $record);
+                    // filament.admin.resources.roadmaps.buat-jadwal
+                    return route('filament.admin.resources.roadmaps.buat-jadwal', $record);
                 })->icon('heroicon-o-calendar'),
             ])
             ->bulkActions([

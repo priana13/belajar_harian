@@ -98,8 +98,7 @@ class HalamanKuis extends Component
         $data['list_soal'] = $this->getListSoal();
       
 
-        $data['jawaban_user'] = $this->jawaban_user($this->ujian_id);       
-
+        $data['jawaban_user'] = $this->jawaban_user($this->ujian_id); 
 
         if( $this->ujian ){
 
@@ -147,16 +146,18 @@ class HalamanKuis extends Component
 
     public function evaluasi(){
 
-        $this->validate([
-            'jawaban.1' => 'required',
-            'jawaban.2' => 'required',
-            'jawaban.3' => 'required'
-        ],[
-            'jawaban.1.required' => "Anda belum menentukan jawaban",
-            'jawaban.2.required' => "Anda belum menentukan jawaban",
-            'jawaban.3.required' => "Anda belum menentukan jawaban"
-        ]);    
-             
+        
+        // $this->validate([
+        //     'jawaban.1' => 'required',
+        //     'jawaban.2' => 'required',
+        //     'jawaban.3' => 'required'
+        //     ],[
+        //         'jawaban.1.required' => "Anda belum menentukan jawaban",
+        //         'jawaban.2.required' => "Anda belum menentukan jawaban",
+        //         'jawaban.3.required' => "Anda belum menentukan jawaban"
+        // ]);    
+                
+        //         dd($this->jawaban);
 
         Ujian::hitungNilaiUjian($this->ujian_id);
        
