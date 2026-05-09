@@ -229,6 +229,7 @@ class HomeNew extends Component
         $materi_khusus = null;
         $ujian_harian_khusus = null;
         $mulai_belajar = null;
+        $jadwal_ujian_khusus = [];
 
         if (Auth::check()) {
             if (request()->trial) {
