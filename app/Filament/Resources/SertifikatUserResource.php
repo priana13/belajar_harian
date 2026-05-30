@@ -109,6 +109,13 @@ class SertifikatUserResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('materi_id')->relationship('materi', 'nama_materi')->label("Mater"),
+                SelectFilter::make('predikat')->options([
+                    'Kurang' => 'Kurang',
+                    'Cukup' => 'Cukup',
+                    'Baik' => 'Baik',
+                    'Sangat Baik' => 'Sangat Baik',
+                    'Cumlaude' => 'Cumlaude'
+                ])->label("Predikat"),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
