@@ -119,6 +119,8 @@ class SertifikatUserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('lihat')->url(fn (SertifikatUser $record): string => route('sertifikat', $record->code))
+                    ->openUrlInNewTab()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
