@@ -209,7 +209,7 @@ class Ujian extends Model
 
     }
 
-    public static function tentukanPredikat(int $ujian_id ,int $nilai): string 
+    public static function tentukanPredikat(int $ujian_id ,int $nilai , int $pertemuan = 20): string 
     {
 
         // Grade Nilai:
@@ -228,15 +228,17 @@ class Ujian extends Model
 
         $nilai_harian = Ujian::where('materi_id', $data_ujian->materi_id)->harian()
                         ->whereMonth('created_at', date('m'))
+                        ->where('user_id', $data_ujian->user_id)  // ← tambahkan ini
                         ->sum('nilai');
 
         $nilai_pekanan = Ujian::where('materi_id', $data_ujian->materi_id)->pekanan()
+                        ->where('user_id', $data_ujian->user_id)  // ← tambahkan ini
                         ->whereMonth('created_at', date('m'))
                         ->sum('nilai');
 
 
         $total_nilai_pekanan = $nilai_pekanan / 4;
-        $total_nilai_harian = $nilai_harian / 20;
+        $total_nilai_harian = $nilai_harian / $pertemuan;
 
         $total_nilai = $nilai + $total_nilai_pekanan  + $total_nilai_harian; 
         $nilai_akhir = $total_nilai / 3;        
