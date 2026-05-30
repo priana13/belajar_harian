@@ -75,7 +75,10 @@ class SertifikatResource extends Resource
                 Tables\Columns\TextColumn::make('id')->sortable(),
                 Tables\Columns\TextColumn::make('nama')->searchable()->sortable(),
                 Tables\Columns\ImageColumn::make('bg'),   
-                Tables\Columns\TextColumn::make('status')->searchable()->sortable(),            
+                Tables\Columns\TextColumn::make('status')->searchable()->sortable(),  
+                Tables\Columns\TextColumn::make('ttd_image')->searchable()->sortable(), 
+                Tables\Columns\TextColumn::make('ttd_image2')->searchable()->sortable(),
+
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
