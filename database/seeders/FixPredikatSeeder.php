@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\SertifikatUser;
 use App\Models\Ujian;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,7 +21,9 @@ class FixPredikatSeeder extends Seeder
 
             $nilai = $ujian->nilai ?? 0;
 
-            Ujian::tentukanPredikat($ujian->id, $nilai , 8);
+            $predikat = Ujian::tentukanPredikat($ujian->id, $nilai , 8);
+
+            SertifikatUser::where('ujian_id', $ujian->id)->update(['predikat' => $predikat]);
         }
     }
 }
