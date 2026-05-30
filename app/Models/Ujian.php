@@ -145,8 +145,11 @@ class Ujian extends Model
         // jika ujian Akhir
         if( $ujian->jenis_ujian_id == 3 ){
 
+            // jumlah pertemuan
+            $jumlah_pertemuan = $ujian->materi->materi_detail->count() ?? 20;
+
             // buat predikat dan IPK untuk ujian akhir
-            $predikat = self::tentukanPredikat( $ujian->id, $nilai);
+            $predikat = self::tentukanPredikat( $ujian->id, $nilai , $jumlah_pertemuan);
 
             // $ipk = 0;
 
