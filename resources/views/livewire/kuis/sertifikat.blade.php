@@ -1,4 +1,3 @@
-
 <div class="mt-12 mx-auto shadow-lg" >  
 
     <link href="https://fonts.cdnfonts.com/css/certificate" rel="stylesheet">
@@ -7,7 +6,7 @@
             <img src="{{ asset('storage/' . $sertifikat->sertifikat->bg ) }}" alt="" class=" shadow-lg"> 
             <div class="absolute z-30 mt-5 text-center max-w-3xl font-serif ">
                        
-
+                <br><br><br><br><br><br>
                 <h2 class="mt-32" style="font-size:30px;padding-top:38px;" >Penghargaan ini diberikan kepada:</h2>
                
                 <p style="font-size:40px" class="capitalize border-b-2 border-biru mb-2 text-biru">{{$user->name}}</p>
@@ -28,16 +27,16 @@
                     
                     @if($sertifikat->ttd_image2)
                     <div class="w-1/2">
-                        <img src="{{ asset( "storage/" . $sertifikat->ttd_image2) }}" alt="" class="mx-auto">
+                        <img src="{{ asset( "storage/" . $sertifikat->ttd_image2) }}" alt="" class="mx-auto" style="width: 150px;">
                         <p class="text-2xl font-extrabold border-t-2 border-biru w-[70%] mx-auto pt-2">{{ $sertifikat->ttd_nama2 }}</p>
                         <p class="text-xl">{{ $sertifikat->ttd_jabatan2 }}</p>
                     </div>
                     @endif
 
                     <div class="{{ ($sertifikat->ttd_image2) ? 'w-1/2' : 'w-full' }}">
-                         <img src="{{ asset( "storage/" . $sertifikat->ttd_image) }}" alt="" class="mx-auto">
+                         <img src="{{ asset( "storage/" . $sertifikat->ttd_image) }}" alt="" class="mx-auto" style="width: 150px;">
                 
-                        <p class="text-2xl font-extrabold border-t-2 border-biru w-[70%] mx-auto pt-2">{{ $sertifikat->ttd_nama }}</p>
+                        <p class="text-2xl font-extrabold border-t-2 border-biru  mx-auto pt-2">{{ $sertifikat->ttd_nama }}</p>
                         <p class="text-xl">{{ $sertifikat->ttd_jabatan }}</p>
 
                     </div>
@@ -80,5 +79,3 @@
             });
         </script>
 </div>
-
-
