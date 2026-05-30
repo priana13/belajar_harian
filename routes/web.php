@@ -6,6 +6,7 @@ use App\Http\Controllers\DaftarKelasKhususController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SertifikatController;
 use App\Http\Livewire\Homepage\HomeNew;
 use App\Http\Livewire\Pendaftaran;
 use App\Http\Livewire\User\Profile;
@@ -105,6 +106,8 @@ Route::middleware(['admin'])->group(function(){
     Route::get('/email/pesan' , [EmailController::class, 'pesan'])->name('email.pesan');
     
     Route::post('/email/kirim' , [EmailController::class, 'kirim'])->name('email.kirim');
+
+    Route::post('/sertifikat/upload', [SertifikatController::class, 'upload'])->name('sertifikat.upload');
 
 });
 

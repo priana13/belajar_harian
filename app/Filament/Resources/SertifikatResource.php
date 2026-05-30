@@ -104,6 +104,7 @@ class SertifikatResource extends Resource
             'index' => Pages\ListSertifikats::route('/'),
             // 'create' => Pages\CreateSertifikat::route('/create'),
             // 'edit' => Pages\EditSertifikat::route('/{record}/edit'),
+            'upload' => Pages\UploadSertifikat::route('/upload'),
         ];
     }    
 }
