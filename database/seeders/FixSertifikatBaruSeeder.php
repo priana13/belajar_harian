@@ -13,8 +13,8 @@ class FixSertifikatBaruSeeder extends Seeder
      */
     public function run(): void
     {
-        // materi id MMI = 27
-        $sertifikatUser = SertifikatUser::where('materi_id' , 27)->update([
+        // materi id MMI = 56
+        $sertifikatUser = SertifikatUser::where('materi_id' , 56)->update([
             'sertifikat_id' => 7,
             'ttd_nama' => 'Ust Muhammad Fatih Haidaril Iltihzam.M.Pd.I',
             'ttd_jabatan' => 'Ketua DPP',
