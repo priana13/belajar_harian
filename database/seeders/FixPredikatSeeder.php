@@ -18,7 +18,9 @@ class FixPredikatSeeder extends Seeder
    
         foreach($list_ujian as $ujian){
 
-            Ujian::tentukanPredikat($ujian->id, $ujian->nilai , 8);
+            $nilai = $ujian->nilai ?? 0;
+
+            Ujian::tentukanPredikat($ujian->id, $nilai , 8);
         }
     }
 }
