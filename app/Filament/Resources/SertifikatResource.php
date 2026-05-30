@@ -72,6 +72,7 @@ class SertifikatResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')->sortable(),
                 Tables\Columns\TextColumn::make('nama')->searchable()->sortable(),
                 Tables\Columns\ImageColumn::make('bg'),   
                 Tables\Columns\TextColumn::make('status')->searchable()->sortable(),            
