@@ -18,10 +18,10 @@ class FixSertifikatBaruSeeder extends Seeder
             'sertifikat_id' => 7,
             'ttd_nama' => 'Ust Muhammad Fatih Haidaril Iltihzam.M.Pd.I',
             'ttd_jabatan' => 'Ketua DPP',
-            'ttd_image' => '',
+            'ttd_image' => 'sertifikat/ttd/0Z431HEBHcDqYXla7B1z5QJufKa4aaXks0U9iJpC.png',
             'ttd_nama2' => 'Jami Furqon',
             'ttd_jabatan2' => 'KaDiv  Pembinaan & Aktivasi',
-            'ttd_image2' => '',
+            'ttd_image2' => 'sertifikat/ttd/u3A1QlDqW0e0aMd5eIpeJFSYFMZZ6ysRf17kWM48.png',
         ]);
     }
 }
