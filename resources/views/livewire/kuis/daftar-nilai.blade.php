@@ -67,7 +67,7 @@
                                 Harian
                             </th>
                             <td class="px-6 py-0">
-                                {{ $nilai_ujian["harian"] }}
+                                {{ floor( $nilai_ujian["harian"] ) }}
                             </td>
                             <td class="px-6 py-0">
                                 {{ $this->getPredikat($nilai_ujian["harian"] ) }}

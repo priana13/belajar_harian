@@ -48,6 +48,8 @@ class DaftarNilai extends Component
     
     public function render()
     {
+        $pertemuan = $this->materi->materi_detail->count() ?? 20;      
+
         $tahun  = date('Y' , strtotime($this->ujian->created_at));
         $bulan = date('m' , strtotime($this->ujian->created_at));
 
@@ -66,30 +68,24 @@ class DaftarNilai extends Component
                                 ->whereMonth('created_at', $bulan)
                                 ->where('user_id', $this->ujian->user_id)->ujianAkhir()->sum("nilai");
 
-        $total_nilai = ( $nilai_ujian_harian / 20 ) + ( $nilai_ujian_pekanan / 4 ) + $nilai_ujian_akhir;        
+        $total_nilai = ( $nilai_ujian_harian / $pertemuan ) + ( $nilai_ujian_pekanan / 4 ) + $nilai_ujian_akhir;        
 
         $ipk = ($total_nilai / 3) / 25;
 
         // dd($total_nilai  / 3, $ipk);
 
         $this->nilai_ujian = [
-            "harian" => $nilai_ujian_harian / 20,
+            "harian" => $nilai_ujian_harian / $pertemuan,
             "pekanan" => $nilai_ujian_pekanan / 4,
             "akhir" => $nilai_ujian_akhir,
             "total" => number_format($total_nilai, 0), 
             "ipk" => \number_format( $ipk , 2, '.' , ',')
         ];
      
-        // dd($nilai_ujian_harian, $nilai_ujian_harian, $nilai_ujian_akhir);        
 
         $ujian_ids = Ujian::where('materi_id', $this->ujian->materi_id)->where('user_id', $this->ujian->user_id)->pluck('id');
 
         $soal_ujian = SoalUjian::whereIn('ujian_id', $ujian_ids)->get(); 
-
-        // $this->nilai_ujian['harian'];
-        
-        
-        // dd( $this->getPredikat( $this->nilai_ujian['pekanan'] ) );
 
 
         $this->barcodeData = base64_encode(QrCode::format('svg')->generate(url()->current()));
