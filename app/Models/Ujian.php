@@ -245,10 +245,12 @@ class Ujian extends Model
 
         $nilai_pekanan = Ujian::where('materi_id', $data_ujian->materi_id)->pekanan()
                         ->where('user_id', $data_ujian->user_id)  // ← tambahkan ini
-                        ->take(4)
+                        // ->take(4)
                         // ->whereMonth('created_at', date('m'))
-                        ->sum('nilai');
+                        ->pluck('nilai');
 
+         // ambil 4 saja dari $nilai_pekanan
+         $nilai_pekanan = $nilai_pekanan->take(4)->sum();      
 
         $total_nilai_pekanan = $nilai_pekanan / 4;
         $total_nilai_harian = $nilai_harian / $pertemuan;

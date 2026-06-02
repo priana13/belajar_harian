@@ -63,7 +63,9 @@ class DaftarNilai extends Component
         $nilai_ujian_pekanan = Ujian::where('materi_id', $this->ujian->materi_id)
                                 ->whereYear('created_at', $tahun)
                                 // ->whereMonth('created_at', $bulan)
-                                ->where('user_id', $this->ujian->user_id)->pekanan()->take(4)->sum("nilai");
+                                ->where('user_id', $this->ujian->user_id)->pekanan()->pluck("nilai");
+
+        $nilai_ujian_pekanan = $nilai_ujian_pekanan->take(4)->sum();
 
         $nilai_ujian_akhir = Ujian::where('materi_id', $this->ujian->materi_id)
                                 ->whereYear('created_at', $tahun)

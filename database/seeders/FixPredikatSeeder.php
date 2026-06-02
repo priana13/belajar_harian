@@ -13,6 +13,7 @@ class FixPredikatSeeder extends Seeder
         $materiId = env('MATERI_ID', 56);
 
         $list_ujian = Ujian::where('materi_id', $materiId)
+                        //    ->where('user_id' , 2065)
                            ->where('jenis_ujian_id', 3)
                            ->get();
 
