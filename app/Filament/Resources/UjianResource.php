@@ -49,7 +49,8 @@ class UjianResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')->label("Peserta")->searchable(),
                 // Tables\Columns\TextColumn::make('nama_ujian')->searchable(),
                 Tables\Columns\TextColumn::make('jenis_ujian.nama')->sortable(),
-                Tables\Columns\TextColumn::make('angkatan.tanggal_mulai'),
+                // Tables\Columns\TextColumn::make('angkatan.tanggal_mulai'),
+                Tables\Columns\TextColumn::make('materi.nama_materi'),
                 
                 Tables\Columns\TextColumn::make('nilai'),
                 Tables\Columns\TextColumn::make('nilai_akhir'),
@@ -59,7 +60,7 @@ class UjianResource extends Resource
 
             ])
             ->filters([
-                SelectFilter::make('angkatan')->relationship('angkatan', 'tanggal_mulai'),
+                SelectFilter::make('materi')->relationship('materi', 'nama_materi'),
                 SelectFilter::make('jenis_ujian')->relationship('jenis_ujian', 'nama'),
                 SelectFilter::make('user')->relationship('user', 'name')->label("Peserta")->searchable(),
                 SelectFilter::make('keterangan')->options([
