@@ -16,10 +16,20 @@ class FixPredikatSeeder extends Seeder
                            ->where('jenis_ujian_id', 3)
                            ->get();
 
+        $total = $list_ujian->count();
+        $this->command->info("Total ujian yang akan diproses: $total");
+     
         foreach ($list_ujian as $ujian) {
             $nilai = $ujian->nilai ?? 0;
-            $predikat = Ujian::tentukanPredikat($ujian->id, $nilai, 8);
-            SertifikatUser::where('ujian_id', $ujian->id)->update(['predikat' => $predikat]);
+
+                Ujian::hitungNilaiUjian($ujian->id);
+
+            // $predikat = Ujian::tentukanPredikat($ujian->id, $nilai, 8);
+
+            // SertifikatUser::where('ujian_id', $ujian->id)->update(['predikat' => $predikat]);
+
         }
+
+        $this->command->info("Proses update predikat selesai untuk $total ujian.");
     }
 }

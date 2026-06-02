@@ -113,7 +113,7 @@ class Ujian extends Model
 
         $jawabanBenar = SoalUjian::select('soal_id')
             ->where('ujian_id', $ujian_id)
-            ->where('user_id', auth()->user()->id)
+            ->where('user_id', $ujian->user_id)
             ->where('istrue', 1)
             // ->groupby('soal_id')
             ->count();       
@@ -182,7 +182,14 @@ class Ujian extends Model
                     $ttd_jabatan = $sertifikat->ttd_jabatan2;
                 }
 
-           
+                $cek_sertifikat_user = SertifikatUser::where('ujian_id', $ujian->id)->first();
+
+                if($cek_sertifikat_user) {
+                    // Update sertifikat user jika sudah ada
+                    $cek_sertifikat_user->update(['predikat' => $predikat]);                     
+
+                } else {
+                    // Buat sertifikat user baru jika belum ada           
                 SertifikatUser::create([
                     'user_id' => $ujian->user_id,
                     'sertifikat_id' => $sertifikat->id, // Asumsikan ada sertifikat default dengan ID 1
@@ -198,6 +205,7 @@ class Ujian extends Model
                     'ttd_jabatan2' => $sertifikat->ttd_jabatan2 ?? null,
                     'ujian_id' => $ujian->id
                 ]);
+                }
             }
 
 
