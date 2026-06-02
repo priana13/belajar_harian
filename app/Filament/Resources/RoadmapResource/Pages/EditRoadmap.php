@@ -16,7 +16,7 @@ class EditRoadmap extends EditRecord
             Actions\DeleteAction::make(),
             Actions\Action::make('Jadwal Roadmap')->url(function(){
 
-                return route('filament.resources.roadmaps.buat-jadwal' , $this->record->id);
+                return route('filament.admin.resources.roadmaps.buat-jadwal' , $this->record->id);
             })
         ];
     }

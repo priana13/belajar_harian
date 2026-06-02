@@ -5,9 +5,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\JenisUserResource\Pages;
 use App\Models\JenisUser;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 
@@ -16,7 +16,7 @@ class JenisUserResource extends Resource
 {
     protected static ?string $model = JenisUser::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
     protected static ?string $navigationGroup = 'Konfigurasi';
 

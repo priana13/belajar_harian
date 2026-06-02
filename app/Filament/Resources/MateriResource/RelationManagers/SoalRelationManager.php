@@ -3,16 +3,14 @@
 namespace App\Filament\Resources\MateriResource\RelationManagers;
 
 use App\Models\JenisUjian;
-use App\Models\MateriDetail;
-use Closure;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\ReplicateAction;
 
 class SoalRelationManager extends RelationManager
@@ -21,7 +19,7 @@ class SoalRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = null;
 
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -34,7 +32,7 @@ class SoalRelationManager extends RelationManager
                     "5" => "Pekan ke-5",
                     "6" => "Pekan ke-6",
         
-                ])->label(function(callable $get , Closure $set){
+                ])->label(function(callable $get , Set $set){
 
                     if($get('jenis_ujian_id')){
                         $jenis = JenisUjian::find($get('jenis_ujian_id'));
@@ -111,7 +109,7 @@ class SoalRelationManager extends RelationManager
             ])->columns(6);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([

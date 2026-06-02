@@ -5,21 +5,21 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Ujian;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UjianResource\Pages;
-use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\UjianResource\RelationManagers\SoalUjianRelationManager;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class UjianResource extends Resource
 {
     protected static ?string $model = Ujian::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     // protected static ?string $navigationGroup = 'Aktivasi';
 
@@ -49,7 +49,8 @@ class UjianResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')->label("Peserta")->searchable(),
                 // Tables\Columns\TextColumn::make('nama_ujian')->searchable(),
                 Tables\Columns\TextColumn::make('jenis_ujian.nama')->sortable(),
-                Tables\Columns\TextColumn::make('angkatan.tanggal_mulai'),
+                // Tables\Columns\TextColumn::make('angkatan.tanggal_mulai'),
+                Tables\Columns\TextColumn::make('materi.nama_materi'),
                 
                 Tables\Columns\TextColumn::make('nilai'),
                 Tables\Columns\TextColumn::make('nilai_akhir'),
@@ -59,7 +60,7 @@ class UjianResource extends Resource
 
             ])
             ->filters([
-                SelectFilter::make('angkatan')->relationship('angkatan', 'tanggal_mulai'),
+                SelectFilter::make('materi')->relationship('materi', 'nama_materi'),
                 SelectFilter::make('jenis_ujian')->relationship('jenis_ujian', 'nama'),
                 SelectFilter::make('user')->relationship('user', 'name')->label("Peserta")->searchable(),
                 SelectFilter::make('keterangan')->options([
@@ -132,8 +133,8 @@ class UjianResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                FilamentExportBulkAction::make('export')
+                ExportBulkAction::make('export')
+                    ->label('Export ke Excel'),
             ]);
     }
     

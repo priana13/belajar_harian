@@ -51,7 +51,7 @@ class KeaktifanPeserta extends Page
     // }
 
 
-    protected function getViewData(): array
+    public function getViewData(): array
     { 
         
         $tanggal_akhir = date('Y-m-d', strtotime('+1 day' , strtotime($this->end)));

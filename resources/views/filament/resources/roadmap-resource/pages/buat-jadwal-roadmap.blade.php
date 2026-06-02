@@ -1,6 +1,9 @@
 <x-filament::page>
 
- <h2 class="text-xl font-bold">Judul: {{ $record->nama_roadmap }}</h2>
+    {{-- tambahkan vite --}}
+    @vite('resources/css/app.css')
+
+    <h2 class="text-xl font-bold">Judul: {{ $record->nama_roadmap }}</h2>
 
     <div class="sm:w-1/4 bg-blue-100 card p-4 mb-6 rounded-lg">
 

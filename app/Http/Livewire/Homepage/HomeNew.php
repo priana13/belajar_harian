@@ -194,6 +194,21 @@ class HomeNew extends Component
             ->get();
     }
 
+
+    private function getJadwalUjianKhusus($jadwal_roadmap)
+    {
+        if (!$jadwal_roadmap) {
+            return [];
+        }    
+
+        return JadwalUjian::where('roadmap_id', $jadwal_roadmap->id)
+            ->whereIn('type', ["Pekanan", "Akhir"])
+            ->duaHari()
+            ->get();
+    }
+
+
+
     private function getPengumuman()
     {
         return Setting::getValue('pengumuman');
@@ -214,6 +229,7 @@ class HomeNew extends Component
         $materi_khusus = null;
         $ujian_harian_khusus = null;
         $mulai_belajar = null;
+        $jadwal_ujian_khusus = [];
 
         if (Auth::check()) {
             if (request()->trial) {
@@ -222,7 +238,9 @@ class HomeNew extends Component
             } else {
                 $userData = $this->getUserData();
                 extract($userData);
-                $jadwal_ujian = $this->getJadwalUjian($jadwal_roadmap);
+                $jadwal_ujian = $this->getJadwalUjian($jadwal_roadmap);            
+
+                $jadwal_ujian_khusus = $this->getJadwalUjianKhusus($roadmap_khusus);
             }
         }
 
@@ -232,6 +250,7 @@ class HomeNew extends Component
             'materi',
             'angkatan',
             'jadwal_ujian',
+            'jadwal_ujian_khusus',
             'ujian_harian',
             'soal_harian',
             'pengumuman',

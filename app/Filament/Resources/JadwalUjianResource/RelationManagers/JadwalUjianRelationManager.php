@@ -3,9 +3,9 @@
 namespace App\Filament\Resources\JadwalUjianResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -16,7 +16,7 @@ class JadwalUjianRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'urutan';
 
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -26,7 +26,7 @@ class JadwalUjianRelationManager extends RelationManager
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
             ->columns([
@@ -42,7 +42,7 @@ class JadwalUjianRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
-                Tables\Actions\Action::make('Jadwal Ujian')->color('success')->url(function(RelationManager $livewire){
+                Tables\Actions\Action::make('Jadwal Ujian')->color('success')->url(function(){
                     return route('filament.resources.jadwal-ujians.index');
                 })->openUrlInNewTab(),
             ])

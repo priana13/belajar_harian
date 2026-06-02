@@ -113,7 +113,7 @@ class Ujian extends Model
 
         $jawabanBenar = SoalUjian::select('soal_id')
             ->where('ujian_id', $ujian_id)
-            ->where('user_id', auth()->user()->id)
+            ->where('user_id', $ujian->user_id)
             ->where('istrue', 1)
             // ->groupby('soal_id')
             ->count();       
@@ -142,10 +142,14 @@ class Ujian extends Model
         $ujian->waktu_mengerjakan = $waktu_mengerjakan;
 
   
+        // jika ujian Akhir
         if( $ujian->jenis_ujian_id == 3 ){
 
+            // jumlah pertemuan
+            $jumlah_pertemuan = $ujian->materi->materi_detail->count() ?? 20;
+
             // buat predikat dan IPK untuk ujian akhir
-            $predikat = self::tentukanPredikat( $ujian->id, $nilai);
+            $predikat = self::tentukanPredikat( $ujian->id, $nilai , $jumlah_pertemuan);
 
             // $ipk = 0;
 
@@ -158,7 +162,34 @@ class Ujian extends Model
 
                 $sertifikat = $materi->sertifikat;
 
-           
+                // default
+                $ttd_image = 'img/ttd1.png';
+                $ttd_nama = 'Irfan Bahar Nurdin, S.Th.I, M.M.,';
+                $ttd_jabatan = 'Manager';
+
+
+                if($sertifikat->ttd_image){
+
+                    $ttd_image = $sertifikat->ttd_image;
+                    $ttd_nama = $sertifikat->ttd_nama;
+                    $ttd_jabatan = $sertifikat->ttd_jabatan;
+                }
+
+                // if($sertifikat->ttd_image2){
+
+                //     $ttd_image = $sertifikat->ttd_image2;
+                //     $ttd_nama = $sertifikat->ttd_nama2;
+                //     $ttd_jabatan = $sertifikat->ttd_jabatan2;
+                // }
+
+                $cek_sertifikat_user = SertifikatUser::where('ujian_id', $ujian->id)->first();
+
+                if($cek_sertifikat_user) {
+                    // Update sertifikat user jika sudah ada
+                    $cek_sertifikat_user->update(['predikat' => $predikat]);                     
+
+                } else {
+                    // Buat sertifikat user baru jika belum ada           
                 SertifikatUser::create([
                     'user_id' => $ujian->user_id,
                     'sertifikat_id' => $sertifikat->id, // Asumsikan ada sertifikat default dengan ID 1
@@ -166,11 +197,15 @@ class Ujian extends Model
                     'predikat' => $predikat, // Contoh predikat
                     'tanggal' => date('Y-m-d'),
                     'code' => uniqid(),
-                    'ttd_image' => 'img/ttd2.png',
-                    'ttd_nama' => 'Irfan Bahar Nurdin, S.Th.I, M.M.,',
-                    'ttd_jabatan' => 'Manager',
+                    'ttd_image' =>  $ttd_image,
+                    'ttd_nama' => $ttd_nama,
+                    'ttd_jabatan' => $ttd_jabatan,
+                    'ttd_image2' => $sertifikat->ttd_image2 ?? null,
+                    'ttd_nama2' => $sertifikat->ttd_nama2 ?? null,
+                    'ttd_jabatan2' => $sertifikat->ttd_jabatan2 ?? null,
                     'ujian_id' => $ujian->id
                 ]);
+                }
             }
 
 
@@ -185,7 +220,7 @@ class Ujian extends Model
 
     }
 
-    public static function tentukanPredikat(int $ujian_id ,int $nilai): string 
+    public static function tentukanPredikat(int $ujian_id ,int $nilai , int $pertemuan = 20): string 
     {
 
         // Grade Nilai:
@@ -203,16 +238,22 @@ class Ujian extends Model
 
 
         $nilai_harian = Ujian::where('materi_id', $data_ujian->materi_id)->harian()
-                        ->whereMonth('created_at', date('m'))
+                        // ->whereMonth('created_at', date('m'))
+                        ->where('user_id', $data_ujian->user_id)  // ← tambahkan ini
+                        ->take($pertemuan)
                         ->sum('nilai');
 
         $nilai_pekanan = Ujian::where('materi_id', $data_ujian->materi_id)->pekanan()
-                        ->whereMonth('created_at', date('m'))
-                        ->sum('nilai');
+                        ->where('user_id', $data_ujian->user_id)  // ← tambahkan ini
+                        // ->take(4)
+                        // ->whereMonth('created_at', date('m'))
+                        ->pluck('nilai');
 
+         // ambil 4 saja dari $nilai_pekanan
+         $nilai_pekanan = $nilai_pekanan->take(4)->sum();      
 
         $total_nilai_pekanan = $nilai_pekanan / 4;
-        $total_nilai_harian = $nilai_harian / 20;
+        $total_nilai_harian = $nilai_harian / $pertemuan;
 
         $total_nilai = $nilai + $total_nilai_pekanan  + $total_nilai_harian; 
         $nilai_akhir = $total_nilai / 3;        

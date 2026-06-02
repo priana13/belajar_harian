@@ -9,8 +9,8 @@ use App\Models\Materi;
 use Livewire\Livewire;
 use App\Models\Angkatan;
 use App\Traits\HookAngkatan;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Actions\ActionGroup;
@@ -28,7 +28,7 @@ class AngkatanResource extends Resource
 
     protected static ?string $model = Angkatan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-trending-up';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     protected static ?string $navigationLabel = 'Kelas - Angkatan';
 
@@ -118,19 +118,21 @@ class AngkatanResource extends Resource
                     // }),
                     Tables\Actions\Action::make("Detail")->url(function($record){
 
-                        return route('filament.resources.kelas.detail' , $record->id);
+                        return;
+
+                        // return route('filament.resources.kelas.detail' , $record->id);
                     })->icon('heroicon-o-eye'),
                    
-                    Tables\Actions\Action::make('Generate')->color('success')->url(function($record){
+                    // Tables\Actions\Action::make('Generate')->color('success')->url(function($record){
                        
-                        return route('filament.resources.kelas.generate' , $record->id);
-                    }),
+                    //     return route('filament.resources.kelas.generate' , $record->id);
+                    // }),
 
 
-                    Tables\Actions\Action::make('Ujian')->color('success')->url(function($record){
+                    // Tables\Actions\Action::make('Ujian')->color('success')->url(function($record){
                        
-                        return route('filament.resources.kelas.ujian' , $record->id);
-                    }),
+                    //     return route('filament.resources.kelas.ujian' , $record->id);
+                    // }),
 
 
 

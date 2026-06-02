@@ -4,11 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SoalResource\Pages;
 use App\Models\Soal;
-use Closure;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
 
@@ -16,7 +16,7 @@ class SoalResource extends Resource
 {
     protected static ?string $model = Soal::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    // protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     protected static ?string $navigationGroup = 'Soal';
 
@@ -30,7 +30,7 @@ class SoalResource extends Resource
             ->schema([
                 Forms\Components\Select::make('materi_id')->relationship('materi', 'nama_materi')->columnSpanFull()->searchable()->preload(),
                 Forms\Components\Select::make('jenis_ujian_id')->relationship('jenis_ujian', 'nama')->required()->columnSpan(2)->reactive(),                  
-                Forms\Components\TextInput::make('pekan')->numeric()->visible(function(Closure $set , callable $get){
+                Forms\Components\TextInput::make('pekan')->numeric()->visible(function(Set $set , callable $get){
 
                    if( $get('jenis_ujian_id') == 2){
 

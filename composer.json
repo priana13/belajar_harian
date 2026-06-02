@@ -5,30 +5,30 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.1",
-        "alperenersoy/filament-export": "^0.3.9",
-        "filament/filament": "^2",
-        "flowframe/laravel-trend": "^0.1.5",
+        "php": "^8.2",
+        "filament/filament": "^3.2",
+        "flowframe/laravel-trend": "^0.5.0",
         "guzzlehttp/guzzle": "^7.2",
-        "laravel/breeze": "^1.19",
-        "laravel/framework": "^10.0",
-        "laravel/sanctum": "^3.2",
+        "laravel/breeze": "2.x-dev",
+        "laravel/framework": "^11.0",
+        "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.11",
-        "laravel/telescope": "^4.17",
+        "laravel/telescope": "^5.0",
         "laravel/tinker": "^2.7",
-        "livewire/livewire": "^2.10",
         "maatwebsite/excel": "^3.1",
         "predis/predis": "^2.0",
+        "pxlrbt/filament-excel": "^2.5",
         "simplesoftwareio/simple-qrcode": "^4.2",
-        "stechstudio/filament-impersonate": "^2.1"
+        "stechstudio/filament-impersonate": "^3.16"
     },
     "require-dev": {
         "doctrine/dbal": "^3.5",
         "fakerphp/faker": "^1.9.1",
+        "filament/upgrade": "^3.2",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^7.0",
+        "mockery/mockery": "^2.0@dev",
+        "nunomaduro/collision": "^8.0",
         "phpunit/phpunit": "^10.0",
         "spatie/laravel-ignition": "^2.0"
     },
@@ -47,7 +47,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"

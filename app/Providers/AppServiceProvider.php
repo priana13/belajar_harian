@@ -33,13 +33,13 @@ class AppServiceProvider extends ServiceProvider
         Filament::serving(function () {
 
             // Using Vite
-            Filament::registerViteTheme('resources/css/filament.css'); 
+            // Filament::registerViteTheme('resources/css/filament.css'); 
          
         });
 
-        Filament::registerRenderHook(
-            'body.start',
-            fn (): string => "<x-impersonate::banner :display='sdsd'/>",
-        );
+        // Filament::registerRenderHook(
+        //     'body.start',
+        //     fn (): string => "<x-impersonate::banner :display='sdsd'/>",
+        // );
     }
 }

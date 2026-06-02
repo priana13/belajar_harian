@@ -7,7 +7,7 @@ use App\Filament\Widgets\StatsOverview;
 use App\Models\User;
 use Filament\Pages\Page;
 use Illuminate\Contracts\View\View;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 
 class LaporanKegiatan extends Page
@@ -27,7 +27,7 @@ class LaporanKegiatan extends Page
     }
 
 
-    protected function getViewData(): array
+    public function getViewData(): array
     {
 
         $user = User::first();        
@@ -38,7 +38,7 @@ class LaporanKegiatan extends Page
     }
 
 
-    protected function getHeaderWidgets(): array
+    public function getHeaderWidgets(): array
     {
         return [
             // GrafikAnggota::class,

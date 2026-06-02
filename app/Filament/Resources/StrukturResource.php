@@ -6,9 +6,9 @@ use App\Filament\Resources\StrukturResource\Pages;
 use App\Filament\Resources\StrukturResource\RelationManagers;
 use App\Models\Struktur;
 use Filament\Forms;
-use Filament\Resources\Form;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -17,7 +17,7 @@ class StrukturResource extends Resource
 {
     protected static ?string $model = Struktur::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
     public static function form(Form $form): Form
     {

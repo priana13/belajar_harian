@@ -4,8 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Models\User;
 use Filament\Tables;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
 use App\Models\AbsensiKegiatan;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
