@@ -57,13 +57,13 @@ class DaftarNilai extends Component
         $nilai_ujian_harian = Ujian::where('materi_id', $this->ujian->materi_id)
                                 ->whereYear('created_at', $tahun)
                                 // ->whereMonth('created_at', $bulan)
-                                ->where('user_id', $this->ujian->user_id)->harian()->avg('nilai');
+                                ->where('user_id', $this->ujian->user_id)->harian()->take($pertemuan)->sum('nilai');
 
 
         $nilai_ujian_pekanan = Ujian::where('materi_id', $this->ujian->materi_id)
                                 ->whereYear('created_at', $tahun)
                                 // ->whereMonth('created_at', $bulan)
-        ->where('user_id', $this->ujian->user_id)->pekanan()->avg("nilai");
+                                ->where('user_id', $this->ujian->user_id)->pekanan()->take(4)->sum("nilai");
 
         $nilai_ujian_akhir = Ujian::where('materi_id', $this->ujian->materi_id)
                                 ->whereYear('created_at', $tahun)
@@ -71,15 +71,15 @@ class DaftarNilai extends Component
                                 ->where('user_id', $this->ujian->user_id)->ujianAkhir()->avg("nilai");
 
       
-        $total_nilai = ( $nilai_ujian_harian ) + ( $nilai_ujian_pekanan ) + $nilai_ujian_akhir;    
+        $total_nilai = ( $nilai_ujian_harian / $pertemuan ) + ( $nilai_ujian_pekanan / 4 ) + $nilai_ujian_akhir;    
         
         $ipk = ($total_nilai / 3) / 25;
 
         // dd($total_nilai  / 3, $ipk);
 
         $this->nilai_ujian = [
-            "harian" => floor($nilai_ujian_harian),
-            "pekanan" => floor($nilai_ujian_pekanan),
+            "harian" => floor($nilai_ujian_harian / $pertemuan),
+            "pekanan" => floor($nilai_ujian_pekanan / 4),
             "akhir" => floor($nilai_ujian_akhir),
             "total" => number_format($total_nilai, 0), 
             "ipk" => \number_format( $ipk , 2, '.' , ',')

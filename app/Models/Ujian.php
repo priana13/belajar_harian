@@ -240,16 +240,18 @@ class Ujian extends Model
         $nilai_harian = Ujian::where('materi_id', $data_ujian->materi_id)->harian()
                         // ->whereMonth('created_at', date('m'))
                         ->where('user_id', $data_ujian->user_id)  // ← tambahkan ini
-                        ->avg('nilai');
+                        ->take($pertemuan)
+                        ->sum('nilai');
 
         $nilai_pekanan = Ujian::where('materi_id', $data_ujian->materi_id)->pekanan()
                         ->where('user_id', $data_ujian->user_id)  // ← tambahkan ini
+                        ->take(4)
                         // ->whereMonth('created_at', date('m'))
-                        ->avg('nilai');
+                        ->sum('nilai');
 
 
-        $total_nilai_pekanan = $nilai_pekanan;
-        $total_nilai_harian = $nilai_harian;
+        $total_nilai_pekanan = $nilai_pekanan / 4;
+        $total_nilai_harian = $nilai_harian / $pertemuan;
 
         $total_nilai = $nilai + $total_nilai_pekanan  + $total_nilai_harian; 
         $nilai_akhir = $total_nilai / 3;        
