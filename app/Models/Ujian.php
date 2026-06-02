@@ -238,13 +238,13 @@ class Ujian extends Model
 
 
         $nilai_harian = Ujian::where('materi_id', $data_ujian->materi_id)->harian()
-                        ->whereMonth('created_at', date('m'))
+                        // ->whereMonth('created_at', date('m'))
                         ->where('user_id', $data_ujian->user_id)  // ← tambahkan ini
                         ->sum('nilai');
 
         $nilai_pekanan = Ujian::where('materi_id', $data_ujian->materi_id)->pekanan()
                         ->where('user_id', $data_ujian->user_id)  // ← tambahkan ini
-                        ->whereMonth('created_at', date('m'))
+                        // ->whereMonth('created_at', date('m'))
                         ->sum('nilai');
 
 
