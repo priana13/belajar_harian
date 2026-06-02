@@ -74,6 +74,7 @@ class SertifikatUserResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('sertifikat_id')
                     ->numeric()
