@@ -175,12 +175,12 @@ class Ujian extends Model
                     $ttd_jabatan = $sertifikat->ttd_jabatan;
                 }
 
-                if($sertifikat->ttd_image2){
+                // if($sertifikat->ttd_image2){
 
-                    $ttd_image = $sertifikat->ttd_image2;
-                    $ttd_nama = $sertifikat->ttd_nama2;
-                    $ttd_jabatan = $sertifikat->ttd_jabatan2;
-                }
+                //     $ttd_image = $sertifikat->ttd_image2;
+                //     $ttd_nama = $sertifikat->ttd_nama2;
+                //     $ttd_jabatan = $sertifikat->ttd_jabatan2;
+                // }
 
                 $cek_sertifikat_user = SertifikatUser::where('ujian_id', $ujian->id)->first();
 
