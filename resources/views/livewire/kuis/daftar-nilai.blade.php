@@ -107,7 +107,6 @@
                 </table>
             </div>
 
-
             <div class="text-center w-[60%]">  
 
                 <p class="" >Grade Nilai: <span class="font-serif  capitalize">"{{ $ujian->predikat }}"</span> </p>
@@ -119,7 +118,7 @@
 
                 <?php               
                 
-                  $src_image = ($data_sertifikat->ttd_daftar_nilai == "default") ? asset( $ttd['ttd_image'] ) : asset( '/storage/' . $ttd['ttd_image'] );
+                  $src_image = ($data_sertifikat?->ttd_daftar_nilai == "default") ? asset( $ttd['ttd_image'] ) : asset( '/storage/' . $ttd['ttd_image'] );
 
                 ?>                   
                 

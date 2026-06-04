@@ -50,7 +50,9 @@ class DaftarNilai extends Component
 
         $this->data_sertifikat = $this->materi->sertifikat;
 
-        $this->ttd = $this->getTtd($this->data_sertifikat->ttd_daftar_nilai);       
+        // dd($this->data_sertifikat);
+
+        $this->ttd = $this->getTtd($this->data_sertifikat->ttd_daftar_nilai ?? "default");       
 
     }
 
@@ -140,6 +142,7 @@ class DaftarNilai extends Component
     public function getTtd($ttd_daftar_nilai) : array
     {
         // ttd_image, ttd_nama, ttd_jabawan
+    
 
         if($ttd_daftar_nilai == "default"){
 
@@ -150,11 +153,12 @@ class DaftarNilai extends Component
             ];
 
         }elseif($ttd_daftar_nilai == "ttd1"){
+            
 
             $data = [
-                "ttd_image" => $this->data_sertifikat->ttd_image1,
-                "ttd_nama" => $this->data_sertifikat->ttd_nama1,
-                "ttd_jabatan" => $this->data_sertifikat->ttd_jabatan1,
+                "ttd_image" => $this->data_sertifikat->ttd_image,
+                "ttd_nama" => $this->data_sertifikat->ttd_nama,
+                "ttd_jabatan" => $this->data_sertifikat->ttd_jabatan,
             ];
 
         }elseif($ttd_daftar_nilai == "ttd2"){
