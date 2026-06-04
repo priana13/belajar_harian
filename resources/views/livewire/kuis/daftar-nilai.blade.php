@@ -117,10 +117,10 @@
                 <P class=" ">Semoga Ilmunya Bermanfaat Dan Menjadi Amal Soleh</P>
                 <p class="">Bogor, {{ $ujian->created_at->format('d M Y') }}</p>
 
-                <img src="{{ asset('img/ttd2.png') }}" alt="" class="mx-auto -mb-4">
+                <img src="{{ asset( '/storage/' . $ttd['ttd_image']) }}" alt="" class="mx-auto -mb-4" width="200px">
                 
-                <p class=" border-t-2 border-biru w-[70%] mx-auto pt-2 font-bold">Irfan Bahar Nurdin, S.Th.I., M.M.,</p>
-                <p class="">Manager</p>
+                <p class=" border-t-2 border-biru w-[70%] mx-auto pt-2 font-bold">{{ $ttd['ttd_nama'] }}</p>
+                <p class="">{{ $ttd['ttd_jabatan'] }}</p>
 
 
             </div>

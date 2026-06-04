@@ -65,6 +65,15 @@ class SertifikatResource extends Resource
                         ])
                         ->default('Aktif')
                         ->required(),
+                    Forms\Components\Select::make('ttd_daftar_nilai')
+                        ->label('Tanda Tangan Daftar Nilai')
+                        ->options([
+                            'default' => 'Default (Sama dengan TTD 1 atau ttd sebelumnya)',
+                            'ttd1' => 'TTD 1',
+                            'ttd2' => 'TTD 2',
+                        ])
+                        ->default('default')
+                        ->required(),
             ]);
     }
 
