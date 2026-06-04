@@ -144,9 +144,9 @@ class DaftarNilai extends Component
         if($ttd_daftar_nilai == "default"){
 
             $data = [
-                "ttd_image" => $this->data_sertifikat->ttd_image,
-                "ttd_nama" => $this->data_sertifikat->ttd_nama,
-                "ttd_jabatan" => $this->data_sertifikat->ttd_jabatan,
+                "ttd_image" => "/img/ttd2.png",
+                "ttd_nama" => "Irfan Bahar Nurdin, S.Th.I., M.M.,",
+                "ttd_jabatan" => "Manajer",
             ];
 
         }elseif($ttd_daftar_nilai == "ttd1"){
@@ -168,9 +168,9 @@ class DaftarNilai extends Component
         }else{
 
             $data = [
-                "ttd_image" => $this->data_sertifikat->ttd_image2 ?? "/img/ttd2.png",
-                "ttd_nama" => $this->data_sertifikat->ttd_nama2 ?? "Irfan Bahar Nurdin, S.Th.I., M.M.,",
-                "ttd_jabatan" => $this->data_sertifikat->ttd_jabatan2 ?? "Manajer",
+                "ttd_image" => "/img/ttd2.png",
+                "ttd_nama" => "Irfan Bahar Nurdin, S.Th.I., M.M.,",
+                "ttd_jabatan" => "Manajer",
             ];
         }
 

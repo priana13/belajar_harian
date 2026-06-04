@@ -117,7 +117,13 @@
                 <P class=" ">Semoga Ilmunya Bermanfaat Dan Menjadi Amal Soleh</P>
                 <p class="">Bogor, {{ $ujian->created_at->format('d M Y') }}</p>
 
-                <img src="{{ asset( '/storage/' . $ttd['ttd_image']) }}" alt="" class="mx-auto -mb-4" width="200px">
+                <?php               
+                
+                  $src_image = ($data_sertifikat->ttd_daftar_nilai == "default") ? asset( $ttd['ttd_image'] ) : asset( '/storage/' . $ttd['ttd_image'] );
+
+                ?>                   
+                
+                <img src="{{ $src_image }}" alt="" class="mx-auto -mb-4" width="200px">               
                 
                 <p class=" border-t-2 border-biru w-[70%] mx-auto pt-2 font-bold">{{ $ttd['ttd_nama'] }}</p>
                 <p class="">{{ $ttd['ttd_jabatan'] }}</p>
