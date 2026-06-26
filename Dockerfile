@@ -24,6 +24,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     libzip-dev \
     libmagickwand-dev \
+    nginx \
+    supervisor \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install zip \
@@ -44,8 +46,12 @@ RUN docker-php-ext-install sockets
 # Recreate /var/lib/apt/lists/partial if missing
 RUN mkdir -p /var/lib/apt/lists/partial && apt-get update
 
-# Copy custom php.ini
+# Remove default nginx site to avoid conflict with our config
+RUN rm -f /etc/nginx/sites-enabled/default
+
+# Copy custom php.ini and supervisord config
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/uploads.ini
+COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Install extensions
 # RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
@@ -66,14 +72,11 @@ COPY . /var/www
 
 RUN chown -R $user:$user /var/www
 
-USER $user
-
 # Copy existing application directory contents
 # COPY ./laravel-app/sidonat_yhc/ /var/www
 
 # Copy existing application directory permissions
 # COPY --chown=www:www ./laravel-app/sidonat_yhc/ /var/www
 
-# Expose port 9000 and start php-fpm server
-EXPOSE 9000
-CMD ["php-fpm"]
+EXPOSE 80
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
