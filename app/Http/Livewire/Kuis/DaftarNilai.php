@@ -29,6 +29,10 @@ class DaftarNilai extends Component
 
     public $angkatan_user;
 
+    public $data_sertifikat;
+
+    public $ttd = [];
+
     public function mount(Ujian $ujian)
     {      
         // dd($ujian);
@@ -43,6 +47,13 @@ class DaftarNilai extends Component
         $this->user = User::find($this->ujian->user_id);
 
         $this->materi = $ujian->materi;
+
+        $this->data_sertifikat = $this->materi->sertifikat;
+
+        // dd($this->data_sertifikat);
+
+        $this->ttd = $this->getTtd($this->data_sertifikat->ttd_daftar_nilai ?? "default");       
+
     }
 
     
@@ -95,6 +106,7 @@ class DaftarNilai extends Component
 
         $this->barcodeData = base64_encode(QrCode::format('svg')->generate(url()->current()));
 
+  
         return view('livewire.kuis.daftar-nilai')->extends('layouts.app-full')->section('content');
     }
 
@@ -124,6 +136,49 @@ class DaftarNilai extends Component
         }        
 
           return $predikat;
+    }
+
+
+    public function getTtd($ttd_daftar_nilai) : array
+    {
+        // ttd_image, ttd_nama, ttd_jabawan
+    
+
+        if($ttd_daftar_nilai == "default"){
+
+            $data = [
+                "ttd_image" => "/img/ttd2.png",
+                "ttd_nama" => "Irfan Bahar Nurdin, S.Th.I., M.M.,",
+                "ttd_jabatan" => "Manajer",
+            ];
+
+        }elseif($ttd_daftar_nilai == "ttd1"){
+            
+
+            $data = [
+                "ttd_image" => $this->data_sertifikat->ttd_image,
+                "ttd_nama" => $this->data_sertifikat->ttd_nama,
+                "ttd_jabatan" => $this->data_sertifikat->ttd_jabatan,
+            ];
+
+        }elseif($ttd_daftar_nilai == "ttd2"){
+
+            $data = [
+                "ttd_image" => $this->data_sertifikat->ttd_image2,
+                "ttd_nama" => $this->data_sertifikat->ttd_nama2,
+                "ttd_jabatan" => $this->data_sertifikat->ttd_jabatan2,
+            ];
+
+        }else{
+
+            $data = [
+                "ttd_image" => "/img/ttd2.png",
+                "ttd_nama" => "Irfan Bahar Nurdin, S.Th.I., M.M.,",
+                "ttd_jabatan" => "Manajer",
+            ];
+        }
+
+        return $data;
     }
 
 

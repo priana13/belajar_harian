@@ -107,7 +107,6 @@
                 </table>
             </div>
 
-
             <div class="text-center w-[60%]">  
 
                 <p class="" >Grade Nilai: <span class="font-serif  capitalize">"{{ $ujian->predikat }}"</span> </p>
@@ -117,10 +116,16 @@
                 <P class=" ">Semoga Ilmunya Bermanfaat Dan Menjadi Amal Soleh</P>
                 <p class="">Bogor, {{ $ujian->created_at->format('d M Y') }}</p>
 
-                <img src="{{ asset('img/ttd2.png') }}" alt="" class="mx-auto -mb-4">
+                <?php               
                 
-                <p class=" border-t-2 border-biru w-[70%] mx-auto pt-2 font-bold">Irfan Bahar Nurdin, S.Th.I., M.M.,</p>
-                <p class="">Manager</p>
+                  $src_image = ($data_sertifikat?->ttd_daftar_nilai == "default") ? asset( $ttd['ttd_image'] ) : asset( '/storage/' . $ttd['ttd_image'] );
+
+                ?>                   
+                
+                <img src="{{ $src_image }}" alt="" class="mx-auto -mb-4" width="200px">               
+                
+                <p class=" border-t-2 border-biru w-[70%] mx-auto pt-2 font-bold">{{ $ttd['ttd_nama'] }}</p>
+                <p class="">{{ $ttd['ttd_jabatan'] }}</p>
 
 
             </div>
