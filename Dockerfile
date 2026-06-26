@@ -78,5 +78,8 @@ RUN chown -R $user:$user /var/www
 # Copy existing application directory permissions
 # COPY --chown=www:www ./laravel-app/sidonat_yhc/ /var/www
 
+COPY ./docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 EXPOSE 80
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/usr/local/bin/entrypoint.sh"]
