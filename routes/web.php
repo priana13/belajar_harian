@@ -111,18 +111,3 @@ Route::middleware(['admin'])->group(function(){
 
 });
 
-
-
-Route::get('/redis' , function(){
-
-    // Redis::set('nama', 'Priana Saputra');
-
-    // $user = json_encode( User::pluck('name' , 'id')->toArray() );
-
-    // Redis::set('list_peserta',  $user);
-
-    // $user = Redis::get('list_peserta');
-
-    // dd( json_decode($user , true)  );
-
-});
