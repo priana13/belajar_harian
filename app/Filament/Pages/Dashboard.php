@@ -6,7 +6,7 @@ use Filament\Pages\Dashboard as BasePage;
  
 class Dashboard extends BasePage
 {
-
+    
     public function mount(){
 
        if(auth()->user()->jenis_user->nama_jenis != 'Admin'){
