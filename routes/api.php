@@ -77,7 +77,4 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 });
 
 Route::get('/materi_detail/{id}', [MateriController::class, 'materi_detail']);
-// Route::post('/login', [AuthController::class, 'login']);
-// Route::post('/register', [AuthController::class, 'register']);
-
 Route::post('forgot_password', [ForgotPasswordController::class, 'forgot_password']);
