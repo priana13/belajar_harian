@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SertifikatUserResource\Pages;
 use App\Filament\Resources\SertifikatUserResource\RelationManagers;
+use App\Models\Sertifikat;
 use App\Models\SertifikatUser;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SertifikatUserResource extends Resource
@@ -76,9 +78,8 @@ class SertifikatUserResource extends Resource
                     ->numeric()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('sertifikat_id')
-                    ->numeric()
-                    ->sortable(),
+              
+                Tables\Columns\TextColumn::make('sertifikat.nama'),
                 Tables\Columns\TextColumn::make('materi.nama_materi')
                     ->numeric()
                     ->sortable(),
@@ -126,6 +127,38 @@ class SertifikatUserResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\BulkAction::make('ubahSertifikat')
+                        ->label('Ubah Sertifikat')
+                        ->icon('heroicon-o-arrow-path')
+                        ->color('warning')
+                        ->form([
+                            Forms\Components\Select::make('sertifikat_id')
+                                ->label('Sertifikat Baru')
+                                ->options(fn () => Sertifikat::pluck('nama', 'id'))
+                                ->searchable()
+                                ->required(),
+                        ])
+                        ->action(function (Collection $records, array $data): void {
+                            $sertifikat = Sertifikat::find($data['sertifikat_id']);
+
+                            if (! $sertifikat) {
+                                return;
+                            }
+
+                            $records->each(fn (SertifikatUser $record) => $record->update([
+                                'sertifikat_id' => $sertifikat->id,
+                                'ttd_nama' => $sertifikat->ttd_nama,
+                                'ttd_jabatan' => $sertifikat->ttd_jabatan,
+                                'ttd_image' => $sertifikat->ttd_image,
+                                'ttd_nama2' => $sertifikat->ttd_nama2,
+                                'ttd_jabatan2' => $sertifikat->ttd_jabatan2,
+                                'ttd_image2' => $sertifikat->ttd_image2,
+                            ]));
+                        })
+                        ->requiresConfirmation()
+                        ->modalHeading('Ubah Sertifikat Secara Massal')
+                        ->modalDescription('Sertifikat, tanda tangan (nama, jabatan, gambar) pada semua data terpilih akan diganti mengikuti sertifikat yang dipilih.')
+                        ->deselectRecordsAfterCompletion(),
                 ]),
             ]);
     }
