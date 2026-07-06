@@ -11,7 +11,7 @@
   @livewireStyles
 </head>
 <body class="bg-gray-200">
-    <div  class="mx-auto max-w-lg bg-white min-h-screen shadow-md">
+    <div  class="mx-auto max-w-lg lg:max-w-full bg-white min-h-screen shadow-md lg:shadow-none">
       <div class="">
 
         <x-impersonate::banner style='light'/>

@@ -1,7 +1,7 @@
 
 <div>
-    <div class="mt-16"></div>
-    <section id="bottom-navigation" class="fixed inset-x-0 -bottom-[1px] z-10 bg-white shadow-top rounded-md py-1.5 pr-4 max-w-lg mx-auto text-gray-400">
+    <div class="mt-16 lg:hidden"></div>
+    <section id="bottom-navigation" class="lg:hidden fixed inset-x-0 -bottom-[1px] z-10 bg-white shadow-top rounded-md py-1.5 pr-4 max-w-lg mx-auto text-gray-400">
         <div id="tabs" class="flex justify-between">
             <a href="{{route('home')}}?trial={{ request()->trial }}" class="w-full focus:text-teal-500 hover:text-[#1169a8] justify-center inline-block text-center pt-2 pb-1  border-[#E0E0E0] {{ !Request::segment(1) ? 'text-secondary' : '' }}">
                 <i class="fa-solid fa-house text-xl"></i>

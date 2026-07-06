@@ -100,22 +100,22 @@
   @endpush
 
  @auth
- 
+
   <x-FrontTopNav />
 
- <p class="py-6 bg-white-700"></p>
+ <p class="py-6 bg-white-700 lg:hidden"></p>
  @endauth
 
 
-  <div class="min-h-screen py-6 px-0 md:px-0 " style="background: linear-gradient(135deg, #9fcaf1ff 0%, #2f56d4ff 100%);">
-    <div class="max-w-2xl mx-auto">
+  <div class="min-h-screen py-6 px-4 lg:px-10" style="background: linear-gradient(135deg, #9fcaf1ff 0%, #2f56d4ff 100%);">
+    <div class="max-w-2xl lg:max-w-7xl mx-auto">
       <div class="text-center mb-6">
-        <p class="text-2xl font-bold text-white">Ahlan wa Sahlan</p>
+        <p class="text-2xl lg:text-3xl font-bold text-white">Ahlan wa Sahlan</p>
         <p class="text-white">Semoga hari ini mendapatkan tambahan ilmu yang bermanfaat</p>
       </div>
 
       @guest
-      <div class="modern-section">
+      <div class="modern-section max-w-md mx-auto">
         @livewire('homepage.home-page-banner')
         <button wire:click.prevent="login" class="modern-btn w-full mt-5">Masuk</button>
         <button wire:click.prevent="register" class="modern-btn w-full mt-3 bg-white text-white border border-blue-200 hover:bg-blue-50 hover:text-blue-900">Daftar</button>
@@ -123,7 +123,12 @@
       @else
       <div class="modern-section">
 
-        @livewire('homepage.home-page-banner')      
+        <div class="lg:grid lg:grid-cols-3 lg:gap-8 lg:items-start">
+
+        {{-- Sidebar (desktop): banner promo & pengumuman --}}
+        <div class="lg:order-2 lg:col-span-1">
+
+        @livewire('homepage.home-page-banner')
 
         @if( \App\Models\Angkatan::count() == 0 )
 
@@ -148,11 +153,17 @@
         </div>
 
         @endif
-     
-  
-        
-        @if($jadwal) 
 
+        </div>
+
+        {{-- Main (desktop): materi hari ini, ujian, materi berikutnya --}}
+        <div class="lg:order-1 lg:col-span-2">
+
+        <div class="lg:grid lg:grid-cols-2 lg:gap-4 lg:items-start">
+
+        @if($jadwal)
+
+        <div>
         <h2 class="modern-title mt-6 mb-2">Materi Hari ini </h2>
 
           <div class="bg-white p-4 rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
@@ -184,11 +195,13 @@
               @endif
             </div>
         </div>
-        
+        </div>
+
         @endif
 
         @if($jadwal_khusus)
-    
+
+        <div>
 
           <div class="bg-white p-4 rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
             <div class="flex flex-col gap-2">
@@ -237,10 +250,14 @@
 
           @endif
 
+        </div>
+
         @endif
 
+        </div>
 
-        @if(count( $jadwal_ujian ) > 0 || count( $jadwal_ujian_khusus ) > 0)  
+
+        @if(count( $jadwal_ujian ) > 0 || count( $jadwal_ujian_khusus ) > 0)
 
 
           <div class="modern-title mt-6 mb-2">Ujian Hari ini</div>
@@ -273,9 +290,14 @@
 
 
         @endif
-      
 
         @livewire('materi-berikutnya')
+
+        </div>
+
+        </div>
+
+      </div>
 
         <div wire:ignore>
           {{-- modal popup untuk pemutar audio --}}
