@@ -4,13 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Ujian;
-use App\Models\Kelompok;
 use App\Models\JenisUser;
-use App\Models\JenisKelompok;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Filament\Panel;
 use Filament\Models\Contracts\FilamentUser;
@@ -90,12 +89,6 @@ class User extends Authenticatable implements FilamentUser
     public function struktur()
     {
         return $this->belongsTo(Struktur::class, 'struktur_id');
-    }
-
-    public function kelompok()
-    {
-        // dd('masuk');
-        return $this->belongsTo(Kelompok::class);
     }
 
     public function gelombang(){

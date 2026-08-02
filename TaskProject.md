@@ -67,12 +67,12 @@ paling mendesak (P0) ke paling ringan (P3).
 
 ### 3.1 🔴 P0 — Bug / Risiko Aktif di Produksi
 
-- [ ] **`dd('oke')` masih ada di kode produksi** — [ListAngkatans.php:25](app/Filament/Resources/AngkatanResource/Pages/ListAngkatans.php#L25). Method `buatAngkatanBerikutnya()` akan menghentikan request begitu dipanggil. Selesaikan fiturnya atau hapus methodnya.
-- [ ] **Relasi `roadmaps()` fatal error** — [User.php:139](app/Models/User.php#L139) memakai return type `BelongsToMany` tapi `Illuminate\Database\Eloquent\Relations\BelongsToMany` **tidak di-import**. Setiap pemanggilan `$user->roadmaps()` melempar `Error: Class "App\Models\BelongsToMany" not found`.
-- [ ] **Relasi `kelompok()` menunjuk model yang tidak ada** — [User.php:98](app/Models/User.php#L98) referensi `Kelompok::class`, file `app/Models/Kelompok.php` tidak ada. Hapus relasi mati ini atau buat modelnya.
-- [ ] **`AdminMiddleware` crash untuk guest** — [AdminMiddleware.php:18](app/Http/Middleware/AdminMiddleware.php#L18) memanggil `auth()->user()->jenis_user` tanpa cek null. Guest yang membuka `/email/pesan` dapat **500**, bukan redirect login. Tambahkan `auth` sebelum `admin` di [web.php:104](routes/web.php#L104) dan guard null di middleware.
-- [ ] **Route `/koreksi-nilai` terbuka untuk semua user login** — [web.php:50](routes/web.php#L50). Endpoint ini menulis ulang predikat **seluruh** ujian akhir. Pindahkan ke grup `admin` atau jadikan artisan command.
-- [ ] **Duplikasi provider** — [config/app.php:198-199](config/app.php#L198-L199) mendaftarkan `AdminPanelProvider::class` dua kali. Hapus satu baris.
+- [x] **`dd('oke')` masih ada di kode produksi** — ~~[ListAngkatans.php:25]~~. Method `buatAngkatanBerikutnya()` tidak dipanggil dari mana pun (dicek ke seluruh `app`, `routes`, `resources`, `database`), jadi methodnya dihapus.
+- [x] **Relasi `roadmaps()` fatal error** — `Illuminate\Database\Eloquent\Relations\BelongsToMany` sudah di-import di [User.php](app/Models/User.php). Diverifikasi: `$user->roadmaps()` mengembalikan `BelongsToMany`.
+- [x] **Relasi `kelompok()` menunjuk model yang tidak ada** — relasi dihapus beserta import mati `Kelompok` & `JenisKelompok`. Satu-satunya pemakaian di kode aktif hanyalah kolom `kelompok_id` (bukan relasi), jadi tidak ada yang rusak.
+- [x] **`AdminMiddleware` crash untuk guest** — [AdminMiddleware.php](app/Http/Middleware/AdminMiddleware.php) kini redirect guest ke login + `optional()` pada `jenis_user`, dan grup route memakai `['auth','admin']` di [web.php](routes/web.php). Ditutup test regresi [AdminRouteAccessTest.php](tests/Feature/AdminRouteAccessTest.php).
+- [x] **Route `/koreksi-nilai` terbuka untuk semua user login** — dipindahkan ke grup `['auth','admin']` di [web.php](routes/web.php) dan diberi nama `koreksi_nilai`.
+- [x] **Duplikasi provider** — baris ganda `AdminPanelProvider::class` di [config/app.php](config/app.php) dihapus.
 
 ### 3.2 🔴 P0 — Keamanan
 
@@ -147,6 +147,7 @@ paling mendesak (P0) ke paling ringan (P3).
 
 ## 5. Catatan Verifikasi
 
-- `php artisan test` → **46 passed (101 assertions)**, durasi 7,45 detik, per 2 Agustus 2026.
+- `php artisan test` → **48 passed (107 assertions)**, per 2 Agustus 2026 (setelah §3.1 selesai; sebelumnya 46/101).
+- Catatan §3.1: guard null `jenis_user` di `AdminMiddleware` bersifat defensif saja — kolom `jenis_user_id` NOT NULL di DB, jadi kasus itu tidak bisa direproduksi lewat test.
 - Analisa dilakukan lewat pembacaan kode statis; item ditandai lokasi `file:baris` agar mudah diverifikasi ulang.
 - Kondisi `.env` **server produksi** tidak dapat diperiksa dari sini — item terkait `.env` di §3.2 perlu dikonfirmasi manual di server.

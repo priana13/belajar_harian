@@ -46,10 +46,7 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('profile/user',  Profile::class)->name('profile');
 
-    // koreksi nilai ujian
-    Route::get('/koreksi-nilai', [UjianController::class, 'koreksiNilai']);
-
-    // cources 
+    // cources
     Route::get('/materi-video/{kode}', App\Http\Livewire\MateriVideo\HalamanMateriVideo::class)->name('halaman-materi-video');
 
 
@@ -101,13 +98,16 @@ require __DIR__ . '/auth.php';
 
 Route::get('page/{page:slug}', [PageController::class, 'show'])->name('page.show');
 
-Route::middleware(['admin'])->group(function(){
+Route::middleware(['auth', 'admin'])->group(function(){
 
     Route::get('/email/pesan' , [EmailController::class, 'pesan'])->name('email.pesan');
-    
+
     Route::post('/email/kirim' , [EmailController::class, 'kirim'])->name('email.kirim');
 
     Route::post('/sertifikat/upload', [SertifikatController::class, 'upload'])->name('sertifikat.upload');
+
+    // koreksi nilai ujian — menulis ulang predikat seluruh ujian akhir, khusus admin
+    Route::get('/koreksi-nilai', [UjianController::class, 'koreksiNilai'])->name('koreksi_nilai');
 
 });
 

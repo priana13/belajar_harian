@@ -18,10 +18,4 @@ class ListAngkatans extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
-
-    
-    public static function buatAngkatanBerikutnya(){
-
-        dd('oke');
-    }
 }

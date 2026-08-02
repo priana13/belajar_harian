@@ -15,8 +15,15 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $user = auth()->user();
 
-        if(auth()->user()->jenis_user->nama_jenis !== 'Admin') {
+        if (! $user) {
+
+            return redirect()->guest(route('login'));
+
+        }
+
+        if (optional($user->jenis_user)->nama_jenis !== 'Admin') {
 
             return abort(403);
 
