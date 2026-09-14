@@ -27,4 +27,11 @@ class Setting extends Pivot
 
         return $setting ? $setting : null;
     }
+
+    public static function getLogoUrl(): ?string
+    {
+        $value = self::getValue('logo')?->value;
+
+        return $value ? asset('storage/' . $value) : null;
+    }
 }

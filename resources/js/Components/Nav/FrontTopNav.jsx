@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, usePage, router } from '@inertiajs/react';
 
 export default function FrontTopNav() {
-    const { auth, can_logout } = usePage().props;
+    const { auth, can_logout, settings } = usePage().props;
     const user = auth?.user;
     const [open, setOpen] = useState(false);
     const ref = useRef(null);
@@ -23,7 +23,7 @@ export default function FrontTopNav() {
                 <Link href={route('home')}>
                     <img
                         className="h-8 w-auto drop-shadow-[0_0_2px_rgba(255,255,255,0.8)]"
-                        src="/img/logo-trf.png"
+                        src={settings?.logo_url || '/img/logo-trf.png'}
                         alt=""
                     />
                 </Link>
