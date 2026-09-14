@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SertifikatController;
+use App\Http\Livewire\Homepage\HomeNew;
 use App\Http\Livewire\Pendaftaran;
 use App\Http\Livewire\User\Profile;
 use App\Models\User;
@@ -25,7 +26,8 @@ use Laravel\Socialite\Facades\Socialite;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+// Route::get('/', [HomeController::class, 'index'])->name('home'); // inerta js
+Route::get('/',HomeNew::class)->name('home');
 
 Route::middleware(['auth'])->group(function(){
 
