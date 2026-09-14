@@ -4,6 +4,7 @@ use App\Http\Controllers\API\UjianController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DaftarKelasKhususController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SertifikatController;
@@ -25,10 +26,12 @@ use Laravel\Socialite\Facades\Socialite;
 |
 */
 
-// Route::get('/',Home::class)->name('home');
+// Route::get('/', [HomeController::class, 'index'])->name('home'); // inerta js
 Route::get('/',HomeNew::class)->name('home');
 
 Route::middleware(['auth'])->group(function(){
+
+    Route::post('/mendaftar/{angkatan}', [HomeController::class, 'mendaftar'])->name('mendaftar');
 
     Route::get('/evaluasi/{materi_id}/{jadwal_id}',App\Http\Livewire\Kuis\HalamanKuis::class)->name('kuis');
     Route::get('/hasil-evaluasi/{materi_id}/{ujian_id}',App\Http\Livewire\Kuis\EvaluasiKuis::class)->name('hasil_evaluasi');

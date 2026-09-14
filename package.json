@@ -7,6 +7,7 @@
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
         "@tailwindcss/typography": "^0.5.9",
+        "@vitejs/plugin-react": "^4.7.0",
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.2",
         "axios": "^1.7.8",
@@ -19,6 +20,10 @@
     },
     "dependencies": {
         "@awcodes/filament-plugin-purge": "^1.0.2",
-        "@fortawesome/fontawesome-free": "^6.4.0"
+        "@fortawesome/fontawesome-free": "^6.4.0",
+        "@inertiajs/react": "^3.6.1",
+        "react": "^19.2.8",
+        "react-dom": "^19.2.8",
+        "ziggy-js": "^2.6.3"
     }
 }

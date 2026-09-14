@@ -5,15 +5,12 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Angkatan;
-use App\Models\AngkatanUser;
 use App\Models\Gelombang;
-use App\Models\Group;
 use App\Models\JenisUser;
 use App\Models\Kelas;
 use App\Models\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Livewire;
-use App\Http\Livewire\Homepage\HomeNew;
+use Inertia\Testing\AssertableInertia as Assert;
 
 class HomeNewTest extends TestCase
 {
@@ -68,14 +65,16 @@ class HomeNewTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_guest_melihat_tombol_login_dan_daftar()
+    public function test_guest_tidak_memiliki_auth_user()
     {
         $this->createSetting('pengumuman', null, false);
 
         $response = $this->get('/');
 
-        $response->assertSee('Masuk');
-        $response->assertSee('Daftar');
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Home')
+            ->where('auth.user', null)
+        );
     }
 
     public function test_guest_melihat_banner()
@@ -84,7 +83,10 @@ class HomeNewTest extends TestCase
 
         $response = $this->get('/');
 
-        $response->assertSeeLivewire('homepage.home-page-banner');
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Home')
+            ->has('banners')
+        );
     }
 
     // =========================================================
@@ -101,25 +103,17 @@ class HomeNewTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_user_login_melihat_salam()
+    public function test_user_login_props_auth_terisi()
     {
         $this->createSetting('pengumuman', null, false);
         $user = $this->createUser();
 
         $response = $this->actingAs($user)->get('/');
 
-        $response->assertSee('Ahlan wa Sahlan');
-        $response->assertSee('Semoga hari ini mendapatkan tambahan ilmu yang bermanfaat');
-    }
-
-    public function test_user_login_tidak_melihat_tombol_login()
-    {
-        $this->createSetting('pengumuman', null, false);
-        $user = $this->createUser();
-
-        $response = $this->actingAs($user)->get('/');
-
-        $response->assertDontSee('wire:click.prevent="login"', false);
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Home')
+            ->where('auth.user.id', $user->id)
+        );
     }
 
     // =========================================================
@@ -133,8 +127,11 @@ class HomeNewTest extends TestCase
 
         $response = $this->actingAs($user)->get('/');
 
-        $response->assertSee('Pengumuman!');
-        $response->assertSee('Ini adalah pengumuman penting');
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Home')
+            ->where('pengumuman.is_active', true)
+            ->where('pengumuman.value', 'Ini adalah pengumuman penting')
+        );
     }
 
     public function test_pengumuman_tidak_aktif_tidak_ditampilkan()
@@ -144,29 +141,10 @@ class HomeNewTest extends TestCase
 
         $response = $this->actingAs($user)->get('/');
 
-        $response->assertDontSee('Pengumuman!');
-    }
-
-    // =========================================================
-    // Livewire Component Actions
-    // =========================================================
-
-    public function test_action_login_redirect_ke_halaman_login()
-    {
-        $this->createSetting('pengumuman', null, false);
-
-        Livewire::test(HomeNew::class)
-            ->call('login')
-            ->assertRedirect(route('login'));
-    }
-
-    public function test_action_register_redirect_ke_halaman_register()
-    {
-        $this->createSetting('pengumuman', null, false);
-
-        Livewire::test(HomeNew::class)
-            ->call('register')
-            ->assertRedirect(route('register'));
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Home')
+            ->where('pengumuman.is_active', false)
+        );
     }
 
     // =========================================================
@@ -197,10 +175,9 @@ class HomeNewTest extends TestCase
             'angkatan_id' => $angkatan->id,
         ]);
 
-        $this->actingAs($user);
+        $response = $this->actingAs($user)->post(route('mendaftar', $angkatan));
 
-        Livewire::test(HomeNew::class)
-            ->call('mendaftar', $angkatan->id);
+        $response->assertRedirect(route('home'));
 
         $this->assertDatabaseHas('angkatan_users', [
             'user_id' => $user->id,
@@ -273,7 +250,10 @@ class HomeNewTest extends TestCase
         $response = $this->actingAs($user)->get('/');
 
         $response->assertStatus(200);
-        $response->assertDontSee('Materi Hari ini');
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Home')
+            ->where('jadwal', null)
+        );
     }
 
     // =========================================================
