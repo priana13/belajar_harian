@@ -11,11 +11,11 @@ use Flowframe\Trend\TrendValue;
 
 class GrafikUjian extends ChartWidget
 {
-    protected static ?string $heading = 'Grafik Ujian';
+    protected static ?string $heading = 'Grafik Ujian Pekanan';
 
     protected int | string | array $columnSpan = 2;
 
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 2;   
 
     // protected static ?array $options = null;
 
@@ -24,10 +24,10 @@ class GrafikUjian extends ChartWidget
     {        
         $data = Trend::model(Ujian::class)
             ->between(
-                start: now()->addMonth(-3),
+                start: now()->addMonth(-6),
                 end: now()->endOfMonth(),
             )
-            ->perDay()
+            ->perWeek()
             ->count();
         
         // Filter data yang tidak kosong (aggregate > 0)
@@ -46,7 +46,7 @@ class GrafikUjian extends ChartWidget
 
     protected function getType(): string
     {
-        return 'line';
+        return 'bar';
     }
 
     /**
