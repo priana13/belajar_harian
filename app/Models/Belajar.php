@@ -63,9 +63,16 @@ class Belajar extends Model
     }   
 
     public function scopeTanggal($query , $tanggal){
-        
+
 
         return $query->whereDate('tanggal' , $tanggal);
+    }
+
+    public function scopeDuaHari($query){
+
+        $kemarin = now()->yesterday();
+
+        return $query->whereDate('tanggal', now())->orWhere('tanggal', $kemarin);
     }
 
 

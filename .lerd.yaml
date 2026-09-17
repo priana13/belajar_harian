@@ -8,6 +8,4 @@ secured: true
 services:
   - mysql
 workers:
-  - queue
-  - schedule
   - vite

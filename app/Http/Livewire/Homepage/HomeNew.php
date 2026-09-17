@@ -85,10 +85,11 @@ class HomeNew extends Component
             // Step 2: Dapatkan roadmap untuk jalur khusus
             $roadmap_khusus = $jadwal_roadmap_group->roadmap;
 
-            // Step 3: Cari jadwal belajar untuk hari ini
+            // Step 3: Cari jadwal belajar untuk hari ini (atau kemarin jika belum dikerjakan)
             $jadwal_khusus = Belajar::where('jadwal_roadmap_id', $jadwal_roadmap_group->id)
-                ->where('tanggal', date('Y-m-d'))
-                ->latest()->first();
+                ->duaHari()
+                ->orderByDesc('tanggal')
+                ->first();
                 
             // dd($jadwal_khusus->materi);
 
@@ -134,11 +135,12 @@ class HomeNew extends Component
             // Step 2: Dapatkan roadmap untuk jalur standar
             $roadmap_standar = $jadwal_roadmap->roadmap;
 
-            // Step 3: Cari jadwal belajar untuk hari ini
+            // Step 3: Cari jadwal belajar untuk hari ini (atau kemarin jika belum dikerjakan)
             $jadwal = Belajar::where('gelombang_id', $user->gelombang_id)
                 ->where('roadmap_id', $jadwal_roadmap->roadmap_id)
-                ->where('tanggal', date('Y-m-d'))
-                ->latest()->first();
+                ->duaHari()
+                ->orderByDesc('tanggal')
+                ->first();
 
             if ($jadwal) {
                 // Step 4: Ambil informasi materi
