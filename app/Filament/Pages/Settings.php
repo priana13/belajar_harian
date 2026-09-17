@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\Setting;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -36,6 +37,7 @@ class Settings extends Page implements HasForms
             'logo' => Setting::getValue('logo')->value,
             'pengumuman' => $pengumuman->value,
             'pengumuman_aktif' => (bool) $pengumuman->is_active,
+            'masa_aktif_user_bulan' => Setting::getMasaAktifUserBulan(),
         ]);
     }
 
@@ -55,6 +57,14 @@ class Settings extends Page implements HasForms
                 Toggle::make('pengumuman_aktif')
                     ->label('Pengumuman Aktif')
                     ->default(true)
+                    ->columnSpanFull(),
+                TextInput::make('masa_aktif_user_bulan')
+                    ->label('Masa Aktif User (bulan)')
+                    ->helperText('User dianggap aktif jika pernah mengikuti ujian dalam sekian bulan terakhir. Dipakai pada filter "User Aktif" di halaman Peserta.')
+                    ->numeric()
+                    ->minValue(1)
+                    ->default(6)
+                    ->required()
                     ->columnSpanFull(),
             ])
             ->columns(2)

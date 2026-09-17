@@ -6,6 +6,7 @@ use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers\AngkatanUserRelationManager;
 use App\Filament\Resources\UserResource\Widgets\StatsOverview;
+use App\Models\Setting;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
@@ -144,15 +145,28 @@ class UserResource extends Resource
                 }),
                 Filter::make('user_tidak_aktif')->query(function(Builder $query, $data){
 
-                   
+
                     if($data['isActive']){
 
                         return $query->withCount('ujian')->having('ujians_count',0);
 
                     }
 
-                    
-                }),             
+
+                }),
+                Filter::make('user_aktif')
+                    ->label('User Aktif (Pernah Ujian ' . Setting::getMasaAktifUserBulan() . ' Bulan Terakhir)')
+                    ->query(function(Builder $query, $data){
+
+                        if($data['isActive']){
+
+                            return $query->whereHas('ujian', function(Builder $query){
+                                $query->where('created_at', '>=', now()->subMonths(Setting::getMasaAktifUserBulan()));
+                            });
+
+                        }
+
+                    }),
                 SelectFilter::make('jenis_user')->relationship('jenis_user','nama_jenis'), 
                 SelectFilter::make('jenis_kelamin')->options([
                     'L' => 'L',

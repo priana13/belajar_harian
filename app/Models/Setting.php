@@ -34,4 +34,11 @@ class Setting extends Pivot
 
         return $value ? asset('storage/' . $value) : null;
     }
+
+    public static function getMasaAktifUserBulan(): int
+    {
+        $value = self::getValue('masa_aktif_user_bulan')?->value;
+
+        return filled($value) ? (int) $value : 6;
+    }
 }
