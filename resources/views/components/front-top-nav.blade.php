@@ -1,7 +1,7 @@
 <nav class="bg-primary-700 py-3 z-40 px-5 grid grid-cols-2 fixed inset-x-0 max-w-lg mx-auto shadow-lg">
     <div class="flex items-center">
-        <a href="{{ route('home') }}" >        
-            <img class="h-8 w-auto drop-shadow-[0_0_2px_rgba(255,255,255,0.8)]" src="{{ \App\Models\Setting::getLogoUrl() ?? asset('/img/logo-trf.png') }}" alt="">
+        <a href="{{ route('home') }}" class="bg-white rounded-full p-1 shadow-sm inline-flex items-center justify-center">
+            <img class="h-11 w-11 rounded-full object-cover" src="{{ \App\Models\Setting::getLogoUrl() ?? asset('/img/logo-trf.png') }}" alt="Logo">
         </a>
     </div>
     @auth

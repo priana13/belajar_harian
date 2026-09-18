@@ -20,11 +20,11 @@ export default function FrontTopNav() {
     return (
         <nav className="bg-primary-700 py-3 z-40 px-5 grid grid-cols-2 fixed inset-x-0 max-w-lg mx-auto shadow-lg">
             <div className="flex items-center">
-                <Link href={route('home')}>
+                <Link href={route('home')} className="bg-white/70 rounded-full p-1 shadow-sm inline-flex items-center justify-center">
                     <img
-                        className="h-8 w-auto drop-shadow-[0_0_2px_rgba(255,255,255,0.8)]"
+                        className="h-11 w-11 rounded-full object-cover"
                         src={settings?.logo_url || '/img/logo-trf.png'}
-                        alt=""
+                        alt="Logo"
                     />
                 </Link>
             </div>
