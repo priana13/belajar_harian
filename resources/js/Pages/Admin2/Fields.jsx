@@ -12,11 +12,11 @@ export function Reference({ url, value, label, onChange, id, required = false })
     }, [url, search]);
     return <div className="reference-field"><input type="search" value={search} aria-label="Cari pilihan" placeholder="Ketik untuk mencari pilihan…" onChange={e => setSearch(e.target.value)}/><select id={id} required={required} value={value ?? ''} onChange={e => onChange(e.target.value, options.find(o => String(o.value) === e.target.value)?.label)}><option value="">Pilih…</option>{value && !options.some(o => String(o.value) === String(value)) && <option value={value}>{label || `#${value}`}</option>}{options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>{error && <small className="field-error">Pilihan gagal dimuat. Coba pencarian kembali.</small>}</div>;
 }
-export function Field({ field, value, error, onChange, base, selected, existing }) {
+export function Field({ field, value, error, onChange, base, selected, existing, optionsQuery = '' }) {
     const id = useId();
     const props = { id, value: value ?? '', onChange: e => onChange(e.target.value), required: field.required, 'aria-invalid': !!error, 'aria-describedby': error ? `${id}-error` : undefined };
     return <div className={`form-field ${field.type === 'textarea' ? 'span-full' : ''}`}><label htmlFor={id}>{field.label}{field.required && <span className="required"> *</span>}</label>
-        {field.type === 'reference' ? <Reference id={id} url={`${base}/options/${field.name}`} value={value} label={selected} onChange={onChange} required={field.required}/>
+        {field.type === 'reference' ? <Reference id={id} url={`${base}/options/${field.name}${optionsQuery}`} value={value} label={selected} onChange={onChange} required={field.required}/>
             : field.type === 'select' ? <select {...props}><option value="">Pilih…</option>{field.options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
             : field.type === 'textarea' ? <><textarea {...props} rows={6}/><small>Konten yang sudah berformat HTML dapat diedit di sini.</small></>
             : field.type === 'checkbox' ? <label className="toggle-label"><input id={id} type="checkbox" checked={!!Number(value)} onChange={e => onChange(e.target.checked)} aria-invalid={!!error}/> Aktif</label>

@@ -23,7 +23,7 @@ class Resources
 
     public static function navigation(): array
     {
-        return collect(config('admin2'))->map(fn ($r, $key) => [
+        return collect(config('admin2'))->except(array_keys(MaterialSections::PARENTS))->map(fn ($r, $key) => [
             'key' => $key, 'title' => $r['title'], 'group' => $r['group'],
             'url' => self::url($key),
         ])->values()->all();

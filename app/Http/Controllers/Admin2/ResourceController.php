@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin2;
 
 use App\Admin\CreateAngkatan;
+use App\Admin\MaterialSections;
 use App\Admin\Resources;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
@@ -73,6 +74,10 @@ class ResourceController extends Controller
         $definition = Resources::get($resource);
         $model = $record ? Resources::model($definition['model'])->newQuery()->findOrFail($record) : null;
         $values = $model?->only(array_diff(array_column($definition['fields'], 'name'), ['password'])) ?? [];
+        $parent = MaterialSections::parent($resource, $request, $model);
+        if ($parent) {
+            $values[$parent['field']] = $parent['id'];
+        }
         $selected = [];
         foreach ($definition['fields'] as $field) {
             if ($field['type'] === 'reference' && ! empty($values[$field['name']])) {
@@ -88,6 +93,9 @@ class ResourceController extends Controller
             'resourceKey' => $resource, 'definition' => $definition,
             'record' => $model ? ['id' => $model->id, ...$values] : null,
             'selected' => $selected, 'relations' => $relations,
+            'parentContext' => $parent, 'initialValues' => $values,
+            'sections' => MaterialSections::children($resource, $model, $request),
+            'activeSection' => $request->query('tab', 'detail'),
         ]);
     }
 
@@ -103,8 +111,12 @@ class ResourceController extends Controller
             $model = $config['model'];
             $label = $config['labelColumn'];
         }
+        $material = $request->validate(['materi_id' => ['nullable', 'integer', 'exists:materi,id']]);
         $search = mb_substr((string) $request->query('search', ''), 0, 100);
         $query = Resources::model($model)->newQuery();
+        if ($resource === 'soal' && $field === 'materi_detail_id' && ! empty($material['materi_id'])) {
+            $query->where('materi_id', $material['materi_id']);
+        }
         if ($search !== '') {
             $query->where($label, 'like', '%'.$search.'%');
         }
@@ -119,6 +131,10 @@ class ResourceController extends Controller
         $model = Resources::model($definition['model']);
         if ($record) {
             $model = $model->newQuery()->findOrFail($record);
+        }
+        $parent = MaterialSections::parent($resource, $request, $model->exists ? $model : null);
+        if ($parent) {
+            $request->merge([$parent['field'] => $parent['id']]);
         }
         $rules = [];
         foreach ($definition['fields'] as $field) {
@@ -177,6 +193,9 @@ class ResourceController extends Controller
             $rules['kelas_id'][] = Rule::exists('kelas', 'id')->where('angkatan_id', $request->input('angkatan_id'));
             $rules['user_id'][] = Rule::unique('angkatan_users', 'user_id')->where('angkatan_id', $request->input('angkatan_id'))->ignore($model->getKey());
         }
+        if ($resource === 'soal') {
+            $rules['materi_detail_id'][] = Rule::exists('materi_detail', 'id')->where('materi_id', $request->input('materi_id'));
+        }
         $data = $request->validate($rules);
         if ($resource === 'peserta' && $model->id === $request->user()->id && (int) $data['jenis_user_id'] !== (int) $model->jenis_user_id) {
             throw ValidationException::withMessages(['jenis_user_id' => 'Jenis pengguna akun yang sedang digunakan tidak dapat diubah.']);
@@ -226,7 +245,7 @@ class ResourceController extends Controller
             throw $exception;
         }
 
-        return redirect(Resources::url($resource))->with('success', $definition['title'].' berhasil disimpan.');
+        return redirect($parent['url'] ?? (in_array($resource, ['materi', 'pertemuan'], true) ? Resources::url($resource).'/'.$model->id.'/edit' : Resources::url($resource)))->with('success', $definition['title'].' berhasil disimpan.');
     }
 
     public function destroy(Request $request, string $record)

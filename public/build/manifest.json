@@ -40,14 +40,14 @@
     "src": "resources/css/app.css"
   },
   "resources/js/admin2.css": {
-    "file": "assets/admin2-76a65267.css",
+    "file": "assets/admin2-5e2d0ad5.css",
     "src": "resources/js/admin2.css"
   },
   "resources/js/admin2.jsx": {
     "css": [
-      "assets/admin2-76a65267.css"
+      "assets/admin2-5e2d0ad5.css"
     ],
-    "file": "assets/admin2-6b720249.js",
+    "file": "assets/admin2-29fe6919.js",
     "imports": [
       "_bootstrap-926ef549.js"
     ],

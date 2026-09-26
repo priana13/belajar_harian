@@ -25,7 +25,8 @@ export default function Admin2Layout({ title, children, configuration = false, a
     const [open, setOpen] = useState(false);
     const groups = [...new Set(navigation.filter(n => n.group !== 'Konfigurasi').map(n => n.group))];
     const icons = { peserta: 'users', materi: 'book', roadmap: 'map', 'jadwal-belajar': 'calendar', 'jadwal-ujian': 'calendar' };
-    const active = path => path === '/admin2' ? url.split('?')[0] === path : url === path || url.startsWith(path + '/') || url.startsWith(path + '?');
+    const materialChild = /^\/admin2\/(pertemuan|soal|gambar-materi)(\/|\?|$)/.test(url);
+    const active = path => (path === '/admin2/materi' && materialChild) || (path === '/admin2' ? url.split('?')[0] === path : url === path || url.startsWith(path + '/') || url.startsWith(path + '?'));
     return <><Head title={title}/><button className={`overlay ${open ? 'show' : ''}`} aria-label="Tutup menu" onClick={() => setOpen(false)}/>
         <aside className={`sidebar ${open ? 'open' : ''}`}><Link href="/admin2" className="sidebar-logo"><div className="logo-icon">{settings?.logo_url ? <img src={settings.logo_url} alt=""/> : 'Bi'}</div><div className="logo-text"><span className="logo-name">Bisi Online</span><span className="logo-sub">Admin Dashboard</span></div></Link>
             <nav className="sidebar-nav" aria-label="Menu admin"><Link href="/admin2" className={`nav-item ${active('/admin2') ? 'active' : ''}`} onClick={() => setOpen(false)}><Icon/>Dashboard</Link>
