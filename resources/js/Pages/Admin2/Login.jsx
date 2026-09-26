@@ -1,0 +1,7 @@
+import React from 'react';
+import { Head, useForm } from '@inertiajs/react';
+
+export default function Login() {
+    const form = useForm({ login: '', password: '', remember: false });
+    return <main className="login-page"><Head title="Masuk Admin"/><section className="login-brand"><div className="logo-icon">Bi</div><h1>Bisi Online</h1><p>Ruang belajar, tumbuh bersama.</p></section><form className="login-card card" onSubmit={e => { e.preventDefault(); form.post('/admin2/login', { onFinish: () => form.reset('password') }); }}><h2>Selamat datang kembali</h2><p>Masuk untuk mengelola pembelajaran.</p><div className="form-field"><label htmlFor="login">Email atau nomor HP</label><input id="login" name="login" required autoComplete="username" value={form.data.login} onChange={e => form.setData('login',e.target.value)}/></div><div className="form-field"><label htmlFor="password">Password</label><input id="password" name="password" type="password" required autoComplete="current-password" value={form.data.password} onChange={e => form.setData('password',e.target.value)}/></div>{Object.values(form.errors).map((error,i) => <p key={i} className="field-error" role="alert">{error}</p>)}<label className="toggle-label"><input type="checkbox" checked={form.data.remember} onChange={e => form.setData('remember',e.target.checked)}/>Ingat saya</label><button type="submit" className="btn btn-primary" disabled={form.processing}>{form.processing ? 'Memeriksa…' : 'Masuk'}</button><a className="text-link" href="/">← Kembali ke aplikasi</a></form></main>;
+}

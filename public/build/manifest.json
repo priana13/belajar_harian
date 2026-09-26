@@ -1,6 +1,6 @@
 {
-  "_bootstrap-e7e6f1f1.js": {
-    "file": "assets/bootstrap-e7e6f1f1.js"
+  "_bootstrap-926ef549.js": {
+    "file": "assets/bootstrap-926ef549.js"
   },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
     "file": "assets/fa-brands-400-276af030.ttf",
@@ -40,16 +40,16 @@
     "src": "resources/css/app.css"
   },
   "resources/js/admin2.css": {
-    "file": "assets/admin2-a96ab418.css",
+    "file": "assets/admin2-76a65267.css",
     "src": "resources/js/admin2.css"
   },
   "resources/js/admin2.jsx": {
     "css": [
-      "assets/admin2-a96ab418.css"
+      "assets/admin2-76a65267.css"
     ],
-    "file": "assets/admin2-59781860.js",
+    "file": "assets/admin2-6b720249.js",
     "imports": [
-      "_bootstrap-e7e6f1f1.js"
+      "_bootstrap-926ef549.js"
     ],
     "isEntry": true,
     "src": "resources/js/admin2.jsx"
@@ -60,9 +60,9 @@
     "src": "resources/js/app.js"
   },
   "resources/js/app.jsx": {
-    "file": "assets/app-b26a0997.js",
+    "file": "assets/app-2878edd7.js",
     "imports": [
-      "_bootstrap-e7e6f1f1.js"
+      "_bootstrap-926ef549.js"
     ],
     "isEntry": true,
     "src": "resources/js/app.jsx"

@@ -159,8 +159,23 @@ class ResourceController extends Controller
             }
         }
         foreach ($definition['relations'] ?? [] as $name => [$class, $label]) {
-            $rules['relations.'.$name] = ['present', 'array'];
+            $rules['relations.'.$name] = ['sometimes', 'array'];
             $rules['relations.'.$name.'.*'] = ['integer', 'distinct', Rule::exists(Resources::model($class)->getTable(), 'id')];
+        }
+        if ($resource === 'angkatan') {
+            $rules['akhir_pendaftaran'][] = 'after_or_equal:mulai_pendaftaran';
+            $rules['tanggal_akhir'][] = 'after_or_equal:tanggal_mulai';
+            $rules['tanggal_ujian'][] = 'after_or_equal:tanggal_mulai';
+        }
+        if ($resource === 'jadwal-roadmap') {
+            $rules['tanggal_ujian'][] = 'after_or_equal:tanggal_mulai';
+        }
+        if ($resource === 'anggota-kelompok') {
+            $rules['user_id'][] = Rule::unique('group_users', 'user_id')->where('group_id', $request->input('group_id'))->ignore($model->getKey());
+        }
+        if ($resource === 'peserta-angkatan') {
+            $rules['kelas_id'][] = Rule::exists('kelas', 'id')->where('angkatan_id', $request->input('angkatan_id'));
+            $rules['user_id'][] = Rule::unique('angkatan_users', 'user_id')->where('angkatan_id', $request->input('angkatan_id'))->ignore($model->getKey());
         }
         $data = $request->validate($rules);
         if ($resource === 'peserta' && $model->id === $request->user()->id && (int) $data['jenis_user_id'] !== (int) $model->jenis_user_id) {
@@ -172,7 +187,7 @@ class ResourceController extends Controller
         $paths = [];
         try {
             DB::transaction(function () use ($data, $definition, $request, $model, $resource, &$paths) {
-                $relations = $data['relations'] ?? [];
+                $relations = array_replace(array_fill_keys(array_keys($definition['relations'] ?? []), []), $data['relations'] ?? []);
                 unset($data['relations']);
                 foreach ($definition['fields'] as $field) {
                     $name = $field['name'];
@@ -195,7 +210,7 @@ class ResourceController extends Controller
                 if ($creating && $resource === 'angkatan') {
                     $data['kode_daftar'] = (string) Str::uuid();
                 }
-                if ($creating && $resource === 'jadwal-belajar') {
+                if ($creating && in_array($resource, ['jadwal-belajar', 'peserta-angkatan'], true)) {
                     $data['code'] = (string) Str::uuid();
                 }
                 $model->fill($data)->save();

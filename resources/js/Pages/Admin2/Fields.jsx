@@ -21,7 +21,7 @@ export function Field({ field, value, error, onChange, base, selected, existing 
             : field.type === 'textarea' ? <><textarea {...props} rows={6}/><small>Konten yang sudah berformat HTML dapat diedit di sini.</small></>
             : field.type === 'checkbox' ? <label className="toggle-label"><input id={id} type="checkbox" checked={!!Number(value)} onChange={e => onChange(e.target.checked)} aria-invalid={!!error}/> Aktif</label>
             : field.type === 'file' ? <><input id={id} type="file" accept={field.accept} required={field.required && !existing} onChange={e => onChange(e.target.files[0] || null)}/>{existing && <small>Berkas tersimpan: {existing.split('/').pop()}. Unggah untuk mengganti.</small>}</>
-            : <input {...props} type={field.type} min={field.min} max={field.type === 'number' ? field.max : undefined} maxLength={field.type === 'number' ? undefined : field.max} autoComplete={field.type === 'password' ? 'new-password' : undefined}/>}
+            : <input {...props} type={field.type} step={field.type === 'number' ? 'any' : undefined} min={field.min} max={field.type === 'number' ? field.max : undefined} maxLength={field.type === 'number' ? undefined : field.max} autoComplete={field.type === 'password' ? 'new-password' : undefined}/>}
         {error && <p className="field-error" id={`${id}-error`}>{error}</p>}
     </div>;
 }
