@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 
+use App\Services\TelegramBotClient;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -18,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         // StickyHeader::setTheme('floating');
+
+        $this->app->singleton(TelegramBotClient::class, fn () => new TelegramBotClient(
+            config('services.telegram.bot_token'),
+        ));
     }
 
     /**

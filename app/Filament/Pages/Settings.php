@@ -6,6 +6,7 @@ use App\Models\Setting;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -38,6 +39,8 @@ class Settings extends Page implements HasForms
             'pengumuman' => $pengumuman->value,
             'pengumuman_aktif' => (bool) $pengumuman->is_active,
             'masa_aktif_user_bulan' => Setting::getMasaAktifUserBulan(),
+            'telegram_reminder_jam' => Setting::getTelegramReminderJam(),
+            'telegram_reminder_aktif' => Setting::isTelegramReminderActive(),
         ]);
     }
 
@@ -66,6 +69,15 @@ class Settings extends Page implements HasForms
                     ->default(6)
                     ->required()
                     ->columnSpanFull(),
+                Toggle::make('telegram_reminder_aktif')
+                    ->label('Pengingat Telegram Aktif')
+                    ->helperText('Kirim pengingat Telegram ke user saat ada jadwal belajar hari itu.')
+                    ->default(true),
+                TimePicker::make('telegram_reminder_jam')
+                    ->label('Jam Kirim Pengingat')
+                    ->seconds(false)
+                    ->default('07:00')
+                    ->required(),
             ])
             ->columns(2)
             ->statePath('data');
@@ -78,11 +90,15 @@ class Settings extends Page implements HasForms
         $pengumumanAktif = $data['pengumuman_aktif'] ?? true;
         unset($data['pengumuman_aktif']);
 
+        $telegramReminderAktif = $data['telegram_reminder_aktif'] ?? true;
+        unset($data['telegram_reminder_aktif']);
+
         foreach ($data as $key => $value) {
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
 
         Setting::where('key', 'pengumuman')->update(['is_active' => $pengumumanAktif]);
+        Setting::where('key', 'telegram_reminder_jam')->update(['is_active' => $telegramReminderAktif]);
 
         Notification::make()
             ->title('Setting berhasil disimpan')

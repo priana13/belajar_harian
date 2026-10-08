@@ -114,6 +114,9 @@ class UserResource extends Resource
                 Tables\Columns\BadgeColumn::make('kategori')->colors([
                     'success' => "Aktif"
                 ]),
+                Tables\Columns\IconColumn::make('telegram_chat_id')
+                    ->label('Telegram')
+                    ->boolean(),
 
 
             ])
