@@ -15,10 +15,31 @@
                 <i class="fa-solid fa-book-bookmark text-xl"></i>            
                 <span class="tab tab-explore block text-xs">Hustory Belajar</span>
             </a>
-            <a href="{{route('profile')}}?trial={{ request()->trial }}" class="{{ Request::segment(1) == 'profile' ? 'text-secondary' : '' }} w-full focus:text-teal-500 hover:text-[#1169a8] justify-center inline-block text-center pt-2 pb-1  border-[#E0E0E0]">
-                <i class="fa-solid fa-user-gear text-xl"></i>
-                <span class="tab tab-whishlist block text-xs">Akun</span>
-            </a>
+            <div class="relative w-full" x-data="{ open: false }" @click.outside="open = false" @keydown.escape.prevent.stop="open = false; $refs.menuButton.focus()">
+                <button type="button" x-ref="menuButton" @click="open = !open"
+                        :aria-expanded="open.toString()" aria-controls="navigation-features" aria-label="Menu fitur"
+                        class="w-full focus:text-teal-500 hover:text-[#1169a8] inline-flex flex-col items-center pt-2 pb-1 {{ Request::segment(1) == 'profile' ? 'text-secondary' : '' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                    </svg>
+                    <span class="block text-xs">Menu</span>
+                </button>
+                <div id="navigation-features" x-show="open" x-transition style="display: none;"
+                     class="absolute bottom-full right-0 mb-3 w-48 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden text-gray-700">
+                    <a href="{{ route('profile', ['trial' => request()->trial]) }}" class="flex items-center gap-3 px-4 py-3 hover:bg-green-100 focus:bg-green-100">
+                        <i class="fa-solid fa-user-gear" aria-hidden="true"></i>
+                        <span>Akun</span>
+                    </a>
+                    @if(auth()->user()?->jenis_user?->nama_jenis === 'Admin')
+                        <a href="{{ route('filament.admin.pages.dashboard') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-green-100 focus:bg-green-100">
+                            <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                            <span>Admin Panel</span>
+                        </a>
+                    @endif
+                </div>
+            </div>
             
         </div>
     </section>
