@@ -51,6 +51,11 @@
         </button>
       </div>
 
+      <a href="{{ route('home') }}" class="inline-flex items-center gap-2 mb-4 text-sm font-semibold text-green-700 hover:text-green-800 hover:underline">
+        <span aria-hidden="true">←</span>
+        Kembali ke Beranda
+      </a>
+
       {{-- breadcrumb --}}
       <nav class="text-sm text-gray-500 mb-2 flex items-center gap-1">
         <span>{{ $materi->kategori?->nama_kategori }}</span>
@@ -104,15 +109,6 @@
         class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition disabled:opacity-60 disabled:cursor-not-allowed">{{ $selectedVideo && in_array($selectedVideo->id, $completedIds) ? '✅ Sudah Dipahami' : '✅ Ya, Saya Sudah Paham' }}</button>
       </div>
 
-      <!-- Komentar -->
-      <section class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-lg font-semibold mb-4">💬 Tinggalkan Komentar</h2>
-        <form action="#" method="POST" class="space-y-4">
-          <input type="text" name="nama" placeholder="Nama Anda" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:ring-green-200" required />
-          <textarea name="komentar" rows="4" placeholder="Tulis komentar Anda..." class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:ring-green-200" required></textarea>
-          <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition">Kirim Komentar</button>
-        </form>
-      </section>
     </div>
    
 
