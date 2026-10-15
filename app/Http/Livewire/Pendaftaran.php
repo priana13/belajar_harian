@@ -6,6 +6,7 @@ use App\Models\Kota;
 use Livewire\Component;
 use App\Models\Angkatan;
 use App\Models\Provinsi;
+use App\Models\Setting;
 
 class Pendaftaran extends Component
 {
@@ -19,8 +20,14 @@ class Pendaftaran extends Component
 
     public $kode_daftar;
 
-    public function mount($kode_daftar = null){ 
-        
+    public function mount($kode_daftar = null){
+
+        if(! Setting::isDaftarAktif()){
+
+            return redirect()->route('info-pendaftaran');
+
+        }
+
         if(request()->kodeangkatan){
 
            $this->angkatan = Angkatan::pendaftaran()->where('kode_daftar', request()->kodeangkatan)->first();

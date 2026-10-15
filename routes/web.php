@@ -92,7 +92,10 @@ Route::middleware(['guest'])->group(function(){
 
     Route::get('info-pendaftaran',function(){
 
-        return view('info-pendaftaran');
+        return view('info-pendaftaran', [
+            'daftarAktif' => \App\Models\Setting::isDaftarAktif(),
+            'nextOpenDate' => \App\Models\Setting::getNextDaftarOpenDate(),
+        ]);
 
     })->name('info-pendaftaran');
 
