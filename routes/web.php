@@ -6,6 +6,7 @@ use App\Http\Controllers\DaftarKelasKhususController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\LoginLinkController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SertifikatController;
 use App\Http\Livewire\Homepage\HomeNew;
@@ -28,6 +29,10 @@ use Laravel\Socialite\Facades\Socialite;
 
 // Route::get('/', [HomeController::class, 'index'])->name('home'); // inerta js
 Route::get('/',HomeNew::class)->name('home');
+
+Route::get('/login-link/{token}', [LoginLinkController::class, 'login'])
+    ->middleware('throttle:20,1')
+    ->name('login-link');
 
 Route::middleware(['auth'])->group(function(){
 

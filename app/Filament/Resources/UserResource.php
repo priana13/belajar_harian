@@ -15,6 +15,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
@@ -22,6 +23,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 
@@ -200,7 +202,48 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                Impersonate::make(), 
+                Impersonate::make(),
+                Tables\Actions\Action::make('login_link')
+                    ->label('Buat Link Login')
+                    ->icon('heroicon-o-link')
+                    ->color('gray')
+                    ->form([
+                        Select::make('expires_in')
+                            ->label('Masa Berlaku')
+                            ->options([
+                                'never' => 'Tidak Pernah Expired',
+                                '1' => '1 Hari',
+                                '7' => '7 Hari',
+                                '30' => '30 Hari',
+                            ])
+                            ->default('7')
+                            ->required(),
+                    ])
+                    ->action(function (array $data, User $record) {
+                        $link = $record->loginLinks()->create([
+                            'token' => Str::random(48),
+                            'expires_at' => $data['expires_in'] === 'never' ? null : now()->addDays((int) $data['expires_in']),
+                            'created_by' => auth()->id(),
+                        ]);
+
+                        Notification::make()
+                            ->title('Link login berhasil dibuat')
+                            ->body(route('login-link', $link->token))
+                            ->success()
+                            ->persistent()
+                            ->send();
+                    }),
+                Tables\Actions\Action::make('view_login_links')
+                    ->label('Lihat Link Login')
+                    ->icon('heroicon-o-eye')
+                    ->color('gray')
+                    ->visible(fn (User $record) => $record->loginLinks()->valid()->exists())
+                    ->modalHeading('Link Login yang Masih Berlaku')
+                    ->modalContent(fn (User $record) => view('filament.user.login-links-modal', [
+                        'links' => $record->loginLinks()->valid()->latest()->get(),
+                    ]))
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Tutup'),
             ])
             ->bulkActions([
                 ExportBulkAction::make('export')->label("Export Data"),

@@ -69,6 +69,12 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Belajar::class, 'user_id');
     }
 
+    public function loginLinks()
+    {
+
+        return $this->hasMany(LoginLink::class, 'user_id');
+    }
+
     public function scopeType($query, $type)
     {
 
