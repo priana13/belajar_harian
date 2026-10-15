@@ -7,6 +7,7 @@
 
   @vite('resources/css/app.css')
   @livewireStyles
+  <x-tracking-scripts />
 
 </head>
 <body class="bg-gray-50 text-gray-800">

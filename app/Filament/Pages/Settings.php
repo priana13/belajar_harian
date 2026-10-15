@@ -42,6 +42,8 @@ class Settings extends Page implements HasForms
             'daftar_aktif' => Setting::getValue('daftar_aktif')->is_active,
             'daftar_tanggal_mulai' => Setting::getDaftarTanggalMulai(),
             'daftar_tanggal_selesai' => Setting::getDaftarTanggalSelesai(),
+            'google_analytics_id' => Setting::getGoogleAnalyticsId(),
+            'facebook_pixel_id' => Setting::getFacebookPixelId(),
         ]);
     }
 
@@ -96,6 +98,14 @@ class Settings extends Page implements HasForms
                     ->maxValue(31)
                     ->default(31)
                     ->required(),
+                TextInput::make('google_analytics_id')
+                    ->label('Google Analytics ID')
+                    ->placeholder('G-XXXXXXXXXX')
+                    ->helperText('Dipasang otomatis di semua halaman public. Kosongkan untuk mematikan tracking.'),
+                TextInput::make('facebook_pixel_id')
+                    ->label('Facebook Pixel ID')
+                    ->placeholder('123456789012345')
+                    ->helperText('Dipasang otomatis di semua halaman public. Kosongkan untuk mematikan tracking.'),
             ])
             ->columns(2)
             ->statePath('data');

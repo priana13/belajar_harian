@@ -8,6 +8,7 @@
 
   @vite('resources/css/app.css')
   @livewireStyles
+  <x-tracking-scripts />
 </head>
 <body class="bg-gray-200">
     <div  class="mx-auto max-w-lg bg-white min-h-screen shadow-md">

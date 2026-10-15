@@ -94,4 +94,14 @@ class Setting extends Pivot
 
         return $bulanDepan->addDays(min($mulai, $bulanDepan->daysInMonth) - 1);
     }
+
+    public static function getGoogleAnalyticsId(): ?string
+    {
+        return self::getValue('google_analytics_id')?->value ?: null;
+    }
+
+    public static function getFacebookPixelId(): ?string
+    {
+        return self::getValue('facebook_pixel_id')?->value ?: null;
+    }
 }
