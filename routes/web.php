@@ -6,6 +6,7 @@ use App\Http\Controllers\DaftarKelasKhususController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\LoginLinkController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SertifikatController;
 use App\Http\Livewire\Homepage\HomeNew;
@@ -29,6 +30,10 @@ use Laravel\Socialite\Facades\Socialite;
 // Route::get('/', [HomeController::class, 'index'])->name('home'); // inerta js
 Route::get('/',HomeNew::class)->name('home');
 
+Route::get('/login-link/{token}', [LoginLinkController::class, 'login'])
+    ->middleware('throttle:20,1')
+    ->name('login-link');
+
 Route::middleware(['auth'])->group(function(){
 
     Route::post('/mendaftar/{angkatan}', [HomeController::class, 'mendaftar'])->name('mendaftar');
@@ -49,8 +54,22 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('profile/user',  Profile::class)->name('profile');
 
+    Route::controller(\App\Http\Controllers\PremiumController::class)->prefix('premium')->name('premium.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/orders', 'order')->middleware('throttle:10,1')->name('order');
+        Route::post('/orders/{subscription}/payment', 'payment')->name('payment');
+        Route::post('/orders/{subscription}/cancel', 'cancel')->name('cancel');
+        Route::post('/book-claims', 'claim')->middleware('throttle:10,1')->name('claim');
+        Route::post('/book-claims/{claim}/payment', 'shippingPayment')->name('shipping-payment');
+        Route::middleware(\App\Http\Middleware\PremiumMiddleware::class)->group(function () {
+            Route::get('/videos', 'videos')->name('videos');
+            Route::get('/ebooks', 'ebooks')->name('ebooks');
+            Route::get('/ebooks/{ebook}/download', 'download')->name('download');
+        });
+    });
+
     // cources
-    Route::get('/materi-video/{kode}', App\Http\Livewire\MateriVideo\HalamanMateriVideo::class)->name('halaman-materi-video');
+    Route::get('/materi-video/{kode}', App\Http\Livewire\MateriVideo\HalamanMateriVideo::class)->middleware(\App\Http\Middleware\PremiumMiddleware::class)->name('halaman-materi-video');
 
 
     Route::post('/daftar-kelas-khusus', [DaftarKelasKhususController::class, 'postDaftar'])->name('daftar-kelas-khusus.post');
@@ -73,7 +92,10 @@ Route::middleware(['guest'])->group(function(){
 
     Route::get('info-pendaftaran',function(){
 
-        return view('info-pendaftaran');
+        return view('info-pendaftaran', [
+            'daftarAktif' => \App\Models\Setting::isDaftarAktif(),
+            'nextOpenDate' => \App\Models\Setting::getNextDaftarOpenDate(),
+        ]);
 
     })->name('info-pendaftaran');
 
