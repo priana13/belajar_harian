@@ -38,6 +38,7 @@ class Settings extends Page implements HasForms
             'pengumuman' => $pengumuman->value,
             'pengumuman_aktif' => (bool) $pengumuman->is_active,
             'masa_aktif_user_bulan' => Setting::getMasaAktifUserBulan(),
+            'premium_feature_aktif' => Setting::isPremiumFeatureActive(),
         ]);
     }
 
@@ -66,6 +67,11 @@ class Settings extends Page implements HasForms
                     ->default(6)
                     ->required()
                     ->columnSpanFull(),
+                Toggle::make('premium_feature_aktif')
+                    ->label('Fitur Premium Aktif')
+                    ->helperText('Tampilkan/sembunyikan tombol "Member Premium", "Materi Video", dan "Ebook Materi" di navigasi. Matikan selama fitur ini belum selesai dikembangkan.')
+                    ->default(false)
+                    ->columnSpanFull(),
             ])
             ->columns(2)
             ->statePath('data');
@@ -78,11 +84,15 @@ class Settings extends Page implements HasForms
         $pengumumanAktif = $data['pengumuman_aktif'] ?? true;
         unset($data['pengumuman_aktif']);
 
+        $premiumFeatureAktif = $data['premium_feature_aktif'] ?? false;
+        unset($data['premium_feature_aktif']);
+
         foreach ($data as $key => $value) {
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
 
         Setting::where('key', 'pengumuman')->update(['is_active' => $pengumumanAktif]);
+        Setting::updateOrCreate(['key' => 'premium_feature'], ['is_active' => $premiumFeatureAktif]);
 
         Notification::make()
             ->title('Setting berhasil disimpan')

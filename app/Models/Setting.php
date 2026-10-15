@@ -41,4 +41,11 @@ class Setting extends Pivot
 
         return filled($value) ? (int) $value : 6;
     }
+
+    public static function isPremiumFeatureActive(): bool
+    {
+        $setting = self::where('key', 'premium_feature')->first();
+
+        return $setting ? (bool) $setting->is_active : false;
+    }
 }

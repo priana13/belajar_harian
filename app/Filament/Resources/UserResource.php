@@ -202,7 +202,7 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ActionGroup::make([
-                    Impersonate::make(),
+                    Impersonate::make()->label("Akses")->button(),
                     Tables\Actions\Action::make('login_link')
                         ->label('Buat Link Login')
                         ->icon('heroicon-o-link')
