@@ -20,6 +20,7 @@ class HalamanMateriVideo extends Component
 
     public function mount($kode)
     {
+        $this->authorizePremium();
 
         $this->kode = $kode;
 
@@ -41,6 +42,7 @@ class HalamanMateriVideo extends Component
 
     public function render()
     {
+        $this->authorizePremium();
         $availableIds = $this->availableVideoIds();
         if ($this->selectedVideo && ! in_array($this->selectedVideo->id, $availableIds)) {
             $this->selectedVideo = null;
@@ -60,6 +62,7 @@ class HalamanMateriVideo extends Component
 
     public function selectVideo($id)
     {
+        $this->authorizePremium();
         $video = $this->materiDetail->find($id);
 
         if ($video && in_array($video->id, $this->availableVideoIds())) {
@@ -109,6 +112,11 @@ class HalamanMateriVideo extends Component
             : null;
     }
 
+    private function authorizePremium(): void
+    {
+        abort_unless(auth()->user()?->canAccessPremium(), 403, 'Langganan Premium aktif diperlukan.');
+    }
+
     private function availableVideoIds(): array
     {
         $user = auth()->user();
@@ -138,7 +146,7 @@ class HalamanMateriVideo extends Component
 
     public function sudahPaham(): void
     {
-        abort_unless(auth()->check(), 403);
+        $this->authorizePremium();
         $video = $this->materiDetail->find($this->selectedVideo?->id);
         abort_unless($video && in_array($video->id, $this->availableVideoIds()), 403);
 

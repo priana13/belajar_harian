@@ -49,8 +49,22 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('profile/user',  Profile::class)->name('profile');
 
+    Route::controller(\App\Http\Controllers\PremiumController::class)->prefix('premium')->name('premium.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/orders', 'order')->middleware('throttle:10,1')->name('order');
+        Route::post('/orders/{subscription}/payment', 'payment')->name('payment');
+        Route::post('/orders/{subscription}/cancel', 'cancel')->name('cancel');
+        Route::post('/book-claims', 'claim')->middleware('throttle:10,1')->name('claim');
+        Route::post('/book-claims/{claim}/payment', 'shippingPayment')->name('shipping-payment');
+        Route::middleware(\App\Http\Middleware\PremiumMiddleware::class)->group(function () {
+            Route::get('/videos', 'videos')->name('videos');
+            Route::get('/ebooks', 'ebooks')->name('ebooks');
+            Route::get('/ebooks/{ebook}/download', 'download')->name('download');
+        });
+    });
+
     // cources
-    Route::get('/materi-video/{kode}', App\Http\Livewire\MateriVideo\HalamanMateriVideo::class)->name('halaman-materi-video');
+    Route::get('/materi-video/{kode}', App\Http\Livewire\MateriVideo\HalamanMateriVideo::class)->middleware(\App\Http\Middleware\PremiumMiddleware::class)->name('halaman-materi-video');
 
 
     Route::post('/daftar-kelas-khusus', [DaftarKelasKhususController::class, 'postDaftar'])->name('daftar-kelas-khusus.post');

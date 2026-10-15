@@ -32,6 +32,20 @@
                         <i class="fa-solid fa-user-gear" aria-hidden="true"></i>
                         <span>Akun</span>
                     </a>
+                    @auth
+                        <a href="{{ route('premium.index') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-green-100 focus:bg-green-100">
+                            <i class="fa-solid fa-crown" aria-hidden="true"></i>
+                            <span>Member Premium</span>
+                        </a>
+                        <a href="{{ route('premium.videos') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-green-100 focus:bg-green-100">
+                            <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
+                            <span>Materi Video</span>
+                        </a>
+                        <a href="{{ route('premium.ebooks') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-green-100 focus:bg-green-100">
+                            <i class="fa-solid fa-book" aria-hidden="true"></i>
+                            <span>Ebook Materi</span>
+                        </a>
+                    @endauth
                     @if(auth()->user()?->jenis_user?->nama_jenis === 'Admin')
                         <a href="{{ route('filament.admin.pages.dashboard') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-green-100 focus:bg-green-100">
                             <i class="fa-solid fa-user-shield" aria-hidden="true"></i>

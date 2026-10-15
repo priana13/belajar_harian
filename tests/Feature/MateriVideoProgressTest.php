@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Http\Livewire\MateriVideo\HalamanMateriVideo;
+use App\Models\JenisUser;
 use App\Models\MateriDetail;
 use App\Models\User;
 use Illuminate\Database\Schema\Blueprint;
@@ -46,7 +47,9 @@ class MateriVideoProgressTest extends TestCase
             $table->string('status')->nullable();
             $table->timestamps();
         });
-        $this->actingAs(new User(['id' => 10, 'gelombang_id' => 20]));
+        $user = new User(['id' => 10, 'gelombang_id' => 20]);
+        $user->setRelation('jenis_user', new JenisUser(['nama_jenis' => 'Admin']));
+        $this->actingAs($user);
     }
 
     protected function tearDown(): void
@@ -103,7 +106,9 @@ class MateriVideoProgressTest extends TestCase
         $this->assertDatabaseCount('materi_detail_user', 1);
         $this->assertDatabaseHas('materi_detail_user', ['user_id' => 10, 'materi_detail_id' => 1, 'status' => 'sudah baca']);
         $this->assertSame([1], $this->videoComponent()->render()->getData()['completedIds']);
-        $this->actingAs(new User(['id' => 11, 'gelombang_id' => 20]));
+        $user = new User(['id' => 11, 'gelombang_id' => 20]);
+        $user->setRelation('jenis_user', new JenisUser(['nama_jenis' => 'Admin']));
+        $this->actingAs($user);
         $this->assertSame([], $this->videoComponent()->render()->getData()['completedIds']);
     }
 
