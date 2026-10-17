@@ -6,8 +6,10 @@ use App\Filament\Resources\GelombangResource\Pages;
 use App\Filament\Resources\GelombangResource\RelationManagers;
 use App\Filament\Resources\GelombangResource\RelationManagers\RoadmapsRelationManager;
 use App\Models\Gelombang;
+use App\Models\Setting;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
@@ -35,6 +37,7 @@ class GelombangResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('id', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('gel'),
                 Tables\Columns\TextColumn::make('tanggal_mulai')
@@ -42,12 +45,31 @@ class GelombangResource extends Resource
                     Tables\Columns\TextColumn::make('peserta_count')->counts('peserta')->label("Peserta"),
                 Tables\Columns\TextColumn::make('angkatan_count')->counts('angkatan')->label("Kelas/Angkatan"),
                 Tables\Columns\TextColumn::make('roadmaps_count')->counts('roadmaps')->label("Roadmap"),
+                Tables\Columns\IconColumn::make('is_default')
+                    ->label('Gelombang Default')
+                    ->state(fn (Gelombang $record): bool => $record->id === Setting::getDefaultGelombangId())
+                    ->boolean(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('set_default_gelombang')
+                    ->label('Jadikan Default')
+                    ->icon('heroicon-o-star')
+                    ->color('gray')
+                    ->visible(fn (Gelombang $record): bool => $record->id !== Setting::getDefaultGelombangId())
+                    ->requiresConfirmation()
+                    ->modalDescription('User baru yang mendaftar lewat halaman Daftar akan otomatis dimasukkan ke gelombang ini.')
+                    ->action(function (Gelombang $record) {
+                        Setting::updateOrCreate(['key' => 'default_gelombang_id'], ['value' => $record->id]);
+
+                        Notification::make()
+                            ->title("Gelombang \"{$record->gel}\" dijadikan default")
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

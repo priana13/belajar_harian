@@ -115,4 +115,11 @@ class Setting extends Pivot
     {
         return self::getValue('facebook_pixel_id')?->value ?: null;
     }
+
+    public static function getDefaultGelombangId(): ?int
+    {
+        $value = self::getValue('default_gelombang_id')?->value;
+
+        return filled($value) ? (int) $value : null;
+    }
 }

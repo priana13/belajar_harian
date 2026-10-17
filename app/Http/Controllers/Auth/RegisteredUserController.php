@@ -8,6 +8,7 @@ use App\Models\AngkatanUser;
 use App\Models\Belajar;
 use App\Models\Gelombang;
 use App\Models\Kota;
+use App\Models\Setting;
 use App\Models\User;
 use DateTime;
 use Illuminate\Auth\Events\Registered;
@@ -53,7 +54,7 @@ class RegisteredUserController extends Controller
 
         $tahun_lahir = $this->getTahunLahir($request->umur);
 
-        $gelombang = Gelombang::latest()->first();
+        $gelombang = Gelombang::find(Setting::getDefaultGelombangId()) ?? Gelombang::latest()->first();
 
         $user = User::create([
             'name' => $request->nama,
