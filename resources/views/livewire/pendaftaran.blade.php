@@ -27,7 +27,7 @@
         
         <!-- Header -->
         <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold text-gray-900">Formulir Pendaftaran</h2>
+            <h2 class="text-3xl font-bold text-gray-900">Formulir Daftar BISI Online</h2>
             <p class="mt-2 text-sm text-gray-600">Lengkapi data diri Anda dengan benar</p>
         </div>
 

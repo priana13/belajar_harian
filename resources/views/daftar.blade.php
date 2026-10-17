@@ -38,7 +38,7 @@
       <img class="mx-auto mt-9 w-40" src="{{ asset('storage/logo.png') }}" alt="thumbnail">
    </a>     --}}
 
-   <h2 class="text-2xl font-bold text-center text-gray-700 mt-6">Formulir Pendaftaran</h2>
+   <h2 class="text-2xl font-bold text-center text-gray-700 mt-6">Formulir Pendaftaran BISI</h2>
 
   
     <form action="{{ route('register.store') }}" method="post" class="px-3">
