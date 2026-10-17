@@ -9,6 +9,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\LoginLinkController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SertifikatController;
+use App\Http\Controllers\TelegramWebhookController;
 use App\Http\Livewire\Homepage\HomeNew;
 use App\Http\Livewire\Pendaftaran;
 use App\Http\Livewire\User\Profile;
@@ -30,6 +31,7 @@ use Laravel\Socialite\Facades\Socialite;
 // Route::get('/', [HomeController::class, 'index'])->name('home'); // inerta js
 Route::get('/',HomeNew::class)->name('home');
 
+Route::post('/webhooks/telegram', TelegramWebhookController::class)->name('webhooks.telegram');
 Route::get('/login-link/{token}', [LoginLinkController::class, 'login'])
     ->middleware('throttle:20,1')
     ->name('login-link');

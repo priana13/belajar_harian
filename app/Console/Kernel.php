@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('sanctum:prune-expired --hours=2')->daily();
+        $schedule->command('reminder:jadwal-belajar')->everyFiveMinutes()->withoutOverlapping();
     }
 
     /**

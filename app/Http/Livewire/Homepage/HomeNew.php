@@ -17,6 +17,7 @@ use App\Models\Materi;
 use App\Models\Roadmap;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class HomeNew extends Component
 {
@@ -216,6 +217,23 @@ class HomeNew extends Component
         return Setting::getValue('pengumuman');
     }
 
+    private function getTelegramConnectLink()
+    {
+        $user = Auth::user();
+
+        if (! $user || $user->telegram_chat_id) {
+            return null;
+        }
+
+        if (! $user->telegram_link_code) {
+            $user->update(['telegram_link_code' => Str::random(24)]);
+        }
+
+        $botUsername = config('services.telegram.bot_username');
+
+        return $botUsername ? "https://t.me/{$botUsername}?start={$user->telegram_link_code}" : null;
+    }
+
     public function render()
     {
         $angkatan = $this->getAngkatan();
@@ -232,6 +250,8 @@ class HomeNew extends Component
         $ujian_harian_khusus = null;
         $mulai_belajar = null;
         $jadwal_ujian_khusus = [];
+        $telegram_connected = false;
+        $telegram_connect_link = null;
 
         if (Auth::check()) {
             if (request()->trial) {
@@ -240,10 +260,13 @@ class HomeNew extends Component
             } else {
                 $userData = $this->getUserData();
                 extract($userData);
-                $jadwal_ujian = $this->getJadwalUjian($jadwal_roadmap);            
+                $jadwal_ujian = $this->getJadwalUjian($jadwal_roadmap);
 
                 $jadwal_ujian_khusus = $this->getJadwalUjianKhusus($roadmap_khusus);
             }
+
+            $telegram_connected = (bool) Auth::user()->telegram_chat_id;
+            $telegram_connect_link = $telegram_connected ? null : $this->getTelegramConnectLink();
         }
 
         $pengumuman = $this->getPengumuman();
@@ -260,7 +283,9 @@ class HomeNew extends Component
             'jadwal_khusus',
             'materi_khusus',
             'ujian_harian_khusus',
-            'mulai_belajar'
+            'mulai_belajar',
+            'telegram_connected',
+            'telegram_connect_link'
         ))->extends('layouts.app')->section('content');
     }
 

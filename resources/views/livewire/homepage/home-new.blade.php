@@ -163,10 +163,24 @@
         </div>
 
         @endif
-     
-  
-        
-        @if($jadwal) 
+
+        {{-- hubungkan telegram --}}
+
+        @if(!$telegram_connected && $telegram_connect_link)
+
+        <div class="bg-white p-4 rounded-lg shadow-md mb-4 flex items-center justify-between gap-3">
+          <div class="text-sm text-gray-700">
+            <div class="font-semibold">Aktifkan Pengingat Telegram</div>
+            <div class="text-xs text-gray-500">Dapatkan notifikasi Telegram saat ada jadwal belajar hari ini.</div>
+          </div>
+          <a href="{{ $telegram_connect_link }}" target="_blank" rel="noreferrer" class="modern-btn whitespace-nowrap">Hubungkan</a>
+        </div>
+
+        @endif
+
+
+
+        @if($jadwal)
 
         <h2 class="modern-title mt-6 mb-2">Materi Hari ini </h2>
 

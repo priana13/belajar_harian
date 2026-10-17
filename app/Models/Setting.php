@@ -42,6 +42,17 @@ class Setting extends Pivot
         return filled($value) ? (int) $value : 6;
     }
 
+    public static function isTelegramReminderActive(): bool
+    {
+        return (bool) self::getValue('telegram_reminder_jam')?->is_active;
+    }
+
+    public static function getTelegramReminderJam(): string
+    {
+        $value = self::getValue('telegram_reminder_jam')?->value;
+
+        return filled($value) ? $value : '07:00';
+    }
     public static function isPremiumFeatureActive(): bool
     {
         $setting = self::where('key', 'premium_feature')->first();
