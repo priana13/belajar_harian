@@ -7,8 +7,8 @@
   @stack('head')
 
   @vite('resources/css/app.css')
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.0/dist/cdn.min.js"></script>
   @livewireStyles
+  <x-tracking-scripts />
 </head>
 <body class="bg-gray-200">
     <div  class="mx-auto max-w-lg bg-white min-h-screen shadow-md">

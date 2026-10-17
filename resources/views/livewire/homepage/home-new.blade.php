@@ -96,6 +96,21 @@
     .gallery-swiper .swiper-button-next {
       display: none !important;
     }
+    .materi-image-swiper {
+      width: 100%;
+      border-radius: 0.5rem;
+    }
+    .materi-image-swiper .swiper-slide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .materi-image-swiper .swiper-slide img {
+      max-height: 220px;
+    }
+    .materi-image-swiper .swiper-pagination-bullet-active {
+      background: #2f56d4;
+    }
   </style>
   @endpush
 
@@ -344,35 +359,8 @@
               </div>
             </div>
 
-            {{-- tambah tombol dengan icon gambar di sini untuk melihat screen shoot materi --}}
-            <div>
-
-              {{-- @if($jadwal && $jadwal->materi_detail->images->count() > 0)
-                <p class="text-center mb-3 font-bold text-gray-800 hidden">Gambar {{ $materi->nama_materi }}</p>
-                <div class="flex flex-wrap gap-2 justify-center mb-2">
-                  @foreach($jadwal->materi_detail->images as $image)
-                    <button onclick="openGalleryModal('jadwal')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
-                     {{ $loop->iteration }}. <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md transition-transform duration-300 hover:scale-150">
-                    </button>
-                  @endforeach
-                </div> --}}
-                {{-- <button onclick="openGalleryModal('jadwal')" class="view-all-images-btn">Lihat Semua Gambar Materi</button> --}}
-              {{-- @endif --}}
-
-              {{-- @if($jadwal_khusus && $jadwal_khusus->materi_detail->images->count() > 0)
-                <p class="text-center mb-3 font-bold text-gray-800 hidden">Gambar {{ $materi_khusus->nama_materi }}</p>
-                <div class="flex flex-wrap gap-2 justify-center mb-2">
-                  @foreach($jadwal_khusus->materi_detail->images as $image)
-                    <button onclick="openGalleryModal('jadwal_khusus')" class="flex items-center justify-center border-2 border-green-500 p-2 overflow-hidden rounded-md hover:border-green-700 transition-colors">
-                     {{ $loop->iteration }}. <img src="{{ asset('storage/'.$image->image) }}" alt="Materi Image" class="w-16 h-16 object-cover rounded-md transition-transform duration-300 hover:scale-150">
-                    </button>
-                  @endforeach
-                </div> --}}
-                {{-- <button onclick="openGalleryModal('jadwal_khusus')" class="view-all-images-btn">Lihat Semua Gambar Materi</button> --}}
-              {{-- @endif --}}
-
-
-            </div>
+            {{-- slider gambar materi (diisi JS lewat renderMateriImages()) --}}
+            <div id="materiImageContainer" class="w-full mt-2"></div>
 
             <div class="text-center mt-5">
               @if($jadwal && $ujian_harian && $soal_harian > 0)
@@ -457,6 +445,53 @@
       @endif
     ]
   };
+
+  // alias dipakai di open_modal/nextTrack/prevTrack
+  const materiImagesData = galleryImages;
+
+  let materiImageSwiperInstance = null;
+
+  function renderMateriImages(type) {
+    const container = document.getElementById('materiImageContainer');
+    if (!container) return;
+
+    const images = materiImagesData[type] || [];
+
+    materiImageSwiperInstance = null;
+
+    if (images.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+
+    const slidesHtml = images.map((src, index) => `
+      <div class="swiper-slide">
+        <img src="${src}" alt="Gambar Materi ${index + 1}" class="w-full rounded-lg object-contain cursor-zoom-in" onclick="openGalleryModal('${type}')">
+      </div>
+    `).join('');
+
+    container.innerHTML = `
+      <p class="text-center mb-2 font-semibold text-blue-900 text-sm">Gambar Materi</p>
+      <div class="materi-image-swiper swiper">
+        <div class="swiper-wrapper">${slidesHtml}</div>
+        ${images.length > 1 ? '<div class="swiper-pagination"></div>' : ''}
+      </div>
+    `;
+
+    if (images.length > 1) {
+      materiImageSwiperInstance = new Swiper(container.querySelector('.materi-image-swiper'), {
+        loop: false,
+        slidesPerView: 1,
+        spaceBetween: 8,
+        speed: 300,
+        grabCursor: true,
+        pagination: {
+          el: container.querySelector('.swiper-pagination'),
+          clickable: true,
+        },
+      });
+    }
+  }
 
   let gallerySwiperInstance = null;
   let currentGalleryType = null;

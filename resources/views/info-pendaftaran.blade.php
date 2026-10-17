@@ -2,7 +2,7 @@
 
 @section('content')
 <x-FrontTopNav />
-<div class="p-3">
+<div class="p-3 pt-24">
     {{-- <a href="{{ route('home') }}">
         <img class="mx-auto mt-9 w-40" src="{{ asset('storage/logo.png') }}" alt="thumbnail">
     </a>     --}}
@@ -16,9 +16,13 @@
         </svg>
         <span class="sr-only">Mohon</span>
         <div>
-          <span class="font-medium">Ups, Spertinya Pendaftaran Belum dibuka atau sudah ditutup.</span>
-
-          <p>Silahkan tunggu jadwal berikutnya, terimakasih.</p>
+          @if($daftarAktif === false)
+            <span class="font-medium">Ups, Pendaftaran saat ini sedang ditutup.</span>
+            <p>Pendaftaran akan dibuka kembali pada tanggal <strong>{{ $nextOpenDate->translatedFormat('d F Y') }}</strong>, terimakasih.</p>
+          @else
+            <span class="font-medium">Ups, Kode pendaftaran tidak ditemukan.</span>
+            <p>Silahkan gunakan link pendaftaran yang benar, atau hubungi admin, terimakasih.</p>
+          @endif
 
         </div>
 

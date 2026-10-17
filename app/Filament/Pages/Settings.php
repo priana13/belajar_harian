@@ -41,6 +41,12 @@ class Settings extends Page implements HasForms
             'masa_aktif_user_bulan' => Setting::getMasaAktifUserBulan(),
             'telegram_reminder_jam' => Setting::getTelegramReminderJam(),
             'telegram_reminder_aktif' => Setting::isTelegramReminderActive(),
+            'premium_feature_aktif' => Setting::isPremiumFeatureActive(),
+            'daftar_aktif' => Setting::getValue('daftar_aktif')->is_active,
+            'daftar_tanggal_mulai' => Setting::getDaftarTanggalMulai(),
+            'daftar_tanggal_selesai' => Setting::getDaftarTanggalSelesai(),
+            'google_analytics_id' => Setting::getGoogleAnalyticsId(),
+            'facebook_pixel_id' => Setting::getFacebookPixelId(),
         ]);
     }
 
@@ -78,6 +84,40 @@ class Settings extends Page implements HasForms
                     ->seconds(false)
                     ->default('07:00')
                     ->required(),
+                Toggle::make('premium_feature_aktif')
+                    ->label('Fitur Premium Aktif')
+                    ->helperText('Tampilkan/sembunyikan tombol "Member Premium", "Materi Video", dan "Ebook Materi" di navigasi. Matikan selama fitur ini belum selesai dikembangkan.')
+                    ->default(false)
+                    ->columnSpanFull(),
+                Toggle::make('daftar_aktif')
+                    ->label('Halaman Daftar Aktif')
+                    ->helperText('Matikan untuk menutup pendaftaran sepenuhnya, tanpa melihat periode di bawah.')
+                    ->default(true)
+                    ->columnSpanFull(),
+                TextInput::make('daftar_tanggal_mulai')
+                    ->label('Tanggal Mulai Buka (setiap bulan)')
+                    ->helperText('Default tanggal 25.')
+                    ->numeric()
+                    ->minValue(1)
+                    ->maxValue(31)
+                    ->default(25)
+                    ->required(),
+                TextInput::make('daftar_tanggal_selesai')
+                    ->label('Tanggal Tutup (setiap bulan)')
+                    ->helperText('Default tanggal 31 (otomatis menyesuaikan akhir bulan kalau bulan tersebut lebih pendek, mis. Februari).')
+                    ->numeric()
+                    ->minValue(1)
+                    ->maxValue(31)
+                    ->default(31)
+                    ->required(),
+                TextInput::make('google_analytics_id')
+                    ->label('Google Analytics ID')
+                    ->placeholder('G-XXXXXXXXXX')
+                    ->helperText('Dipasang otomatis di semua halaman public. Kosongkan untuk mematikan tracking.'),
+                TextInput::make('facebook_pixel_id')
+                    ->label('Facebook Pixel ID')
+                    ->placeholder('123456789012345')
+                    ->helperText('Dipasang otomatis di semua halaman public. Kosongkan untuk mematikan tracking.'),
             ])
             ->columns(2)
             ->statePath('data');
@@ -92,6 +132,11 @@ class Settings extends Page implements HasForms
 
         $telegramReminderAktif = $data['telegram_reminder_aktif'] ?? true;
         unset($data['telegram_reminder_aktif']);
+        $premiumFeatureAktif = $data['premium_feature_aktif'] ?? false;
+        unset($data['premium_feature_aktif']);
+
+        $daftarAktif = $data['daftar_aktif'] ?? true;
+        unset($data['daftar_aktif']);
 
         foreach ($data as $key => $value) {
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
@@ -99,6 +144,8 @@ class Settings extends Page implements HasForms
 
         Setting::where('key', 'pengumuman')->update(['is_active' => $pengumumanAktif]);
         Setting::where('key', 'telegram_reminder_jam')->update(['is_active' => $telegramReminderAktif]);
+        Setting::updateOrCreate(['key' => 'premium_feature'], ['is_active' => $premiumFeatureAktif]);
+        Setting::updateOrCreate(['key' => 'daftar_aktif'], ['is_active' => $daftarAktif]);
 
         Notification::make()
             ->title('Setting berhasil disimpan')

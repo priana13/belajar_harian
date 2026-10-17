@@ -3,16 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Ujian;
-use App\Models\JenisUser;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPasswordNotification;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Filament\Panel;
-use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -22,7 +20,6 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->jenis_user->nama_jenis == 'Admin';
     }
-
 
     /**
      * The attributes that are mass assignable.
@@ -44,7 +41,6 @@ class User extends Authenticatable implements FilamentUser
     // protected $rules = [
     //     'email' => 'sometimes|required|email|unique:users',
     // ];
-
 
     /**
      * The attributes that should be cast.
@@ -73,6 +69,12 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Belajar::class, 'user_id');
     }
 
+    public function loginLinks()
+    {
+
+        return $this->hasMany(LoginLink::class, 'user_id');
+    }
+
     public function scopeType($query, $type)
     {
 
@@ -91,11 +93,13 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsTo(Struktur::class, 'struktur_id');
     }
 
-    public function gelombang(){
+    public function gelombang()
+    {
         return $this->belongsTo(Gelombang::class, 'gelombang_id');
     }
 
-    public function sertifikatUser(){
+    public function sertifikatUser()
+    {
 
         return $this->hasMany(SertifikatUser::class, 'user_id');
     }
@@ -107,26 +111,52 @@ class User extends Authenticatable implements FilamentUser
 
     public function sendPasswordResetNotification($token)
     {
-        $url = "http://" . $_SERVER['HTTP_HOST'] . '/reset_password/' . $token . '-' . $this->id;
+        $url = 'http://'.$_SERVER['HTTP_HOST'].'/reset_password/'.$token.'-'.$this->id;
 
         $this->notify(new ResetPasswordNotification($url));
     }
 
-    public function angkatan_user(){
+    public function angkatan_user()
+    {
 
         return $this->hasMany(AngkatanUser::class, 'user_id');
     }
 
-    public function angkatan(){
+    public function angkatan()
+    {
 
         // return $this->belongsToMany()
 
-        return $this->belongsToMany(Angkatan::class, AngkatanUser::class, 'user_id' , 'angkatan_id');
+        return $this->belongsToMany(Angkatan::class, AngkatanUser::class, 'user_id', 'angkatan_id');
     }
 
-    public function scopePeserta($query){
+    public function scopePeserta($query)
+    {
 
-        return $query->where('jenis_user_id', 2);
+        return $query->where(function ($members) {
+            $members->where('jenis_user_id', 2)
+                ->orWhereHas('jenis_user', fn ($types) => $types->where('nama_jenis', 'Member Premium'));
+        });
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->jenis_user?->nama_jenis === 'Admin';
+    }
+
+    public function premiumSubscriptions()
+    {
+        return $this->hasMany(PremiumSubscription::class);
+    }
+
+    public function hasActivePremium(): bool
+    {
+        return $this->premiumSubscriptions()->active()->exists();
+    }
+
+    public function canAccessPremium(): bool
+    {
+        return $this->isAdmin() || $this->hasActivePremium();
     }
 
     public function roadmaps(): BelongsToMany
@@ -134,5 +164,5 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsToMany(Roadmap::class, 'user_roadmap', 'user_id', 'roadmap_id');
     }
 
-    // public function 
+    // public function
 }

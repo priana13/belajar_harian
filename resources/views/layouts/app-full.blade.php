@@ -22,6 +22,7 @@
   </style> --}}
 
   @livewireStyles
+  <x-tracking-scripts />
 </head>
 <body class="">
     <div  class="">
