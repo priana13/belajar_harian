@@ -20,6 +20,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
@@ -123,6 +124,12 @@ class UserResource extends Resource
 
             ])
             ->filters([ 
+                TernaryFilter::make('telegram_chat_id')
+                    ->label('Notifikasi Telegram')
+                    ->placeholder('Semua User')
+                    ->trueLabel('Sudah Mengaktifkan')
+                    ->falseLabel('Belum Mengaktifkan')
+                    ->nullable(),
                 SelectFilter::make('gelombang_id')->relationship('gelombang' , 'gel')->label("Gelombang"), 
                 //  filter groups
                 SelectFilter::make('groups')->relationship('groups', 'nama_group')->label("Group"),
