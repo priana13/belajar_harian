@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Setting;
+use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
@@ -91,7 +92,11 @@ class Settings extends Page implements HasForms
                     ->columnSpanFull(),
                 Toggle::make('daftar_aktif')
                     ->label('Halaman Daftar Aktif')
-                    ->helperText('Matikan untuk menutup pendaftaran sepenuhnya, tanpa melihat periode di bawah.')
+                    ->helperText(new HtmlString(
+                        'Matikan untuk menutup pendaftaran sepenuhnya, tanpa melihat periode di bawah. '
+                        . 'Pastikan sudah ada <strong>gelombang</strong> yang dibuat untuk periode pendaftaran ini, '
+                        . 'cek/kelola di halaman <a href="' . route('filament.admin.resources.gelombangs.index') . '" target="_blank" class="underline text-primary-600">Gelombang</a>.'
+                    ))
                     ->default(true)
                     ->columnSpanFull(),
                 TextInput::make('daftar_tanggal_mulai')
