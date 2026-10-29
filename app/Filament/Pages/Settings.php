@@ -3,7 +3,10 @@
 namespace App\Filament\Pages;
 
 use App\Models\Setting;
+use App\Services\TelegramBotClient;
 use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Actions\Action as FormAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
@@ -85,6 +88,14 @@ class Settings extends Page implements HasForms
                     ->seconds(false)
                     ->default('07:00')
                     ->required(),
+                Actions::make([
+                    FormAction::make('test_telegram')
+                        ->label('Kirim Test Notifikasi ke Saya')
+                        ->icon('heroicon-o-paper-airplane')
+                        ->color('gray')
+                        ->action('testTelegramNotification'),
+                ])
+                    ->columnSpanFull(),
                 Toggle::make('premium_feature_aktif')
                     ->label('Fitur Premium Aktif')
                     ->helperText('Tampilkan/sembunyikan tombol "Member Premium", "Materi Video", dan "Ebook Materi" di navigasi. Matikan selama fitur ini belum selesai dikembangkan.')
@@ -126,6 +137,55 @@ class Settings extends Page implements HasForms
             ])
             ->columns(2)
             ->statePath('data');
+    }
+
+    public function testTelegramNotification(): void
+    {
+        if (! config('services.telegram.bot_token')) {
+            Notification::make()
+                ->title('Bot token Telegram belum diatur')
+                ->body('Isi TELEGRAM_BOT_TOKEN di file .env lebih dulu.')
+                ->danger()
+                ->send();
+
+            return;
+        }
+
+        $user = auth()->user();
+
+        if (! $user->telegram_chat_id) {
+            $link = $user->getTelegramConnectLink();
+
+            Notification::make()
+                ->title('Akun Anda belum terhubung ke Telegram')
+                ->body($link
+                    ? new HtmlString('Hubungkan dulu lewat link ini: <a href="' . $link . '" target="_blank" class="underline">Hubungkan Telegram</a>, lalu coba test lagi.')
+                    : 'Hubungkan dulu lewat tombol "Hubungkan" di halaman depan (homepage), baru coba test lagi.')
+                ->warning()
+                ->persistent()
+                ->send();
+
+            return;
+        }
+
+        $sent = app(TelegramBotClient::class)->sendMessage(
+            $user->telegram_chat_id,
+            "🔔 <b>Test Notifikasi</b>\n\nIni pesan uji coba dari BISI Online. Kalau Anda menerima pesan ini, pengaturan notifikasi Telegram sudah bekerja dengan baik ✅"
+        );
+
+        if ($sent) {
+            Notification::make()
+                ->title('Test notifikasi berhasil dikirim')
+                ->body('Cek Telegram Anda.')
+                ->success()
+                ->send();
+        } else {
+            Notification::make()
+                ->title('Gagal mengirim test notifikasi')
+                ->body('Cek kembali TELEGRAM_BOT_TOKEN di .env, atau pastikan akun Telegram Anda masih terhubung dengan benar.')
+                ->danger()
+                ->send();
+        }
     }
 
     public function save(): void

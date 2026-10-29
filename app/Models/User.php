@@ -75,6 +75,21 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(LoginLink::class, 'user_id');
     }
 
+    public function getTelegramConnectLink(): ?string
+    {
+        if ($this->telegram_chat_id) {
+            return null;
+        }
+
+        if (! $this->telegram_link_code) {
+            $this->update(['telegram_link_code' => \Illuminate\Support\Str::random(24)]);
+        }
+
+        $botUsername = config('services.telegram.bot_username');
+
+        return $botUsername ? "https://t.me/{$botUsername}?start={$this->telegram_link_code}" : null;
+    }
+
     public function scopeType($query, $type)
     {
 

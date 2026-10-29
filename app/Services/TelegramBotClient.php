@@ -44,7 +44,7 @@ class TelegramBotClient
     {
         return Http::baseUrl("https://api.telegram.org/bot{$this->token}/")
             ->timeout(10)
-            ->retry(2, 500, fn ($exception) => $exception instanceof \Illuminate\Http\Client\ConnectionException)
+            ->retry(2, 500, fn ($exception) => $exception instanceof \Illuminate\Http\Client\ConnectionException, throw: false)
             ->post($method, $params);
     }
 }

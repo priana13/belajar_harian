@@ -17,7 +17,6 @@ use App\Models\Materi;
 use App\Models\Roadmap;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class HomeNew extends Component
 {
@@ -219,19 +218,7 @@ class HomeNew extends Component
 
     private function getTelegramConnectLink()
     {
-        $user = Auth::user();
-
-        if (! $user || $user->telegram_chat_id) {
-            return null;
-        }
-
-        if (! $user->telegram_link_code) {
-            $user->update(['telegram_link_code' => Str::random(24)]);
-        }
-
-        $botUsername = config('services.telegram.bot_username');
-
-        return $botUsername ? "https://t.me/{$botUsername}?start={$user->telegram_link_code}" : null;
+        return Auth::user()?->getTelegramConnectLink();
     }
 
     public function render()
