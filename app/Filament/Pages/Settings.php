@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Jobs\SendTelegramReminderJob;
 use App\Models\Setting;
 use App\Services\TelegramBotClient;
 use Illuminate\Support\HtmlString;
@@ -9,12 +10,15 @@ use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action as FormAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 
@@ -34,6 +38,12 @@ class Settings extends Page implements HasForms
 
     public ?array $data = [];
 
+    private const CONTOH_TEMPLATE_BELAJAR = "📚 <b>Pengingat Jadwal Belajar</b>\n\nHalo {nama}, hari ini ({tanggal}) ada materi belajar untuk Anda:\n\n📖 {judul}\n{materi}\nPertemuan ke-{pertemuan}\n\nBuka BISI Online untuk mulai belajar: {link}";
+
+    private const CONTOH_TEMPLATE_UJIAN_PEKANAN = "📝 <b>Pengingat {jenis_ujian}</b>\n\nHalo {nama}, hari ini ({tanggal}) ada {jenis_ujian} untuk Anda:\n\n📖 {materi}\nPekan ke-{pekan}\n\nBuka BISI Online untuk mengerjakan ujian: {link}";
+
+    private const CONTOH_TEMPLATE_UJIAN_AKHIR = "🎓 <b>Pengingat {jenis_ujian}</b>\n\nHalo {nama}, hari ini ({tanggal}) ada {jenis_ujian} untuk Anda:\n\n📖 {materi}\n\nBuka BISI Online untuk mengerjakan ujian: {link}";
+
     public function mount(): void
     {
         $pengumuman = Setting::getValue('pengumuman');
@@ -45,6 +55,9 @@ class Settings extends Page implements HasForms
             'masa_aktif_user_bulan' => Setting::getMasaAktifUserBulan(),
             'telegram_reminder_jam' => Setting::getTelegramReminderJam(),
             'telegram_reminder_aktif' => Setting::isTelegramReminderActive(),
+            SendTelegramReminderJob::TEMPLATE_BELAJAR => Setting::getTelegramReminderTemplate(SendTelegramReminderJob::TEMPLATE_BELAJAR),
+            SendTelegramReminderJob::TEMPLATE_UJIAN_PEKANAN => Setting::getTelegramReminderTemplate(SendTelegramReminderJob::TEMPLATE_UJIAN_PEKANAN),
+            SendTelegramReminderJob::TEMPLATE_UJIAN_AKHIR => Setting::getTelegramReminderTemplate(SendTelegramReminderJob::TEMPLATE_UJIAN_AKHIR),
             'premium_feature_aktif' => Setting::isPremiumFeatureActive(),
             'daftar_aktif' => Setting::getValue('daftar_aktif')->is_active,
             'daftar_tanggal_mulai' => Setting::getDaftarTanggalMulai(),
@@ -96,6 +109,31 @@ class Settings extends Page implements HasForms
                         ->action('testTelegramNotification'),
                 ])
                     ->columnSpanFull(),
+                Section::make('Template Pesan Pengingat Telegram')
+                    ->description('Kosongkan template untuk memakai pesan default bawaan sistem.')
+                    ->collapsible()
+                    ->collapsed()
+                    ->schema([
+                        $this->templateField(
+                            SendTelegramReminderJob::TEMPLATE_BELAJAR,
+                            'Pesan Pengingat Jadwal Belajar',
+                            self::CONTOH_TEMPLATE_BELAJAR,
+                            SendTelegramReminderJob::PLACEHOLDERS_BELAJAR,
+                        ),
+                        $this->templateField(
+                            SendTelegramReminderJob::TEMPLATE_UJIAN_PEKANAN,
+                            'Pesan Pengingat Ujian Pekanan',
+                            self::CONTOH_TEMPLATE_UJIAN_PEKANAN,
+                            SendTelegramReminderJob::PLACEHOLDERS_UJIAN,
+                        ),
+                        $this->templateField(
+                            SendTelegramReminderJob::TEMPLATE_UJIAN_AKHIR,
+                            'Pesan Pengingat Ujian Akhir',
+                            self::CONTOH_TEMPLATE_UJIAN_AKHIR,
+                            SendTelegramReminderJob::PLACEHOLDERS_UJIAN,
+                        ),
+                    ])
+                    ->columnSpanFull(),
                 Toggle::make('premium_feature_aktif')
                     ->label('Fitur Premium Aktif')
                     ->helperText('Tampilkan/sembunyikan tombol "Member Premium", "Materi Video", dan "Ebook Materi" di navigasi. Matikan selama fitur ini belum selesai dikembangkan.')
@@ -137,6 +175,31 @@ class Settings extends Page implements HasForms
             ])
             ->columns(2)
             ->statePath('data');
+    }
+
+    private function templateField(string $key, string $label, string $contoh, array $placeholders): Textarea
+    {
+        $daftarPlaceholder = collect($placeholders)
+            ->map(fn ($keterangan, $nama) => '<code>{' . $nama . '}</code> ' . e($keterangan))
+            ->implode('<br>');
+
+        return Textarea::make($key)
+            ->label($label)
+            ->rows(9)
+            ->placeholder($contoh)
+            ->helperText(new HtmlString(
+                'Placeholder yang tersedia:<br>' . $daftarPlaceholder
+                . '<br><br>Format teks: <code>&lt;b&gt;tebal&lt;/b&gt;</code>, <code>&lt;i&gt;miring&lt;/i&gt;</code>, <code>&lt;u&gt;garis bawah&lt;/u&gt;</code>. '
+                . 'Baris yang semua placeholder-nya kosong otomatis dihapus. '
+                . 'Jika template ditolak Telegram (mis. tag tidak ditutup), pesan default yang dikirim.'
+            ))
+            ->hintAction(
+                FormAction::make('isi_contoh_' . $key)
+                    ->label('Isi dengan pesan default')
+                    ->icon('heroicon-o-document-duplicate')
+                    ->action(fn (Set $set) => $set($key, $contoh))
+            )
+            ->columnSpanFull();
     }
 
     public function testTelegramNotification(): void

@@ -53,6 +53,17 @@ class Setting extends Pivot
 
         return filled($value) ? $value : '07:00';
     }
+
+    /**
+     * Template pesan pengingat Telegram yang diatur admin. Null berarti pakai pesan default.
+     */
+    public static function getTelegramReminderTemplate(string $key): ?string
+    {
+        $value = self::getValue($key)?->value;
+
+        return filled($value) ? $value : null;
+    }
+
     public static function isPremiumFeatureActive(): bool
     {
         $setting = self::where('key', 'premium_feature')->first();
