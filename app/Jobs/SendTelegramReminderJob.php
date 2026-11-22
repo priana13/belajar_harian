@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Belajar;
 use App\Models\JadwalUjian;
 use App\Models\Setting;
+use App\Models\LoginLink;
 use App\Models\User;
 use App\Services\TelegramBotClient;
 use Illuminate\Bus\Queueable;
@@ -90,9 +91,7 @@ class SendTelegramReminderJob implements ShouldQueue
     private function placeholderValues(): array
     {
         $tanggal = date('d M Y', strtotime($this->jadwal->tanggal));
-        $link = $this->jadwal instanceof Belajar && $this->jadwal->code
-            ? route('link_materi', $this->jadwal->code)
-            : url('/');
+        $link = $this->loginUrl();
 
         if ($this->jadwal instanceof JadwalUjian) {
             $isAkhir = $this->jadwal->type === 'Akhir';
@@ -158,9 +157,7 @@ class SendTelegramReminderJob implements ShouldQueue
         $judul = $materiDetail?->judul;
         $pertemuan = $materiDetail?->pertemuan;
         $tanggal = date('d M Y', strtotime($this->jadwal->tanggal));
-        $url = $this->jadwal->code
-            ? route('link_materi', $this->jadwal->code)
-            : url('/');
+        $url = $this->loginUrl();
 
         $lines = [
             '📚 <b>Pengingat Jadwal Belajar</b>',
@@ -214,5 +211,18 @@ class SendTelegramReminderJob implements ShouldQueue
         $lines[] = "Buka BISI Online untuk mengerjakan ujian: {$url}";
 
         return implode("\n", $lines);
+    }
+
+    private function loginUrl(): string
+    {
+        $destination = $this->jadwal instanceof Belajar && $this->jadwal->code
+            ? route('link_materi', $this->jadwal->code)
+            : route('home');
+        $link = $this->user->loginLinks()->create([
+            'token' => \Illuminate\Support\Str::random(48),
+            'expires_at' => now()->addDay(),
+        ]);
+
+        return route('login-link', $link->token, ['redirect' => parse_url($destination, PHP_URL_PATH)]);
     }
 }

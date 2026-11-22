@@ -23,6 +23,11 @@ class LoginLinkController extends Controller
 
         request()->session()->regenerate();
 
-        return redirect()->route('home');
+        $redirect = request()->query('redirect');
+        if (! is_string($redirect) || ! str_starts_with($redirect, '/') || str_starts_with($redirect, '//')) {
+            $redirect = route('home');
+        }
+
+        return redirect($redirect);
     }
 }

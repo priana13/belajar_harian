@@ -7,6 +7,7 @@ use App\Jobs\JobKirimEmail;
 use App\Models\Belajar;
 use App\Models\JadwalRoadmap;
 use App\Models\JadwalUjian;
+use App\Models\LoginLink;
 use App\Models\Setting;
 use App\Models\User;
 use Carbon\Carbon;
@@ -140,9 +141,14 @@ class SendJadwalBelajarReminders extends Command
         if ($user->email) {
             $isBelajar = $jadwal instanceof Belajar;
             $materiDetail = $isBelajar ? $jadwal->materi_detail : null;
-            $link = $isBelajar && $jadwal->code
+            $destination = $isBelajar && $jadwal->code
                 ? route('link_materi', $jadwal->code)
-                : url('/login');
+                : route('home');
+            $loginLink = $user->loginLinks()->create([
+                'token' => \Illuminate\Support\Str::random(48),
+                'expires_at' => now()->addDay(),
+            ]);
+            $link = route('login-link', $loginLink->token, ['redirect' => parse_url($destination, PHP_URL_PATH)]);
             $tanggal = Carbon::parse($jadwal->tanggal)->format('d M Y');
             $subject = $isBelajar ? 'Pengingat materi belajar hari ini' : 'Pengingat ujian hari ini';
             $lines = [
