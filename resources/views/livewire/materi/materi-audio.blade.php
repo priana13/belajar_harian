@@ -3,7 +3,7 @@
 x-data="{
 
     audioMateri : document.createElement('audio'),
-    UrlAudioMateri : '{{ asset('storage/' . $pertemuan->multimedia_url ) }}',   
+    UrlAudioMateri : @js(asset('storage/' . $pertemuan->multimedia_url)),
     currentTime: '',
     totalDuration: '',
     progress: 0,

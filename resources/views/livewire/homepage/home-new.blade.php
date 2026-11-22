@@ -720,7 +720,7 @@
             id: 1,
             name: "{{ $jadwal->materi_detail->judul }}",
             artist: "{{ $jadwal->materi_detail->materi->nama_materi }}",
-            path: "storage/{{ $jadwal->materi_detail->multimedia_url }}"
+            path: @js(asset('storage/' . $jadwal->materi_detail->multimedia_url))
           });
           @endif
 
@@ -729,7 +729,7 @@
             id: 2,
             name: "{{ $jadwal_khusus->materi_detail->judul }}",
             artist: "{{ $jadwal_khusus->materi_detail->materi->nama_materi }}",
-            path: "storage/{{ $jadwal_khusus->materi_detail->multimedia_url }}"
+            path: @js(asset('storage/' . $jadwal_khusus->materi_detail->multimedia_url))
           });
           @endif
 

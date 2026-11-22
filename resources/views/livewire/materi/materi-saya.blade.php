@@ -487,7 +487,7 @@
                 id: {{$row->id}},
                 name: "{{$row->materi_detail->judul}}",
                 artist: "{{ $row->materi_detail->materi->nama_materi }}",
-                path: "storage/{{$row->materi_detail->multimedia_url}}",
+                path: @js(asset('storage/' . $row->materi_detail->multimedia_url)),
                 tanggal: "{{ date('d-m-Y' , strtotime( $row->tanggal )) }}",
                 boleh_dikerjakan: {{ in_array(date('Y-m-d', strtotime($row->tanggal)), [date('Y-m-d'), date('Y-m-d', strtotime('-1 day'))]) ? 'true' : 'false' }}
             },
