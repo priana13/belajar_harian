@@ -90,7 +90,9 @@ class SendTelegramReminderJob implements ShouldQueue
     private function placeholderValues(): array
     {
         $tanggal = date('d M Y', strtotime($this->jadwal->tanggal));
-        $link = url('/');
+        $link = $this->jadwal instanceof Belajar && $this->jadwal->code
+            ? route('link_materi', $this->jadwal->code)
+            : url('/');
 
         if ($this->jadwal instanceof JadwalUjian) {
             $isAkhir = $this->jadwal->type === 'Akhir';
@@ -156,7 +158,9 @@ class SendTelegramReminderJob implements ShouldQueue
         $judul = $materiDetail?->judul;
         $pertemuan = $materiDetail?->pertemuan;
         $tanggal = date('d M Y', strtotime($this->jadwal->tanggal));
-        $url = url('/');
+        $url = $this->jadwal->code
+            ? route('link_materi', $this->jadwal->code)
+            : url('/');
 
         $lines = [
             '📚 <b>Pengingat Jadwal Belajar</b>',
@@ -178,7 +182,7 @@ class SendTelegramReminderJob implements ShouldQueue
         }
 
         $lines[] = '';
-        $lines[] = "Buka BISI Online untuk mulai belajar: {$url}";
+        $lines[] = "Mulai belajar di sini: {$url}";
 
         return implode("\n", $lines);
     }
